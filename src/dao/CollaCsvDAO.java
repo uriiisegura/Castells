@@ -19,13 +19,10 @@ public class CollaCsvDAO {
 		String[] dataCsv;
 		csvReader.skip(1);
 		while ((dataCsv = csvReader.readNext()) != null) {
-			Colla colla;
 			if (Boolean.parseBoolean(dataCsv[1]))
-				colla = new CollaUniversitaria(dataCsv[0]);
+				colles.add(new CollaUniversitaria(dataCsv[0]));
 			else
-				colla = new CollaConvencional(dataCsv[0]);
-
-			colles.add(colla);
+				colles.add(new CollaConvencional(dataCsv[0]));
 		}
 
 		return colles;

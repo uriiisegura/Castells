@@ -5,7 +5,7 @@ import enums.PisosT;
 import enums.ReforcosT;
 
 public class CastellUniversitari extends Castell {
-    private final boolean margarita;
+    private boolean margarita;
 
     public CastellUniversitari(EstructuresT estructura, PisosT pisos, ReforcosT reforcos, int agulles, boolean perSota, int enxanetes, boolean margarita) {
         super(estructura, pisos, reforcos, agulles, perSota, enxanetes);

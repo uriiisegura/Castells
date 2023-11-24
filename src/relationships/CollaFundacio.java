@@ -1,5 +1,7 @@
 package relationships;
 
+import models.Periode;
+
 import java.time.LocalDate;
 
 public class CollaFundacio extends Periode {

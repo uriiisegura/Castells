@@ -1,8 +1,8 @@
 package models;
 
 public class Carrec {
-	private final String masculi;
-	private final String femeni;
+	private String masculi;
+	private String femeni;
 
 	public Carrec(String masculi, String femeni) {
 		this.masculi = masculi;

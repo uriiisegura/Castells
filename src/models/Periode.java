@@ -1,10 +1,10 @@
-package relationships;
+package models;
 
 import java.time.LocalDate;
 
 public class Periode {
-	private final LocalDate desDe;
-	private final LocalDate finsA;
+	private LocalDate desDe;
+	private LocalDate finsA;
 
 	public Periode(LocalDate desDe, LocalDate finsA) {
 		this.desDe = desDe;

@@ -3,18 +3,20 @@ package models;
 import enums.EstructuresT;
 import enums.PisosT;
 import enums.ReforcosT;
+import relationships.CastellDiada;
 import relationships.EstaPuntuat;
 
 import java.util.Vector;
 
 public class Castell {
-    private final EstructuresT estructura;
-    private final PisosT pisos;
-    private final ReforcosT reforcos;
-    private final int agulles;
-    private final boolean perSota;
-    private final int enxanetes;
-    private final Vector<EstaPuntuat> puntuacions = new Vector<>();
+    private EstructuresT estructura;
+    private PisosT pisos;
+    private ReforcosT reforcos;
+    private int agulles;
+    private boolean perSota;
+    private int enxanetes;
+    private Vector<EstaPuntuat> puntuacions = new Vector<>();
+    private Vector<CastellDiada> realitzacions = new Vector<>();
 
     public Castell(EstructuresT estructura, PisosT pisos, ReforcosT reforcos, int agulles, boolean perSota, int enxanetes) {
         this.estructura = estructura;
@@ -27,6 +29,10 @@ public class Castell {
 
     public boolean addPuntuacio(EstaPuntuat puntuacio) {
         return puntuacions.add(puntuacio);
+    }
+
+    public boolean addRealitzacio(CastellDiada realitzacio) {
+        return realitzacions.add(realitzacio);
     }
 
     public EstructuresT getEstructura() {

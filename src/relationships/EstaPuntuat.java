@@ -3,15 +3,16 @@ package relationships;
 import config.Config;
 import models.Castell;
 import models.CastellUniversitari;
+import models.Periode;
 
 import java.time.LocalDate;
 
 public class EstaPuntuat extends Periode {
-    private final Castell castell;
-    private final int grup;
-    private final int subgrup;
-    private final int carregat;
-    private final int descarregat;
+    private Castell castell;
+    private int grup;
+    private int subgrup;
+    private int carregat;
+    private int descarregat;
 
     public EstaPuntuat(Castell castell, LocalDate desDe, LocalDate finsA, int grup, int subgrup, int carregat, int descarregat) {
         super(desDe, finsA);

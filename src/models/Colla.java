@@ -9,13 +9,14 @@ import java.time.LocalDate;
 import java.util.Vector;
 
 public abstract class Colla {
-	private final String id;
-	private final Vector<CollaNom> noms = new Vector<>();
-	private final Vector<CollaFundacio> fundacions = new Vector<>();
-	private final Vector<CollaColor> colors = new Vector<>();
-	private final Vector<CollaAdreca> adreces = new Vector<>();
-	private final Vector<EsDeLaColla> castellers = new Vector<>();
-	private final Vector<TeCarrec> carrecs = new Vector<>();
+	private String id;
+	private Vector<CollaNom> noms = new Vector<>();
+	private Vector<CollaFundacio> fundacions = new Vector<>();
+	private Vector<CollaColor> colors = new Vector<>();
+	private Vector<CollaAdreca> adreces = new Vector<>();
+	private Vector<EsDeLaColla> castellers = new Vector<>();
+	private Vector<TeCarrec> carrecs = new Vector<>();
+	private Vector<CastellDiada> castells = new Vector<>();
 
 	public Colla(String id) {
 		this.id = id;
@@ -43,6 +44,10 @@ public abstract class Colla {
 
 	public boolean addCarrec(TeCarrec carrec) {
 		return carrecs.add(carrec);
+	}
+
+	public boolean addCastell(CastellDiada castell) {
+		return castells.add(castell);
 	}
 
 	public String getId() {
