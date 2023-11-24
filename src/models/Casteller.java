@@ -2,6 +2,7 @@ package models;
 
 import relationships.EsDeLaColla;
 import relationships.Periode;
+import relationships.TeCarrec;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -13,6 +14,7 @@ public class Casteller extends Periode {
 	private final String cognom1;
 	private final String cognom2;
 	private final Vector<EsDeLaColla> colles = new Vector<>();
+	private final Vector<TeCarrec> carrecs = new Vector<>();
 
 	public Casteller(String dni, String nom, String cognom1, String cognom2, LocalDate dataNaixement, LocalDate dataDefuncio) {
 		super(dataNaixement, dataDefuncio);
@@ -24,6 +26,10 @@ public class Casteller extends Periode {
 
 	public boolean addColla(EsDeLaColla colla) {
 		return colles.add(colla);
+	}
+
+	public boolean addCarrec(TeCarrec carrec) {
+		return carrecs.add(carrec);
 	}
 
 	public String getDni() {

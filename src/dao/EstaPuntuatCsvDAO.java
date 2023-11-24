@@ -19,13 +19,13 @@ public class EstaPuntuatCsvDAO {
 	public List<EstaPuntuat> load(List<Castell> castellsConvencionals, List<Castell> castellsUniversitaris) throws IOException, ParseException, CsvValidationException {
 		List<EstaPuntuat> puntuacions = new ArrayList<>();
 
-		readFile(path_convencionals, castellsConvencionals, puntuacions);
-		readFile(path_universitaris, castellsUniversitaris, puntuacions);
+		loadPuntuacio(path_convencionals, castellsConvencionals, puntuacions);
+		loadPuntuacio(path_universitaris, castellsUniversitaris, puntuacions);
 
 		return puntuacions;
 	}
 
-	private void readFile(String path, List<Castell> castells, List<EstaPuntuat> puntuacions) throws IOException, ParseException, CsvValidationException {
+	private void loadPuntuacio(String path, List<Castell> castells, List<EstaPuntuat> puntuacions) throws IOException, ParseException, CsvValidationException {
 		CSVReader csvReader = new CSVReader(new FileReader(path));
 
 		String[] line;

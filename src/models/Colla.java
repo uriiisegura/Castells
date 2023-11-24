@@ -15,6 +15,7 @@ public abstract class Colla {
 	private final Vector<CollaColor> colors = new Vector<>();
 	private final Vector<CollaAdreca> adreces = new Vector<>();
 	private final Vector<EsDeLaColla> castellers = new Vector<>();
+	private final Vector<TeCarrec> carrecs = new Vector<>();
 
 	public Colla(String id) {
 		this.id = id;
@@ -38,6 +39,10 @@ public abstract class Colla {
 
 	public boolean addCasteller(EsDeLaColla casteller) {
 		return castellers.add(casteller);
+	}
+
+	public boolean addCarrec(TeCarrec carrec) {
+		return carrecs.add(carrec);
 	}
 
 	public String getId() {

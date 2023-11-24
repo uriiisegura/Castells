@@ -1,5 +1,6 @@
 import com.opencsv.exceptions.CsvValidationException;
 import dao.*;
+import models.Carrec;
 import models.Castell;
 import models.Casteller;
 import models.Colla;
@@ -15,11 +16,8 @@ public class Main {
         List<Castell> castellsUniversitaris = new CastellsUniversitarisCsvDAO().load();
         List<EstaPuntuat> puntuacions = new EstaPuntuatCsvDAO().load(castellsConvencionals, castellsUniversitaris);
         List<Colla> colles = loadColles();
-        List<Casteller> castellers = new CastellerCsvDAO().load();
-        new EsDeLaCollaCsvDAO().load(castellers, colles);
-
-        for (Casteller c : castellers)
-            System.out.println(c.getFullName());
+        List<Casteller> castellers = loadCastellers(colles);
+        List<Carrec> carrecs = loadCarrecs(castellers, colles);
     }
 
     private static List<Colla> loadColles() throws IOException, CsvValidationException, ParseException {
@@ -30,5 +28,19 @@ public class Main {
         new CollaAdrecaCsvDAO().load(colles);
 
         return colles;
+    }
+
+    private static List<Casteller> loadCastellers(List<Colla> colles) throws IOException, CsvValidationException, ParseException {
+        List<Casteller> castellers = new CastellerCsvDAO().load();
+        new EsDeLaCollaCsvDAO().load(castellers, colles);
+
+        return castellers;
+    }
+
+    private static List<Carrec> loadCarrecs(List<Casteller> castellers, List<Colla> colles) throws IOException, CsvValidationException, ParseException {
+        List<Carrec> carrecs = new CarrecCsvDAO().load();
+        new TeCarrecCsvDAO().load(castellers, colles, carrecs);
+
+        return carrecs;
     }
 }
