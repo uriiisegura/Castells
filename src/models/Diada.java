@@ -26,4 +26,8 @@ public class Diada {
 	public int getId() {
 		return id;
 	}
+
+	public Vector<CastellDiada> getCastells() {
+		return castells;
+	}
 }

@@ -55,6 +55,12 @@ public class Castell {
         return perSota;
     }
 
+    public int calcularPisosRengla() {
+        if (estructura.equals(EstructuresT.PILAR))
+            return pisos.toInt();
+        return pisos.toInt() - 3;
+    }
+
     @Override
     public String toString() {
         return String.format("%sd%d%s%s%s", getEstructura().string(), getPisos().toInt(), getReforcos().string(),

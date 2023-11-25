@@ -4,6 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import config.Config;
 import models.Castell;
+import models.CastellUniversitari;
 import relationships.EstaPuntuat;
 
 import java.io.FileReader;
@@ -13,14 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstaPuntuatCsvDAO {
-	private final static String path_convencionals = "data/puntuacio_convencionals.csv";
 	private final static String path_universitaris = "data/puntuacio_universitaris.csv";
+	private final static String path_convencionals = "data/puntuacio_convencionals.csv";
 
-	public List<EstaPuntuat> load(List<Castell> castellsConvencionals, List<Castell> castellsUniversitaris) throws IOException, ParseException, CsvValidationException {
+	public List<EstaPuntuat> load(List<Castell> castellsUniversitaris, List<Castell> castellsConvencionals) throws IOException, ParseException, CsvValidationException {
 		List<EstaPuntuat> puntuacions = new ArrayList<>();
 
-		loadPuntuacio(path_convencionals, castellsConvencionals, puntuacions);
 		loadPuntuacio(path_universitaris, castellsUniversitaris, puntuacions);
+		loadPuntuacio(path_convencionals, castellsConvencionals, puntuacions);
 
 		return puntuacions;
 	}

@@ -1,11 +1,14 @@
 import com.opencsv.exceptions.CsvValidationException;
 import dao.*;
+import enums.RenglesT;
 import models.*;
+import org.apache.commons.lang3.tuple.Pair;
 import relationships.*;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class Main {
@@ -15,12 +18,13 @@ public class Main {
         List<Castell> castellsUniversitaris = new CastellsUniversitarisCsvDAO().load();
         List<Castell> castellsConvencionals = new CastellsConvencionalsCsvDAO().load();
         List<Castell> castells = Stream.concat(castellsUniversitaris.stream(), castellsConvencionals.stream()).toList();
-        List<EstaPuntuat> puntuacions = new EstaPuntuatCsvDAO().load(castellsConvencionals, castellsUniversitaris);
+        List<EstaPuntuat> puntuacions = new EstaPuntuatCsvDAO().load(castellsUniversitaris, castellsConvencionals);
         List<Colla> colles = loadColles(ciutats);
         List<Casteller> castellers = loadCastellers(colles);
         List<Carrec> carrecs = loadCarrecs(castellers, colles);
         List<Diada> diades = new DiadaCsvDAO().load(places);
         List<CastellDiada> castellsFets = new CastellDiadaCsvDAO().load(colles, diades, castells);
+        Map<Pair<CastellDiada, RenglesT>, CastellLineUp> renglaLineUps = new RenglaLineUpCsvDAO().load(castellsFets, castellers);
     }
 
     private static List<Colla> loadColles(List<Ciutat> ciutats) throws IOException, CsvValidationException, ParseException {
