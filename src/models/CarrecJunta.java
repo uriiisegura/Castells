@@ -1,7 +1,7 @@
 package models;
 
 public class CarrecJunta extends Carrec {
-	public CarrecJunta(String masculi, String femeni) {
-		super(masculi, femeni);
+	public CarrecJunta(String masculi, String femeni, String neutre) {
+		super(masculi, femeni, neutre);
 	}
 }

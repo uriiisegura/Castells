@@ -8,9 +8,9 @@ import models.Periode;
 import java.time.LocalDate;
 
 public class TeCarrec extends Periode {
-	private Casteller casteller;
-	private Colla colla;
-	private Carrec carrec;
+	private final Casteller casteller;
+	private final Colla colla;
+	private final Carrec carrec;
 
 	public TeCarrec(Casteller casteller, Colla colla, Carrec carrec, LocalDate desDe, LocalDate finsA) {
 		super(desDe, finsA);

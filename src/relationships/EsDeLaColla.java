@@ -11,7 +11,7 @@ public class EsDeLaColla extends Periode {
 	private Colla colla;
 	private String malnom;
 
-	public EsDeLaColla(Casteller casteller, Colla colla, String malnom, LocalDate desDe, LocalDate finsA) {
+	public EsDeLaColla(Casteller casteller, Colla colla, LocalDate desDe, LocalDate finsA, String malnom) {
 		super(desDe, finsA);
 		this.casteller = casteller;
 		this.colla = colla;

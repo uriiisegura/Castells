@@ -1,69 +1,46 @@
 package models;
 
-import enums.EstructuresT;
-import enums.PisosT;
-import enums.ReforcosT;
-import relationships.CastellDiada;
-import relationships.EstaPuntuat;
+public abstract class Castell {
+	private final String id;
+	private final Estructura estructura;
+	private final Pisos pisos;
+	private final Reforcos reforcos;
+	private final int agulles;
+	private final boolean perSota;
+	private final boolean caminant;
+	private final int enxanetes;
 
-import java.util.Vector;
+	public Castell(String id, Estructura estructura, Pisos pisos, Reforcos reforcos, int agulles, boolean perSota, boolean caminant, int enxanetes) {
+		this.id = id;
+		this.estructura = estructura;
+		this.pisos = pisos;
+		this.reforcos = reforcos;
+		this.agulles = agulles;
+		this.perSota = perSota;
+		this.caminant = caminant;
+		this.enxanetes = enxanetes;
+	}
 
-public class Castell {
-    private EstructuresT estructura;
-    private PisosT pisos;
-    private ReforcosT reforcos;
-    private int agulles;
-    private boolean perSota;
-    private int enxanetes;
-    private Vector<EstaPuntuat> puntuacions = new Vector<>();
-    private Vector<CastellDiada> realitzacions = new Vector<>();
+	public String getNotacio() {
+		return String.format("%sd%s%s%s%s%s",
+				estructura.getNotacio(),
+				pisos.getNotacio(),
+				reforcos.getNotacio(),
+				new String(new char[agulles]).replace("\0", "a"),
+				perSota ? "ps" : "",
+				caminant ? "cam" : ""
+		);
+	}
 
-    public Castell(EstructuresT estructura, PisosT pisos, ReforcosT reforcos, int agulles, boolean perSota, int enxanetes) {
-        this.estructura = estructura;
-        this.pisos = pisos;
-        this.reforcos = reforcos;
-        this.agulles = agulles;
-        this.perSota = perSota;
-        this.enxanetes = enxanetes;
-    }
-
-    public boolean addPuntuacio(EstaPuntuat puntuacio) {
-        return puntuacions.add(puntuacio);
-    }
-
-    public boolean addRealitzacio(CastellDiada realitzacio) {
-        return realitzacions.add(realitzacio);
-    }
-
-    public EstructuresT getEstructura() {
-        return estructura;
-    }
-
-    public PisosT getPisos() {
-        return pisos;
-    }
-
-    public ReforcosT getReforcos() {
-        return reforcos;
-    }
-
-    public int getAgulles() {
-        return agulles;
-    }
-
-    public boolean isPerSota() {
-        return perSota;
-    }
-
-    public int calcularPisosRengla() {
-        if (estructura.equals(EstructuresT.PILAR))
-            return pisos.toInt();
-        return pisos.toInt() - 3;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%sd%d%s%s%s", getEstructura().string(), getPisos().toInt(), getReforcos().string(),
-                "a".repeat(getAgulles()), isPerSota() ? "s" : "");
-    }
+	public String getNom() {
+		String nexeAgulla = reforcos.getNom().isEmpty() ? "amb" : "i";
+		return String.format("%s de %s %s %s %s %s",
+				estructura.getNom(),
+				pisos.getNom(),
+				reforcos.getNom(),
+				agulles > 1 ? nexeAgulla + " " + agulles + " agulles" : (agulles == 1 ? nexeAgulla + " agulla" : ""),
+				perSota ? "per sota" : "",
+				caminant ? "caminant" : ""
+		).trim().replaceAll(" +", " ");
+	}
 }

@@ -1,53 +1,62 @@
-import com.opencsv.exceptions.CsvValidationException;
+import config.SqlConnection;
 import dao.*;
-import enums.RenglesT;
 import models.*;
-import org.apache.commons.lang3.tuple.Pair;
-import relationships.*;
 
-import java.io.IOException;
-import java.text.ParseException;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException, CsvValidationException {
-        List<Ciutat> ciutats = new CiutatsCsvDAO().load();
-        List<Placa> places = new PlacesCsvDAO().load(ciutats);
-        List<Castell> castellsUniversitaris = new CastellsUniversitarisCsvDAO().load();
-        List<Castell> castellsConvencionals = new CastellsConvencionalsCsvDAO().load();
-        List<Castell> castells = Stream.concat(castellsUniversitaris.stream(), castellsConvencionals.stream()).toList();
-        List<EstaPuntuat> puntuacions = new EstaPuntuatCsvDAO().load(castellsUniversitaris, castellsConvencionals);
-        List<Colla> colles = loadColles(ciutats);
-        List<Casteller> castellers = loadCastellers(colles);
-        List<Carrec> carrecs = loadCarrecs(castellers, colles);
-        List<Diada> diades = new DiadaCsvDAO().load(places);
-        List<CastellDiada> castellsFets = new CastellDiadaCsvDAO().load(colles, diades, castells);
-        Map<Pair<CastellDiada, RenglesT>, CastellLineUp> renglaLineUps = new RenglaLineUpCsvDAO().load(castellsFets, castellers);
+    private static final SqlConnection connection = new SqlConnection();
+
+    private static List<Ciutat> ciutats;
+    private static List<Casteller> castellers;
+    private static List<Colla> colles;
+    private static List<Carrec> carrecs;
+    private static List<Estructura> estructures;
+    private static List<Pisos> pisos;
+    private static List<Reforcos> reforcos;
+    private static List<Rengla> rengles;
+    private static List<Castell> castells;
+
+    public static void main(String[] args)  {
+        loadCiutats();
+        loadCastellers();
+        loadColles();
+        loadCarrecs();
+        loadCastells();
+
+        try {
+            connection.connection.close();
+        } catch (SQLException ignored) {}
     }
 
-    private static List<Colla> loadColles(List<Ciutat> ciutats) throws IOException, CsvValidationException, ParseException {
-        List<Colla> colles = new CollaCsvDAO().load();
-        new CollaNomCsvDAO().load(colles);
-        new CollaFundacioCsvDAO().load(colles);
-        new CollaColorCsvDAO().load(colles);
-        new CollaAdrecaCsvDAO().load(colles, ciutats);
-
-        return colles;
+    private static void loadCiutats() {
+        ciutats = new CiutatSqlDAO(connection.connection).loadAll();
     }
 
-    private static List<Casteller> loadCastellers(List<Colla> colles) throws IOException, CsvValidationException, ParseException {
-        List<Casteller> castellers = new CastellerCsvDAO().load();
-        new EsDeLaCollaCsvDAO().load(castellers, colles);
-
-        return castellers;
+    private static void loadCastellers() {
+        castellers = new CastellerSqlDAO(connection.connection).loadAll();
     }
 
-    private static List<Carrec> loadCarrecs(List<Casteller> castellers, List<Colla> colles) throws IOException, CsvValidationException, ParseException {
-        List<Carrec> carrecs = new CarrecCsvDAO().load();
-        new TeCarrecCsvDAO().load(castellers, colles, carrecs);
+    private static void loadColles() {
+        colles = new CollaSqlDAO(connection.connection).loadAll();
+        new EsDeLaCollaSqlDAO(connection.connection).loadAll(castellers, colles);
+        new CollaColorSqlDAO(connection.connection).loadAll(colles);
+        new CollaFundacioSqlDAO(connection.connection).loadAll(colles);
+        new CollaNomSqlDAO(connection.connection).loadAll(colles);
+        new CollaAdrecaSqlDAO(connection.connection).loadAll(colles, ciutats);
+    }
 
-        return carrecs;
+    private static void loadCarrecs() {
+        carrecs = new CarrecSqlDAO(connection.connection).loadAll();
+        new TeCarrecSqlDAO(connection.connection).loadAll(castellers, colles, carrecs);
+    }
+
+    private static void loadCastells() {
+        estructures = new EstructuraSqlDAO(connection.connection).loadAll();
+        pisos = new PisosSqlDAO(connection.connection).loadAll();
+        reforcos = new ReforcosSqlDAO(connection.connection).loadAll();
+        rengles = new RenglaSqlDAO(connection.connection).loadAll(estructures);
+        castells = new CastellSqlDAO(connection.connection).loadAll(estructures, pisos, reforcos);
     }
 }
