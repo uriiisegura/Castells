@@ -1,4 +1,4 @@
-package models;
+package models.castells;
 
 public class Rengla {
 	private final Estructura estructura;

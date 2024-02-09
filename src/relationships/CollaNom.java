@@ -11,4 +11,8 @@ public class CollaNom extends Periode {
 		super(dataInici, dataFi);
 		this.nom = nom;
 	}
+
+	public String getNom() {
+		return nom;
+	}
 }

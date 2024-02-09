@@ -1,14 +1,21 @@
 import config.SqlConnection;
 import dao.*;
-import models.*;
+import models.castellers.Casteller;
+import models.castells.*;
+import models.colles.Carrec;
+import models.colles.Colla;
+import models.diades.Diada;
+import models.locations.Ciutat;
+import models.locations.Location;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     private static final SqlConnection connection = new SqlConnection();
 
     private static List<Ciutat> ciutats;
+    private static List<Location> locations;
     private static List<Casteller> castellers;
     private static List<Colla> colles;
     private static List<Carrec> carrecs;
@@ -17,6 +24,7 @@ public class Main {
     private static List<Reforcos> reforcos;
     private static List<Rengla> rengles;
     private static List<Castell> castells;
+    private static List<Diada> diades;
 
     public static void main(String[] args)  {
         loadCiutats();
@@ -24,6 +32,10 @@ public class Main {
         loadColles();
         loadCarrecs();
         loadCastells();
+        loadDiades();
+
+        for (Diada d : diades)
+            d.print();
 
         try {
             connection.connection.close();
@@ -32,10 +44,12 @@ public class Main {
 
     private static void loadCiutats() {
         ciutats = new CiutatSqlDAO(connection.connection).loadAll();
+        locations = new LocationSqlDAO(connection.connection).loadAll(ciutats);
     }
 
     private static void loadCastellers() {
         castellers = new CastellerSqlDAO(connection.connection).loadAll();
+        new RegistreSqlDAO(connection.connection).loadAll(castellers);
     }
 
     private static void loadColles() {
@@ -58,5 +72,10 @@ public class Main {
         reforcos = new ReforcosSqlDAO(connection.connection).loadAll();
         rengles = new RenglaSqlDAO(connection.connection).loadAll(estructures);
         castells = new CastellSqlDAO(connection.connection).loadAll(estructures, pisos, reforcos);
+    }
+
+    private static void loadDiades() {
+        diades = new DiadaSqlDAO(connection.connection).loadAll(locations);
+        new CastellDiadaSqlDAO(connection.connection).loadAll(diades, castells, colles);
     }
 }

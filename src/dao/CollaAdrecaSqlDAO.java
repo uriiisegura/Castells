@@ -1,13 +1,12 @@
 package dao;
 
+import config.DateParser;
 import exceptions.SqlConnectionException;
-import models.Ciutat;
-import models.Colla;
+import models.locations.Ciutat;
+import models.colles.Colla;
 import relationships.CollaAdreca;
-import relationships.CollaNom;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class CollaAdrecaSqlDAO {
@@ -28,8 +27,6 @@ public class CollaAdrecaSqlDAO {
 			while (resultSet.next()) {
 				String collaId = resultSet.getString("colla");
 				String ciutatId = resultSet.getString("ciutat");
-				Date finsA = resultSet.getDate("finsA");
-				LocalDate finsALocalDate = resultSet.wasNull() ? null : finsA.toLocalDate();
 
 				Colla colla = colles.stream().filter(c -> c.getId().equals(collaId)).findFirst().orElse(null);
 				Ciutat ciutat = ciutats.stream().filter(c -> c.getId().equals(ciutatId)).findFirst().orElse(null);
@@ -47,7 +44,7 @@ public class CollaAdrecaSqlDAO {
 						resultSet.getString("adreca"),
 						ciutat,
 						resultSet.getDate("desDe").toLocalDate(),
-						finsALocalDate
+						DateParser.parseLocalDate(resultSet.getDate("finsA"))
 				));
 			}
 

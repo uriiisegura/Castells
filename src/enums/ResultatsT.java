@@ -5,4 +5,8 @@ public enum ResultatsT {
     INTENT_DESMUNTAT,
     CARREGAT,
     DESCARREGAT;
+
+    public String text() {
+        return this.toString().replace("_", " ").toLowerCase();
+    }
 }

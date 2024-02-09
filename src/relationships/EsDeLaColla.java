@@ -1,7 +1,7 @@
 package relationships;
 
-import models.Casteller;
-import models.Colla;
+import models.castellers.Casteller;
+import models.colles.Colla;
 import models.Periode;
 
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package models;
+package models.colles;
 
 public abstract class Carrec {
 	private String masculi;

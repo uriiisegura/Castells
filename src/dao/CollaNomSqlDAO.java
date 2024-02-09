@@ -1,11 +1,11 @@
 package dao;
 
+import config.DateParser;
 import exceptions.SqlConnectionException;
-import models.Colla;
+import models.colles.Colla;
 import relationships.CollaNom;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class CollaNomSqlDAO {
@@ -25,9 +25,6 @@ public class CollaNomSqlDAO {
 
 			while (resultSet.next()) {
 				String collaId = resultSet.getString("colla");
-				Date finsA = resultSet.getDate("finsA");
-				LocalDate finsALocalDate = resultSet.wasNull() ? null : finsA.toLocalDate();
-
 				Colla colla = colles.stream().filter(c -> c.getId().equals(collaId)).findFirst().orElse(null);
 
 				if (colla == null) {
@@ -38,7 +35,7 @@ public class CollaNomSqlDAO {
 				colla.addNom(new CollaNom(
 						resultSet.getString("nom"),
 						resultSet.getDate("desDe").toLocalDate(),
-						finsALocalDate
+						DateParser.parseLocalDate(resultSet.getDate("finsA"))
 				));
 			}
 

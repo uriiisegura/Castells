@@ -1,13 +1,12 @@
 package dao;
 
+import config.DateParser;
 import exceptions.SqlConnectionException;
-import models.Casteller;
-import models.Colla;
+import models.castellers.Casteller;
+import models.colles.Colla;
 import relationships.EsDeLaColla;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EsDeLaCollaSqlDAO {
@@ -28,8 +27,6 @@ public class EsDeLaCollaSqlDAO {
 			while (resultSet.next()) {
 				String castellerId = resultSet.getString("casteller");
 				String collaId = resultSet.getString("colla");
-				Date finsA = resultSet.getDate("finsA");
-				LocalDate finsALocalDate = resultSet.wasNull() ? null : finsA.toLocalDate();
 
 				Casteller casteller = castellers.stream().filter(c -> c.getDni().equals(castellerId)).findFirst().orElse(null);
 				Colla colla = colles.stream().filter(c -> c.getId().equals(collaId)).findFirst().orElse(null);
@@ -43,7 +40,7 @@ public class EsDeLaCollaSqlDAO {
 					throw new SQLException("Colla not found");
 				}
 
-				EsDeLaColla pertany = new EsDeLaColla(casteller, colla, resultSet.getDate("desDe").toLocalDate(), finsALocalDate, resultSet.getString("malnom"));
+				EsDeLaColla pertany = new EsDeLaColla(casteller, colla, resultSet.getDate("desDe").toLocalDate(), DateParser.parseLocalDate(resultSet.getDate("finsA")), resultSet.getString("malnom"));
 				colla.addCasteller(pertany);
 				casteller.addColla(pertany);
 			}

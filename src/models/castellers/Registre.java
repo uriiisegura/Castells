@@ -1,4 +1,4 @@
-package models;
+package models.castellers;
 
 import java.time.ZonedDateTime;
 
@@ -11,5 +11,9 @@ public abstract class Registre {
 		this.numeroDeRegistre = numeroDeRegistre;
 		this.dataHora = dataHora;
 		this.casteller = casteller;
+	}
+
+	public ZonedDateTime getDataHora() {
+		return dataHora;
 	}
 }

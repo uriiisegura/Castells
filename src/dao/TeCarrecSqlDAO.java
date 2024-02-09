@@ -1,11 +1,13 @@
 package dao;
 
+import config.DateParser;
 import exceptions.SqlConnectionException;
-import models.*;
+import models.castellers.Casteller;
+import models.colles.Carrec;
+import models.colles.Colla;
 import relationships.TeCarrec;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class TeCarrecSqlDAO {
@@ -27,8 +29,6 @@ public class TeCarrecSqlDAO {
 				String castellerId = resultSet.getString("casteller");
 				String collaId = resultSet.getString("colla");
 				String carrecId = resultSet.getString("carrec");
-				Date finsA = resultSet.getDate("finsA");
-				LocalDate finsALocalDate = resultSet.wasNull() ? null : finsA.toLocalDate();
 
 				Casteller casteller = castellers.stream().filter(c -> c.getDni().equals(castellerId)).findFirst().orElse(null);
 				Colla colla = colles.stream().filter(c -> c.getId().equals(collaId)).findFirst().orElse(null);
@@ -47,7 +47,7 @@ public class TeCarrecSqlDAO {
 					throw new SQLException("Carrec not found");
 				}
 
-				TeCarrec teCarrec = new TeCarrec(casteller, colla, carrec, resultSet.getDate("desDe").toLocalDate(), finsALocalDate);
+				TeCarrec teCarrec = new TeCarrec(casteller, colla, carrec, resultSet.getDate("desDe").toLocalDate(), DateParser.parseLocalDate(resultSet.getDate("finsA")));
 				casteller.addCarrec(teCarrec);
 				colla.addCarrec(teCarrec);
 			}

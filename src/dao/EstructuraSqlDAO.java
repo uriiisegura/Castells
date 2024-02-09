@@ -1,7 +1,7 @@
 package dao;
 
 import exceptions.SqlConnectionException;
-import models.Estructura;
+import models.castells.Estructura;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

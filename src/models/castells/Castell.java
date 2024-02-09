@@ -1,4 +1,8 @@
-package models;
+package models.castells;
+
+import relationships.CastellDiada;
+
+import java.util.Vector;
 
 public abstract class Castell {
 	private final String id;
@@ -9,6 +13,7 @@ public abstract class Castell {
 	private final boolean perSota;
 	private final boolean caminant;
 	private final int enxanetes;
+	private Vector<CastellDiada> fets = new Vector<>();
 
 	public Castell(String id, Estructura estructura, Pisos pisos, Reforcos reforcos, int agulles, boolean perSota, boolean caminant, int enxanetes) {
 		this.id = id;
@@ -19,6 +24,14 @@ public abstract class Castell {
 		this.perSota = perSota;
 		this.caminant = caminant;
 		this.enxanetes = enxanetes;
+	}
+
+	public void addFet(CastellDiada castell) {
+		fets.add(castell);
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public String getNotacio() {

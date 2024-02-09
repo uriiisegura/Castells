@@ -1,4 +1,4 @@
-package models;
+package models.castells;
 
 import java.util.Vector;
 

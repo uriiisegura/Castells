@@ -1,10 +1,10 @@
 package dao;
 
+import config.DateParser;
 import exceptions.SqlConnectionException;
-import models.Casteller;
+import models.castellers.Casteller;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,16 +26,13 @@ public class CastellerSqlDAO {
 			ResultSet resultSet = statement.executeQuery(selectQuery);
 
 			while (resultSet.next()) {
-				Date dataDefuncio = resultSet.getDate("dataDefuncio");
-				LocalDate dataDefuncioLocalDate = resultSet.wasNull() ? null : dataDefuncio.toLocalDate();
-
 				castellers.add(new Casteller(
 						resultSet.getString("dni"),
 						resultSet.getString("nom"),
 						resultSet.getString("cognom1"),
 						resultSet.getString("cognom2"),
 						resultSet.getDate("dataNaixement").toLocalDate(),
-						dataDefuncioLocalDate
+						DateParser.parseLocalDate(resultSet.getDate("dataDefuncio"))
 				));
 			}
 

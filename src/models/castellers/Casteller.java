@@ -1,6 +1,7 @@
-package models;
+package models.castellers;
 
 
+import models.Periode;
 import relationships.EsDeLaColla;
 import relationships.TeCarrec;
 
@@ -14,6 +15,7 @@ public class Casteller extends Periode {
 	private String cognom2;
 	private Vector<EsDeLaColla> colles = new Vector<>();
 	private Vector<TeCarrec> carrecs = new Vector<>();
+	private Vector<Registre> registres = new Vector<>();
 
 	public Casteller(String dni, String nom, String cognom1, String cognom2, LocalDate dataNaixement, LocalDate dataDefuncio) {
 		super(dataNaixement, dataDefuncio);
@@ -31,6 +33,10 @@ public class Casteller extends Periode {
 		carrecs.add(carrec);
 	}
 
+	public void addRegistre(Registre registre) {
+		registres.add(registre);
+	}
+
 	public String getDni() {
 		return dni;
 	}
@@ -39,5 +45,9 @@ public class Casteller extends Periode {
 		if (cognom2 != null)
 			return String.format("%s %s i %s", nom, cognom1, cognom2);
 		return String.format("%s %s", nom, cognom1);
+	}
+
+	public Vector<Registre> getRegistres() {
+		return registres;
 	}
 }

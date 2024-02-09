@@ -1,4 +1,4 @@
-package models;
+package models.castellers;
 
 import java.time.ZonedDateTime;
 

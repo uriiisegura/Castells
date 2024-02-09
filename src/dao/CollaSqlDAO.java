@@ -1,9 +1,9 @@
 package dao;
 
 import exceptions.SqlConnectionException;
-import models.Colla;
-import models.CollaConvencional;
-import models.CollaUniversitaria;
+import models.colles.Colla;
+import models.colles.CollaConvencional;
+import models.colles.CollaUniversitaria;
 
 import java.sql.*;
 import java.util.ArrayList;

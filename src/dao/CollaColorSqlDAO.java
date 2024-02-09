@@ -1,12 +1,12 @@
 package dao;
 
+import config.DateParser;
 import exceptions.SqlConnectionException;
-import models.Colla;
+import models.colles.Colla;
 import relationships.CollaColor;
 
 import java.awt.*;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class CollaColorSqlDAO {
@@ -26,9 +26,6 @@ public class CollaColorSqlDAO {
 
 			while (resultSet.next()) {
 				String collaId = resultSet.getString("colla");
-				Date finsA = resultSet.getDate("finsA");
-				LocalDate finsALocalDate = resultSet.wasNull() ? null : finsA.toLocalDate();
-
 				Colla colla = colles.stream().filter(c -> c.getId().equals(collaId)).findFirst().orElse(null);
 
 				if (colla == null) {
@@ -39,7 +36,7 @@ public class CollaColorSqlDAO {
 				colla.addColor(new CollaColor(
 						Color.decode(resultSet.getString("color")),
 						resultSet.getDate("desDe").toLocalDate(),
-						finsALocalDate
+						DateParser.parseLocalDate(resultSet.getDate("finsA"))
 				));
 			}
 

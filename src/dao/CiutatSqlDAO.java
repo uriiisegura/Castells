@@ -1,7 +1,7 @@
 package dao;
 
 import exceptions.SqlConnectionException;
-import models.Ciutat;
+import models.locations.Ciutat;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

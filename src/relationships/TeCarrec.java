@@ -1,8 +1,8 @@
 package relationships;
 
-import models.Carrec;
-import models.Casteller;
-import models.Colla;
+import models.colles.Carrec;
+import models.castellers.Casteller;
+import models.colles.Colla;
 import models.Periode;
 
 import java.time.LocalDate;

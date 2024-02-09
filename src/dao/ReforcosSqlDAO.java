@@ -1,7 +1,7 @@
 package dao;
 
 import exceptions.SqlConnectionException;
-import models.Reforcos;
+import models.castells.Reforcos;
 
 import java.sql.*;
 import java.util.ArrayList;

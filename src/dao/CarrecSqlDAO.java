@@ -1,9 +1,9 @@
 package dao;
 
 import exceptions.SqlConnectionException;
-import models.Carrec;
-import models.CarrecJunta;
-import models.CarrecTecnica;
+import models.colles.Carrec;
+import models.colles.CarrecJunta;
+import models.colles.CarrecTecnica;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,7 +31,7 @@ public class CarrecSqlDAO {
 
 			while (resultSet.next()) {
 				switch (resultSet.getString("area")) {
-					case "tecnica":
+					case "tècnica":
 						carrecs.add(new CarrecTecnica(
 								resultSet.getString("masculi"),
 								resultSet.getString("femeni"),

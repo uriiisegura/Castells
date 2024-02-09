@@ -1,10 +1,10 @@
-package models;
+package models.castells;
 
-public class Reforcos {
+public class Pisos {
 	private final String notacio;
 	private final String nom;
 
-	public Reforcos(String notacio, String nom) {
+	public Pisos(String notacio, String nom) {
 		this.notacio = notacio;
 		this.nom = nom;
 	}

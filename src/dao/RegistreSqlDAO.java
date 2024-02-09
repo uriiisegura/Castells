@@ -1,12 +1,11 @@
 package dao;
 
+import config.DateParser;
 import exceptions.SqlConnectionException;
-import models.*;
+import models.castellers.*;
 
 import java.sql.*;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RegistreSqlDAO {
@@ -18,9 +17,7 @@ public class RegistreSqlDAO {
 		this.connection = connection;
 	}
 
-	public List<Registre> loadAll(List<Casteller> castellers) {
-		List<Registre> registres = new ArrayList<>();
-
+	public void loadAll(List<Casteller> castellers) {
 		try {
 			Statement statement = connection.createStatement();
 			String selectQuery = String.format("SELECT * FROM %s", tableName);
@@ -35,17 +32,35 @@ public class RegistreSqlDAO {
 					throw new SQLException("Casteller not found");
 				}
 
+				Registre registre;
 				float alcadaEspatlla = resultSet.getFloat("alcadaEspatlla");
 				if (resultSet.wasNull()) {
-					float alcadaBrac = resultSet.getFloat("alcadaBrac");
-					registres.add(new RegistreBrac(resultSet.getString("numeroDeRegistre"), resultSet.getTimestamp("dataHora").toLocalDateTime().atZone(ZoneOffset.UTC), casteller, alcadaBrac));
+					registre = new RegistreBrac(
+							resultSet.getString("numeroDeRegistre"),
+							DateParser.parseZonedDateTime(resultSet.getTimestamp("dataHora")),
+							casteller,
+							resultSet.getFloat("alcadaBrac")
+					);
 				} else {
 					float alcadaBrac = resultSet.getFloat("alcadaBrac");
 					if (resultSet.wasNull())
-						registres.add(new RegistreEspatlla(resultSet.getString("numeroDeRegistre"), resultSet.getTimestamp("dataHora").toLocalDateTime().atZone(ZoneOffset.UTC), casteller, alcadaEspatlla));
+						registre = new RegistreEspatlla(
+								resultSet.getString("numeroDeRegistre"),
+								DateParser.parseZonedDateTime(resultSet.getTimestamp("dataHora")),
+								casteller,
+								alcadaEspatlla
+						);
 					else
-						registres.add(new RegistreComplet(resultSet.getString("numeroDeRegistre"), resultSet.getTimestamp("dataHora").toLocalDateTime().atZone(ZoneOffset.UTC), casteller, alcadaEspatlla, alcadaBrac));
+						registre = new RegistreComplet(
+								resultSet.getString("numeroDeRegistre"),
+								DateParser.parseZonedDateTime(resultSet.getTimestamp("dataHora")),
+								casteller,
+								alcadaEspatlla,
+								alcadaBrac
+						);
 				}
+
+				casteller.addRegistre(registre);
 			}
 
 			resultSet.close();
@@ -53,7 +68,5 @@ public class RegistreSqlDAO {
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}
-
-		return registres;
 	}
 }
