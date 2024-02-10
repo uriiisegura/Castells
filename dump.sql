@@ -245,12 +245,14 @@ CREATE TABLE `SiGAC`.`RenglaLineUpCastellers` (
 );
 
 -- TABLES POPULATION
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("25633040T", "Lola", "Valor", "Velilla", "dona", "2003-02-14", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("38455056E", "David", "Pérez", "Oset", "home", "1971-08-14", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("39932266B", "David", "Coronado", "Gutiérrez", "home", "1991-09-12", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("43561345N", "Pau", "Granell", "Rodríguez", "home", "1985-06-01", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("46482922Z", "Oriol", "Segura", "Niño", "home", "2001-06-13", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("46763944E", "Arnau", "Villoro", "Bort", "home", "1989-04-29", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("46974185C", "Roderic", "Picó", "Maya", "home", "1990-10-24", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("47599426Y", "Paula", "Torramilans", "Quintana", "dona", "1996-05-11", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:ALEIXDNI", "Aleix", "Paluzié", "Vázquez", "home", "2010-09-21", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:AMELIADNI", "Amèlia", "Botella", "Vázquez", "dona", "2008-01-18", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:ARLETDNI", "Arlet", "Vergara", "Agramunt", "dona", "2013-09-19", NULL);
@@ -266,6 +268,7 @@ INSERT INTO `SiGAC`.`Colla` (`id`, `universitaria`) VALUES ("GAVA", "0");
 INSERT INTO `SiGAC`.`Colla` (`id`, `universitaria`) VALUES ("JOVESITGES", "0");
 INSERT INTO `SiGAC`.`Colla` (`id`, `universitaria`) VALUES ("SANTS", "0");
 
+INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("25633040T", "SANTS", "2009-01-01", NULL, "Lola");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("38455056E", "SANTS", "2012-01-01", NULL, "Vid");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("39932266B", "SANTS", "2016-01-01", NULL, "Coronado");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("43561345N", "SANTS", "2002-01-01", NULL, "Granell");
@@ -275,6 +278,7 @@ INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `maln
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("46482922Z", "SANTS", "2018-11-27", NULL, "Segura");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("46763944E", "SANTS", "2018-10-09", NULL, "Villoro");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("46974185C", "SANTS", "2008-01-01", NULL, "Rode");
+INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("47599426Y", "SANTS", "2012-01-01", NULL, "Torrami");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("TODO:ALEIXDNI", "SANTS", "2011-01-01", NULL, "Aleix Paluzié");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("TODO:AMELIADNI", "SANTS", "2008-01-18", NULL, "Amèlia");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("TODO:ARLETDNI", "SANTS", "2013-09-19", NULL, "Arlet");
