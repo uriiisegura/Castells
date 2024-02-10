@@ -1,6 +1,7 @@
-package dao;
+package dao.sql;
 
 import config.DateParser;
+import dao.CastellerDAO;
 import exceptions.SqlConnectionException;
 import models.castellers.Casteller;
 
@@ -8,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CastellerSqlDAO {
+public class CastellerSqlDAO implements CastellerDAO {
 	private final static String tableName = "Casteller";
 
 	private final Connection connection;
@@ -17,6 +18,7 @@ public class CastellerSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public List<Casteller> loadAll() {
 		List<Casteller> castellers = new ArrayList<>();
 
@@ -31,6 +33,7 @@ public class CastellerSqlDAO {
 						resultSet.getString("nom"),
 						resultSet.getString("cognom1"),
 						resultSet.getString("cognom2"),
+						resultSet.getString("sexe"),
 						resultSet.getDate("dataNaixement").toLocalDate(),
 						DateParser.parseLocalDate(resultSet.getDate("dataDefuncio"))
 				));

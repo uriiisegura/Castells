@@ -1,6 +1,7 @@
-package dao;
+package dao.sql;
 
 import config.DateParser;
+import dao.EsDeLaCollaDAO;
 import exceptions.SqlConnectionException;
 import models.castellers.Casteller;
 import models.colles.Colla;
@@ -9,7 +10,7 @@ import relationships.EsDeLaColla;
 import java.sql.*;
 import java.util.List;
 
-public class EsDeLaCollaSqlDAO {
+public class EsDeLaCollaSqlDAO implements EsDeLaCollaDAO {
 	private final static String tableName = "EsDeLaColla";
 
 	private final Connection connection;
@@ -18,6 +19,7 @@ public class EsDeLaCollaSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public void loadAll(List<Casteller> castellers, List<Colla> colles) {
 		try {
 			Statement statement = connection.createStatement();

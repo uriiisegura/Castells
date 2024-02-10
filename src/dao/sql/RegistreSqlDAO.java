@@ -1,6 +1,7 @@
-package dao;
+package dao.sql;
 
 import config.DateParser;
+import dao.RegistreDAO;
 import exceptions.SqlConnectionException;
 import models.castellers.*;
 
@@ -8,7 +9,7 @@ import java.sql.*;
 import java.time.ZoneOffset;
 import java.util.List;
 
-public class RegistreSqlDAO {
+public class RegistreSqlDAO implements RegistreDAO {
 	private final static String tableName = "Registre";
 
 	private final Connection connection;
@@ -17,6 +18,7 @@ public class RegistreSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public void loadAll(List<Casteller> castellers) {
 		try {
 			Statement statement = connection.createStatement();

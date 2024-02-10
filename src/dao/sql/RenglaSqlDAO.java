@@ -1,5 +1,6 @@
-package dao;
+package dao.sql;
 
+import dao.RenglaDAO;
 import exceptions.SqlConnectionException;
 import models.castells.Estructura;
 import models.castells.Rengla;
@@ -11,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenglaSqlDAO {
+public class RenglaSqlDAO implements RenglaDAO {
 	private final static String tableName = "Rengla";
 
 	private final Connection connection;
@@ -20,6 +21,7 @@ public class RenglaSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public List<Rengla> loadAll(List<Estructura> estructures) {
 		List<Rengla> rengles = new ArrayList<>();
 

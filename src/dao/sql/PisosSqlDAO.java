@@ -1,5 +1,6 @@
-package dao;
+package dao.sql;
 
+import dao.PisosDAO;
 import exceptions.SqlConnectionException;
 import models.castells.Pisos;
 
@@ -10,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PisosSqlDAO {
+public class PisosSqlDAO implements PisosDAO {
 	private final static String tableName = "Pisos";
 
 	private final Connection connection;
@@ -19,6 +20,7 @@ public class PisosSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public List<Pisos> loadAll() {
 		List<Pisos> pisos = new ArrayList<>();
 

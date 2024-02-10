@@ -1,6 +1,7 @@
-package dao;
+package dao.sql;
 
 import config.DateParser;
+import dao.TeCarrecDAO;
 import exceptions.SqlConnectionException;
 import models.castellers.Casteller;
 import models.colles.Carrec;
@@ -10,7 +11,7 @@ import relationships.TeCarrec;
 import java.sql.*;
 import java.util.List;
 
-public class TeCarrecSqlDAO {
+public class TeCarrecSqlDAO implements TeCarrecDAO {
 	private final static String tableName = "TeCarrec";
 
 	private final Connection connection;
@@ -19,6 +20,7 @@ public class TeCarrecSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public void loadAll(List<Casteller> castellers, List<Colla> colles, List<Carrec> carrecs) {
 		try {
 			Statement statement = connection.createStatement();

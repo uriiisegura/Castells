@@ -1,4 +1,4 @@
-package dao;
+package dao.sql;
 
 import exceptions.SqlConnectionException;
 import models.castells.*;

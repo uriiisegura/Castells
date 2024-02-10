@@ -2,6 +2,9 @@
 CREATE DATABASE IF NOT EXISTS `SiGAC`;
 
 -- TABLES DROP
+DROP TABLE IF EXISTS `SiGAC`.`RenglaLineUpCastellers`;
+DROP TABLE IF EXISTS `SiGAC`.`RenglaLineUp`;
+DROP TABLE IF EXISTS `SiGAC`.`PomLineUp`;
 DROP TABLE IF EXISTS `SiGAC`.`CastellDiada`;
 DROP TABLE IF EXISTS `SiGAC`.`Diada`;
 DROP TABLE IF EXISTS `SiGAC`.`Location`;
@@ -29,7 +32,7 @@ CREATE TABLE `SiGAC`.`Casteller` (
 	`nom` VARCHAR(256) NOT NULL,
 	`cognom1` VARCHAR(256) NOT NULL,
 	`cognom2` VARCHAR(256),
-	`sexe` ENUM("home", "done", "no binari") NOT NULL,
+	`sexe` ENUM("home", "dona", "no binari") NOT NULL,
 	`dataNaixement` DATE NOT NULL,
 	`dataDefuncio` DATE,
 	PRIMARY KEY (`dni`)
@@ -208,8 +211,44 @@ CREATE TABLE `SiGAC`.`CastellDiada` (
 	FOREIGN KEY (`colla`) REFERENCES `SiGAC`.`Colla`(`id`)
 );
 
+CREATE TABLE `SiGAC`.`PomLineUp` (
+	`id` BIGINT NOT NULL,
+	`castell` BIGINT NOT NULL,
+	`dosos1` VARCHAR(16) NOT NULL,
+	`dosos2` VARCHAR(16) NOT NULL,
+	`acotxador` VARCHAR(16) NOT NULL,
+	`enxaneta` VARCHAR(16),
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`castell`) REFERENCES `SiGAC`.`CastellDiada`(`id`),
+	FOREIGN KEY (`dosos1`) REFERENCES `SiGAC`.`Casteller`(`dni`),
+	FOREIGN KEY (`dosos2`) REFERENCES `SiGAC`.`Casteller`(`dni`),
+	FOREIGN KEY (`acotxador`) REFERENCES `SiGAC`.`Casteller`(`dni`),
+	FOREIGN KEY (`enxaneta`) REFERENCES `SiGAC`.`Casteller`(`dni`)
+);
+
+CREATE TABLE `SiGAC`.`RenglaLineUp` (
+	`id` BIGINT NOT NULL,
+	`castell` BIGINT NOT NULL,
+	`renglaNom` VARCHAR(256) NOT NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`castell`) REFERENCES `SiGAC`.`CastellDiada`(`id`),
+	FOREIGN KEY (`renglaNom`) REFERENCES `SiGAC`.`Rengla`(`nom`)
+);
+
+CREATE TABLE `SiGAC`.`RenglaLineUpCastellers` (
+	`renglaLineUp` BIGINT NOT NULL,
+	`casteller` VARCHAR(16) NOT NULL,
+	`pis` INT NOT NULL,
+	PRIMARY KEY (`renglaLineUp`, `pis`),
+	FOREIGN KEY (`renglaLineUp`) REFERENCES `SiGAC`.`RenglaLineUp`(`id`),
+	FOREIGN KEY (`casteller`) REFERENCES `SiGAC`.`Casteller`(`dni`)
+);
+
 -- TABLES POPULATION
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("46482922Z", "Oriol", "Segura", "Niño", "home", "2001-06-13", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("38455056E", "David", "Pérez", "Oset", "home", "1971-08-14", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:CINTIADNI", "Cíntia", "Vila", "Gabarró", "dona", "2005-10-05", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:ALEIXDNI", "Aleix", "Paluzié", "Vázquez", "home", "2010-09-21", NULL);
 
 INSERT INTO `SiGAC`.`Usuari` (`casteller`, `password`, `isAdmin`) VALUES ("46482922Z", "e72cb8d06a267c26ea3434c573ade27c426d39e25d3c61f0b7fe94ebcd78475c", 1);	-- putavic
 
@@ -225,10 +264,15 @@ INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `maln
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("46482922Z", "ARREPLEGATS", "2019-09-17", "2019-09-19", "Segura");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("46482922Z", "ENGRESCATS", "2021-10-07", "2022-05-05", "Segura");
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("46482922Z", "ARREPLEGATS", "2022-05-09", NULL, "Segura");
+INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("38455056E", "SANTS", "2012-01-01", NULL, "Vid");
+INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("TODO:CINTIADNI", "SANTS", "1900-01-01", NULL, "Cíntia");
+INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("TODO:ALEIXDNI", "SANTS", "2011-01-01", NULL, "Aleix Paluzié");
 
 INSERT INTO `SiGAC`.`Carrec` (`masculi`, `femeni`, `neutre`, `area`) VALUES ("sotscap de colla", "sotscap de colla", "sotscap de colla", "tècnica");
+INSERT INTO `SiGAC`.`Carrec` (`masculi`, `femeni`, `neutre`, `area`) VALUES ("cap de BITS", "cap de BITS", "cap de BITS", "tècnica");
 
 INSERT INTO `SiGAC`.`TeCarrec` (`casteller`, `colla`, `carrec`, `desDe`, `finsA`) VALUES ("46482922Z", "ARREPLEGATS", "sotscap de colla", "2023-09-21", NULL);
+INSERT INTO `SiGAC`.`TeCarrec` (`casteller`, `colla`, `carrec`, `desDe`, `finsA`) VALUES ("46482922Z", "SANTS", "cap de BITS", "2024-01-30", NULL);
 
 INSERT INTO `SiGAC`.`CollaFundacio` (`colla`, `desDe`, `finsA`) VALUES ("SANTS", "1993-05-09", NULL);
 INSERT INTO `SiGAC`.`CollaFundacio` (`colla`, `desDe`, `finsA`) VALUES ("ARREPLEGATS", "1995-04-04", NULL);
@@ -370,3 +414,10 @@ INSERT INTO `SiGAC`.`CastellDiada` (`id`, `diada`, `castell`, `resultat`, `colla
 INSERT INTO `SiGAC`.`CastellDiada` (`id`, `diada`, `castell`, `resultat`, `colla`, `ordre`) VALUES (13, "VIG-26A-SANTS", "Pd4", "DESCARREGAT", "JOVESITGES", 10);
 INSERT INTO `SiGAC`.`CastellDiada` (`id`, `diada`, `castell`, `resultat`, `colla`, `ordre`) VALUES (14, "VIG-26A-SANTS", "Pd4", "DESCARREGAT", "JOVESITGES", 10);
 INSERT INTO `SiGAC`.`CastellDiada` (`id`, `diada`, `castell`, `resultat`, `colla`, `ordre`) VALUES (15, "VIG-26A-SANTS", "Pd4", "DESCARREGAT", "GAVA", 10);
+
+INSERT INTO `SiGAC`.`RenglaLineUp` (`id`, `castell`, `renglaNom`) VALUES (1, 12, "pilar");
+
+INSERT INTO `SiGAC`.`RenglaLineUpCastellers` (`renglaLineUp`, `casteller`, `pis`) VALUES (1, "46482922Z", 1);
+INSERT INTO `SiGAC`.`RenglaLineUpCastellers` (`renglaLineUp`, `casteller`, `pis`) VALUES (1, "38455056E", 2);
+INSERT INTO `SiGAC`.`RenglaLineUpCastellers` (`renglaLineUp`, `casteller`, `pis`) VALUES (1, "TODO:CINTIADNI", 3);
+INSERT INTO `SiGAC`.`RenglaLineUpCastellers` (`renglaLineUp`, `casteller`, `pis`) VALUES (1, "TODO:ALEIXDNI", 4);

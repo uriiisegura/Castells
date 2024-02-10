@@ -35,15 +35,5 @@ public class SqlConnection {
 		}
 	}
 
-	private class Credentials {
-		private final String user;
-		private final String password;
-		private final String url;
-
-		public Credentials(String user, String password, String url) {
-			this.user = user;
-			this.password = password;
-			this.url = url;
-		}
-	}
+	private record Credentials(String user, String password, String url) {}
 }

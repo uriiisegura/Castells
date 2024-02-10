@@ -1,5 +1,6 @@
-package dao;
+package dao.sql;
 
+import dao.CollaDAO;
 import exceptions.SqlConnectionException;
 import models.colles.Colla;
 import models.colles.CollaConvencional;
@@ -9,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollaSqlDAO {
+public class CollaSqlDAO implements CollaDAO {
 	private final static String tableName = "Colla";
 
 	private final Connection connection;
@@ -18,6 +19,7 @@ public class CollaSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public List<Colla> loadAll() {
 		List<Colla> colles = new ArrayList<>();
 

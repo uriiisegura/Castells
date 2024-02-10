@@ -1,23 +1,28 @@
-package dao;
+package dao.sql;
 
+import dao.CiutatDAO;
 import exceptions.SqlConnectionException;
-import models.castells.Reforcos;
+import models.locations.Ciutat;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReforcosSqlDAO {
-	private final static String tableName = "Reforcos";
+public class CiutatSqlDAO implements CiutatDAO {
+	private final static String tableName = "Ciutat";
 
 	private final Connection connection;
 
-	public ReforcosSqlDAO(Connection connection) {
+	public CiutatSqlDAO(Connection connection) {
 		this.connection = connection;
 	}
 
-	public List<Reforcos> loadAll() {
-		List<Reforcos> reforcos = new ArrayList<>();
+	@Override
+	public List<Ciutat> loadAll() {
+		List<Ciutat> ciutats = new ArrayList<>();
 
 		try {
 			Statement statement = connection.createStatement();
@@ -25,10 +30,7 @@ public class ReforcosSqlDAO {
 			ResultSet resultSet = statement.executeQuery(selectQuery);
 
 			while (resultSet.next()) {
-				reforcos.add(new Reforcos(
-						resultSet.getString("notacio"),
-						resultSet.getString("nom")
-				));
+				ciutats.add(new Ciutat(resultSet.getString("id"), resultSet.getString("nom")));
 			}
 
 			resultSet.close();
@@ -37,6 +39,6 @@ public class ReforcosSqlDAO {
 			throw new SqlConnectionException();
 		}
 
-		return reforcos;
+		return ciutats;
 	}
 }

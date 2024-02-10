@@ -34,6 +34,10 @@ public abstract class Castell {
 		return id;
 	}
 
+	public Estructura getEstructura() {
+		return estructura;
+	}
+
 	public String getNotacio() {
 		return String.format("%sd%s%s%s%s%s",
 				estructura.getNotacio(),

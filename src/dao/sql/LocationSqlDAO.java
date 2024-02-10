@@ -1,5 +1,6 @@
-package dao;
+package dao.sql;
 
+import dao.LocationDAO;
 import exceptions.SqlConnectionException;
 import models.locations.*;
 
@@ -10,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationSqlDAO {
+public class LocationSqlDAO implements LocationDAO {
 	private final static String tableName = "Location";
 
 	private final Connection connection;
@@ -19,6 +20,7 @@ public class LocationSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public List<Location> loadAll(List<Ciutat> ciutats) {
 		List<Location> locations = new ArrayList<>();
 

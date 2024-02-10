@@ -1,22 +1,25 @@
-package dao;
+package dao.sql;
 
 import config.DateParser;
+import dao.CollaColorDAO;
 import exceptions.SqlConnectionException;
 import models.colles.Colla;
-import relationships.CollaFundacio;
+import relationships.CollaColor;
 
+import java.awt.*;
 import java.sql.*;
 import java.util.List;
 
-public class CollaFundacioSqlDAO {
-	private final static String tableName = "CollaFundacio";
+public class CollaColorSqlDAO implements CollaColorDAO {
+	private final static String tableName = "CollaColor";
 
 	private final Connection connection;
 
-	public CollaFundacioSqlDAO(Connection connection) {
+	public CollaColorSqlDAO(Connection connection) {
 		this.connection = connection;
 	}
 
+	@Override
 	public void loadAll(List<Colla> colles) {
 		try {
 			Statement statement = connection.createStatement();
@@ -32,7 +35,8 @@ public class CollaFundacioSqlDAO {
 					throw new SQLException("Colla not found");
 				}
 
-				colla.addFundacio(new CollaFundacio(
+				colla.addColor(new CollaColor(
+						Color.decode(resultSet.getString("color")),
 						resultSet.getDate("desDe").toLocalDate(),
 						DateParser.parseLocalDate(resultSet.getDate("finsA"))
 				));

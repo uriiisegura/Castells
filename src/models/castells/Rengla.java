@@ -8,4 +8,12 @@ public class Rengla {
 		this.estructura = estructura;
 		this.nom = nom;
 	}
+
+	public Estructura getEstructura() {
+		return estructura;
+	}
+
+	public String getNom() {
+		return nom;
+	}
 }

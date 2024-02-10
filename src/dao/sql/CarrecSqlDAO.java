@@ -1,5 +1,6 @@
-package dao;
+package dao.sql;
 
+import dao.CarrecDAO;
 import exceptions.SqlConnectionException;
 import models.colles.Carrec;
 import models.colles.CarrecJunta;
@@ -12,7 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarrecSqlDAO {
+public class CarrecSqlDAO implements CarrecDAO {
 	private final static String tableName = "Carrec";
 
 	private final Connection connection;
@@ -21,6 +22,7 @@ public class CarrecSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public List<Carrec> loadAll() {
 		List<Carrec> carrecs = new ArrayList<>();
 

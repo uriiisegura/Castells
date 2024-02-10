@@ -1,6 +1,7 @@
-package dao;
+package dao.sql;
 
 import config.DateParser;
+import dao.CollaNomDAO;
 import exceptions.SqlConnectionException;
 import models.colles.Colla;
 import relationships.CollaNom;
@@ -8,7 +9,7 @@ import relationships.CollaNom;
 import java.sql.*;
 import java.util.List;
 
-public class CollaNomSqlDAO {
+public class CollaNomSqlDAO implements CollaNomDAO {
 	private final static String tableName = "CollaNom";
 
 	private final Connection connection;
@@ -17,6 +18,7 @@ public class CollaNomSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public void loadAll(List<Colla> colles) {
 		try {
 			Statement statement = connection.createStatement();

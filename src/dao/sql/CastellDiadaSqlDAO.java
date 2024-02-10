@@ -1,5 +1,6 @@
-package dao;
+package dao.sql;
 
+import dao.CastellDiadaDAO;
 import enums.ResultatsT;
 import exceptions.SqlConnectionException;
 import models.castells.Castell;
@@ -11,9 +12,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CastellDiadaSqlDAO {
+public class CastellDiadaSqlDAO implements CastellDiadaDAO {
 	private final static String tableName = "CastellDiada";
 
 	private final Connection connection;
@@ -22,10 +24,13 @@ public class CastellDiadaSqlDAO {
 		this.connection = connection;
 	}
 
-	public void loadAll(List<Diada> diades, List<Castell> castells, List<Colla> colles) {
+	@Override
+	public List<CastellDiada> loadAll(List<Diada> diades, List<Castell> castells, List<Colla> colles) {
+		List<CastellDiada> castellDiades = new ArrayList<>();
+
 		try {
 			Statement statement = connection.createStatement();
-			String selectQuery = String.format("SELECT * FROM %s", tableName);
+			String selectQuery = String.format("SELECT * FROM %s ORDER BY id, ordre", tableName);
 			ResultSet resultSet = statement.executeQuery(selectQuery);
 
 			while (resultSet.next()) {
@@ -62,6 +67,7 @@ public class CastellDiadaSqlDAO {
 				diada.addCastell(castellDiada);
 				castell.addFet(castellDiada);
 				colla.addCastell(castellDiada);
+				castellDiades.add(castellDiada);
 			}
 
 			resultSet.close();
@@ -69,5 +75,7 @@ public class CastellDiadaSqlDAO {
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}
+
+		return castellDiades;
 	}
 }

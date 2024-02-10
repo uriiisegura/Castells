@@ -1,5 +1,6 @@
 package models.diades;
 
+import models.castellers.Casteller;
 import models.colles.Colla;
 import models.locations.Location;
 import relationships.CastellDiada;
@@ -57,6 +58,13 @@ public class Diada {
 			System.out.printf("\t- %s\n", hm.getKey().getCurrentNom());
 			for (CastellDiada cd : hm.getValue()) {
 				System.out.printf("\t\t- %s (%s)\n", cd.getNotacio(), cd.getResultat().text());
+				for (CastellLineUp clu : cd.getLineUps()) {
+					if (clu instanceof RenglaLineUp rlu) {
+						System.out.printf("\t\t\t- %s\n", rlu.getRenglaNom());
+						for (Casteller c : rlu.getCastellers())
+							System.out.printf("\t\t\t\t- %s\n", c.getFullName());
+					}
+				}
 			}
 		}
 	}

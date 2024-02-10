@@ -1,24 +1,25 @@
-package dao;
+package dao.sql;
 
 import config.DateParser;
+import dao.CollaFundacioDAO;
 import exceptions.SqlConnectionException;
-import models.locations.Ciutat;
 import models.colles.Colla;
-import relationships.CollaAdreca;
+import relationships.CollaFundacio;
 
 import java.sql.*;
 import java.util.List;
 
-public class CollaAdrecaSqlDAO {
-	private final static String tableName = "CollaAdreca";
+public class CollaFundacioSqlDAO implements CollaFundacioDAO {
+	private final static String tableName = "CollaFundacio";
 
 	private final Connection connection;
 
-	public CollaAdrecaSqlDAO(Connection connection) {
+	public CollaFundacioSqlDAO(Connection connection) {
 		this.connection = connection;
 	}
 
-	public void loadAll(List<Colla> colles, List<Ciutat> ciutats) {
+	@Override
+	public void loadAll(List<Colla> colles) {
 		try {
 			Statement statement = connection.createStatement();
 			String selectQuery = String.format("SELECT * FROM %s", tableName);
@@ -26,23 +27,14 @@ public class CollaAdrecaSqlDAO {
 
 			while (resultSet.next()) {
 				String collaId = resultSet.getString("colla");
-				String ciutatId = resultSet.getString("ciutat");
-
 				Colla colla = colles.stream().filter(c -> c.getId().equals(collaId)).findFirst().orElse(null);
-				Ciutat ciutat = ciutats.stream().filter(c -> c.getId().equals(ciutatId)).findFirst().orElse(null);
 
 				if (colla == null) {
 					// TODO:
 					throw new SQLException("Colla not found");
 				}
-				if (ciutat == null) {
-					// TODO:
-					throw new SQLException("Ciutat not found");
-				}
 
-				colla.addAdreca(new CollaAdreca(
-						resultSet.getString("adreca"),
-						ciutat,
+				colla.addFundacio(new CollaFundacio(
 						resultSet.getDate("desDe").toLocalDate(),
 						DateParser.parseLocalDate(resultSet.getDate("finsA"))
 				));

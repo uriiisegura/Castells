@@ -1,5 +1,6 @@
-package dao;
+package dao.sql;
 
+import dao.EstructuraDAO;
 import exceptions.SqlConnectionException;
 import models.castells.Estructura;
 
@@ -10,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EstructuraSqlDAO {
+public class EstructuraSqlDAO implements EstructuraDAO {
 	private final static String tableName = "Estructura";
 
 	private final Connection connection;
@@ -19,6 +20,7 @@ public class EstructuraSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public List<Estructura> loadAll() {
 		List<Estructura> estructures = new ArrayList<>();
 

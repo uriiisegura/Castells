@@ -1,6 +1,7 @@
-package dao;
+package dao.sql;
 
 import config.DateParser;
+import dao.DiadaDAO;
 import exceptions.SqlConnectionException;
 import models.colles.Colla;
 import models.colles.CollaConvencional;
@@ -15,7 +16,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiadaSqlDAO {
+public class DiadaSqlDAO implements DiadaDAO {
 	private final static String tableName = "Diada";
 
 	private final Connection connection;
@@ -24,6 +25,7 @@ public class DiadaSqlDAO {
 		this.connection = connection;
 	}
 
+	@Override
 	public List<Diada> loadAll(List<Location> locations) {
 		List<Diada> diades = new ArrayList<>();
 

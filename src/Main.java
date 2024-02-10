@@ -1,5 +1,5 @@
 import config.SqlConnection;
-import dao.*;
+import dao.sql.*;
 import models.castellers.Casteller;
 import models.castells.*;
 import models.colles.Carrec;
@@ -7,6 +7,7 @@ import models.colles.Colla;
 import models.diades.Diada;
 import models.locations.Ciutat;
 import models.locations.Location;
+import relationships.CastellDiada;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -25,6 +26,7 @@ public class Main {
     private static List<Rengla> rengles;
     private static List<Castell> castells;
     private static List<Diada> diades;
+    private static List<CastellDiada> castellsFets;
 
     public static void main(String[] args)  {
         loadCiutats();
@@ -34,8 +36,9 @@ public class Main {
         loadCastells();
         loadDiades();
 
-        for (Diada d : diades)
+        for (Diada d : diades) {
             d.print();
+        }
 
         try {
             connection.connection.close();
@@ -76,6 +79,7 @@ public class Main {
 
     private static void loadDiades() {
         diades = new DiadaSqlDAO(connection.connection).loadAll(locations);
-        new CastellDiadaSqlDAO(connection.connection).loadAll(diades, castells, colles);
+        castellsFets = new CastellDiadaSqlDAO(connection.connection).loadAll(diades, castells, colles);
+        new CastellLineUpSqlDAO(connection.connection).loadAll(castellers, castellsFets, rengles);
     }
 }
