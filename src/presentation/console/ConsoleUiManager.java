@@ -1,5 +1,6 @@
 package presentation.console;
 
+import business.BusinessFacade;
 import models.castellers.Casteller;
 import models.colles.Colla;
 import models.diades.CastellLineUp;
@@ -9,13 +10,27 @@ import presentation.UiManager;
 import relationships.CastellDiada;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 public class ConsoleUiManager implements UiManager {
+	private final Scanner scanner = new Scanner(System.in);
+
 	@Override
 	public void start() {}
+
+	@Override
+	public HashMap<String, String> logIn() {
+		HashMap<String, String> credentials = new HashMap<>();
+		System.out.println("INICI DE SESSIÓ");
+		credentials.put("identificador", askString("Identificador: "));
+		credentials.put("password", askString("Contrasenya: "));
+		return credentials;
+	}
+
+	@Override
+	public void wrongCredentials(String message) {
+		System.out.printf("Error! %s\n", message);
+	}
 
 	@Override
 	public void showDiades(List<Diada> diades) {
@@ -35,5 +50,14 @@ public class ConsoleUiManager implements UiManager {
 				}
 			}
 		}
+	}
+
+	private String askString(String message) {
+		String input;
+		do {
+			System.out.print(message);
+			input = scanner.nextLine();
+		} while (input.isEmpty());
+		return input;
 	}
 }

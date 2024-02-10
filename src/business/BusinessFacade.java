@@ -1,6 +1,8 @@
 package business;
 
-import config.SqlConnection;
+import exceptions.WrongCredentialsException;
+import persistence.dao.*;
+import persistence.SqlConnection;
 import models.castellers.Casteller;
 import models.castells.*;
 import models.colles.Carrec;
@@ -8,13 +10,14 @@ import models.colles.Colla;
 import models.diades.Diada;
 import models.locations.Ciutat;
 import models.locations.Location;
-import persistence.dao.sql.*;
 import relationships.CastellDiada;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class BusinessFacade {
 	private final SqlConnection connection = new SqlConnection();
+	private final HashMap<String, String> session = new HashMap<>();
 
 	private List<Ciutat> ciutats;
 	private List<Location> locations;
@@ -28,6 +31,20 @@ public class BusinessFacade {
 	private List<Castell> castells;
 	private List<Diada> diades;
 	private List<CastellDiada> castellsFets;
+
+	public BusinessFacade() {
+		session.put("activa", "FALSE");
+	}
+
+	public boolean isSessionActive() {
+		return session.get("activa").equals("TRUE");
+	}
+
+	public void logIn(HashMap<String, String> credentials) throws WrongCredentialsException {
+		session.put("identificador", credentials.get("identificador"));
+		session.put("rol", connection.logIn(credentials));
+		session.put("activa", "TRUE");
+	}
 
 	public void loadAll() {
 		loadCiutats();

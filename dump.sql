@@ -41,7 +41,7 @@ CREATE TABLE `SiGAC`.`Casteller` (
 CREATE TABLE `SiGAC`.`Usuari` (
 	`casteller` VARCHAR(16) NOT NULL,
 	`password` VARCHAR(256) NOT NULL,
-	`isAdmin` BOOLEAN NOT NULL,
+	`rol` VARCHAR(32) NOT NULL,
 	PRIMARY KEY (`casteller`),
 	FOREIGN KEY (`casteller`) REFERENCES `SiGAC`.`Casteller`(`dni`)
 );
@@ -256,7 +256,7 @@ INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `da
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:ARLETDNI", "Arlet", "Vergara", "Agramunt", "dona", "2013-09-19", NULL);
 INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("43561345N", "Pau", "Granell", "Rodríguez", "home", "1985-06-01", NULL);
 
-INSERT INTO `SiGAC`.`Usuari` (`casteller`, `password`, `isAdmin`) VALUES ("46482922Z", "e72cb8d06a267c26ea3434c573ade27c426d39e25d3c61f0b7fe94ebcd78475c", 1);	-- putavic
+INSERT INTO `SiGAC`.`Usuari` (`casteller`, `password`, `rol`) VALUES ("46482922Z", "e72cb8d06a267c26ea3434c573ade27c426d39e25d3c61f0b7fe94ebcd78475c", "administrador");	-- putavic
 
 INSERT INTO `SiGAC`.`Registre` (`numeroDeRegistre`, `dataHora`, `casteller`, `alcadaEspatlla`, `alcadaBrac`) VALUES ("R2024-001/0001", "2024-02-08 17:28:13", "46482922Z", 145.7, NULL);
 

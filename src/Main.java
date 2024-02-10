@@ -1,13 +1,12 @@
 import business.BusinessFacade;
-import presentation.UiManager;
+import presentation.UiController;
 import presentation.console.ConsoleUiManager;
 
 public class Main {
     private static final BusinessFacade businessFacade = new BusinessFacade();
-    private static final UiManager uiManager = new ConsoleUiManager();
+    private static final UiController uiController = new UiController(businessFacade, new ConsoleUiManager());
 
     public static void main(String[] args)  {
-        businessFacade.loadAll();
-        uiManager.showDiades(businessFacade.getDiades());
+        uiController.start();
     }
 }
