@@ -56,7 +56,7 @@ public class Casteller extends Periode {
 		return String.format("%s %s", nom, cognom1);
 	}
 
-	public String getMalnomAtCollaAtTime(Colla colla, LocalDate date) {
+	public String getMalnomInCollaAt(Colla colla, LocalDate date) {
 		for (EsDeLaColla e : colles) {
 			if (e.getColla().equals(colla) && e.isActive(date))
 				return e.getMalnom();

@@ -53,7 +53,7 @@ public abstract class Colla {
 		return id;
 	}
 
-	public String getNom(LocalDate data) {
+	public String getNomAt(LocalDate data) {
 		for (CollaNom nom : noms) {
 			if (nom.isActive(data))
 				return nom.getNom();
@@ -63,6 +63,6 @@ public abstract class Colla {
 	}
 
 	public String getCurrentNom() {
-		return getNom(LocalDate.now());
+		return getNomAt(LocalDate.now());
 	}
 }

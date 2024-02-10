@@ -2,14 +2,14 @@ package presentation;
 
 import business.BusinessFacade;
 import exceptions.WrongCredentialsException;
+import presentation.console.ConsoleUiManager;
 
 public class UiController {
 	private final BusinessFacade businessFacade;
-	private final UiManager uiManager;
+	private final UiManager uiManager = new ConsoleUiManager();
 
-	public UiController(BusinessFacade businessFacade, UiManager uiManager) {
+	public UiController(BusinessFacade businessFacade) {
 		this.businessFacade = businessFacade;
-		this.uiManager = uiManager;
 	}
 
 	public void start() {
@@ -22,5 +22,7 @@ public class UiController {
 				uiManager.wrongCredentials(e.getMessage());
 			}
 		}
+
+		businessFacade.loadAll();
 	}
 }
