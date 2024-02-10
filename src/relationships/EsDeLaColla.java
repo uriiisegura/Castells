@@ -17,4 +17,12 @@ public class EsDeLaColla extends Periode {
 		this.colla = colla;
 		this.malnom = malnom;
 	}
+
+	public Colla getColla() {
+		return colla;
+	}
+
+	public String getMalnom() {
+		return malnom;
+	}
 }

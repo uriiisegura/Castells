@@ -2,6 +2,7 @@ package models.castellers;
 
 
 import models.Periode;
+import models.colles.Colla;
 import models.diades.CastellLineUp;
 import relationships.EsDeLaColla;
 import relationships.TeCarrec;
@@ -53,6 +54,15 @@ public class Casteller extends Periode {
 		if (cognom2 != null)
 			return String.format("%s %s i %s", nom, cognom1, cognom2);
 		return String.format("%s %s", nom, cognom1);
+	}
+
+	public String getMalnomAtCollaAtTime(Colla colla, LocalDate date) {
+		for (EsDeLaColla e : colles) {
+			if (e.getColla().equals(colla) && e.isActive(date))
+				return e.getMalnom();
+		}
+		// TODO:
+		return null;
 	}
 
 	public Vector<Registre> getRegistres() {
