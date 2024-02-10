@@ -1,13 +1,23 @@
 package presentation;
 
+import business.dto.CastellerDTO;
+import business.dto.EsDeLaCollaDTO;
+import business.dto.LogInDTO;
+import presentation.options.MenuOption;
 import relationships.CastellDiada;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface UiManager {
 	void start();
-	HashMap<String, String> logIn();
-	void wrongCredentials(String message);
+	LogInDTO logIn();
+	void showError(String message);
+	MenuOption askMenuOption(MenuOption[] options);
+	CastellerDTO askNewCasteller();
+	void showMessage(String message);
+	boolean askBoolean(String message);
+	int askOptionFromList(String title, List<String> options, String message);
+	EsDeLaCollaDTO askEsDeLaColla();
+
 	void showCastells(List<CastellDiada> castells);
 }

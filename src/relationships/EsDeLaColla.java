@@ -18,6 +18,10 @@ public class EsDeLaColla extends Periode {
 		this.malnom = malnom;
 	}
 
+	public Casteller getCasteller() {
+		return casteller;
+	}
+
 	public Colla getColla() {
 		return colla;
 	}

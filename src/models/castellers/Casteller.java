@@ -50,6 +50,30 @@ public class Casteller extends Periode {
 		return dni;
 	}
 
+	public String getNom() {
+		return nom;
+	}
+
+	public String getCognom1() {
+		return cognom1;
+	}
+
+	public String getCognom2() {
+		return cognom2;
+	}
+
+	public String getSexe() {
+		return sexe;
+	}
+
+	public LocalDate getDataNaixement() {
+		return super.getDesDe();
+	}
+
+	public LocalDate getDataDefuncio() {
+		return super.getFinsA();
+	}
+
 	public String getFullName() {
 		if (cognom2 != null)
 			return String.format("%s %s i %s", nom, cognom1, cognom2);

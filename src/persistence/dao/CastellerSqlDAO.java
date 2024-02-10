@@ -45,4 +45,23 @@ public class CastellerSqlDAO {
 
 		return castellers;
 	}
+
+	public void addCasteller(Casteller casteller) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("INSERT INTO %s (dni, nom, cognom1, cognom2, sexe, dataNaixement, dataDefuncio) VALUES (?, ?, ?, ?, ?, ?, ?)", tableName)
+			);
+			preparedStatement.setString(1, casteller.getDni());
+			preparedStatement.setString(2, casteller.getNom());
+			preparedStatement.setString(3, casteller.getCognom1());
+			preparedStatement.setString(4, casteller.getCognom2());
+			preparedStatement.setString(5, casteller.getSexe());
+			preparedStatement.setDate(6, Date.valueOf(casteller.getDataNaixement()));
+			preparedStatement.setDate(7, casteller.getDataDefuncio() != null ? Date.valueOf(casteller.getDataDefuncio()) : null);
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
+	}
 }

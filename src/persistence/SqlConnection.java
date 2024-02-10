@@ -41,11 +41,11 @@ public class SqlConnection {
 		}
 	}
 
-	public String logIn(HashMap<String, String> credentials) throws WrongCredentialsException {
+	public String logIn(String identifier, String password) throws WrongCredentialsException {
 		try {
 			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Usuari WHERE casteller=? AND password=?");
-			statement.setString(1, credentials.get("identificador"));
-			statement.setString(2, Encryptor.sha256(credentials.get("password")));
+			statement.setString(1, identifier);
+			statement.setString(2, Encryptor.sha256(password));
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				return resultSet.getString("rol");

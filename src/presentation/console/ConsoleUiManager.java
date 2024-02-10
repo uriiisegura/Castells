@@ -1,8 +1,12 @@
 package presentation.console;
 
+import business.dto.CastellerDTO;
+import business.dto.EsDeLaCollaDTO;
+import business.dto.LogInDTO;
 import models.diades.CastellLineUp;
 import models.diades.RenglaLineUp;
 import presentation.UiManager;
+import presentation.options.MenuOption;
 import relationships.CastellDiada;
 
 import java.util.*;
@@ -14,16 +18,15 @@ public class ConsoleUiManager implements UiManager {
 	public void start() {}
 
 	@Override
-	public HashMap<String, String> logIn() {
-		HashMap<String, String> credentials = new HashMap<>();
+	public LogInDTO logIn() {
 		System.out.println("INICI DE SESSIÓ");
-		credentials.put("identificador", askString("Identificador: "));
-		credentials.put("password", askString("Contrasenya: "));
-		return credentials;
+		String identifier = askString("Identificador: ");
+		String password = askString("Contrasenya: ");
+		return new LogInDTO(identifier, password);
 	}
 
 	@Override
-	public void wrongCredentials(String message) {
+	public void showError(String message) {
 		System.out.printf("\nError! %s\n\n", message);
 	}
 
@@ -39,12 +42,87 @@ public class ConsoleUiManager implements UiManager {
 		}
 	}
 
+	@Override
+	public MenuOption askMenuOption(MenuOption[] options) {
+		System.out.println("\nOpcions:");
+		for (int i = 0; i < options.length; i++)
+			System.out.printf("%d) %s\n", i+1, options[i].text());
+		return options[askIntInRange("Opció: ", 1, options.length) - 1];
+	}
+
+	@Override
+	public CastellerDTO askNewCasteller() {
+		System.out.println("\nAFEGEIX UN NOU CASTELLER A LA BASE DE DADES");
+		String dni = askString("\tDNI / NIE: ");
+		String nom = askString("\tNom: ");
+		String cognom1 = askString("\tPrimer cognom: ");
+		System.out.print("\tSegon cognom (deixar en blanc si no en té): ");
+		String cognom2 = scanner.nextLine();
+		String sexe = askString("\tSexe (home / dona / no binari): ");
+		String dataNaixement = askString("\tData de naixement (yyyy-mm-dd): ");
+		System.out.print("\tData de defunció (yyyy-mm-dd) (deixar en blanc si és viu): ");
+		String dataDefuncio = scanner.nextLine();
+		return new CastellerDTO(dni, nom, cognom1, cognom2, sexe, dataNaixement, dataDefuncio);
+	}
+
+	@Override
+	public void showMessage(String message) {
+		System.out.printf("\n%s\n", message);
+	}
+
+	@Override
+	public boolean askBoolean(String message) {
+		String input;
+		do {
+			System.out.print(message);
+			input = scanner.nextLine().toLowerCase();
+		} while (!input.equals("s") && !input.equals("n"));
+		return input.equals("s");
+	}
+
+	@Override
+	public int askOptionFromList(String title, List<String> options, String message) {
+		System.out.println(title);
+		for (int i = 0; i < options.size(); i++)
+			System.out.printf("%d) %s\n", i+1, options.get(i));
+		return askIntInRange(message, 1, options.size()) - 1;
+	}
+
+	@Override
+	public EsDeLaCollaDTO askEsDeLaColla() {
+		System.out.println("\nAFEGEIX UN CASTELLER A UNA COLLA");
+		String desDe = askString("\tData d'entrada a la colla (yyyy-mm-dd): ");
+		System.out.print("\tData de sortida de la colla (yyyy-mm-dd) (deixar en blanc si no n'ha sortit): ");
+		String finsA = scanner.nextLine();
+		String malnom = askString("\tMalnom: ");
+		return new EsDeLaCollaDTO(desDe, finsA, malnom);
+	}
+
 	private String askString(String message) {
 		String input;
 		do {
 			System.out.print(message);
 			input = scanner.nextLine();
 		} while (input.isEmpty());
+		return input;
+	}
+
+	private int askInt(String message) {
+		int input;
+		do {
+			System.out.print(message);
+			try {
+				input = Integer.parseInt(scanner.nextLine());
+				return input;
+			} catch (NumberFormatException ignored) {}
+		} while (true);
+	}
+
+	private int askIntInRange(String message, int min, int max) {
+		int input;
+		do {
+			input = askInt(message);
+		} while (input < min || input > max);
 		return input;
 	}
 }

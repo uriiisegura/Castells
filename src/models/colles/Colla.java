@@ -1,10 +1,14 @@
 package models.colles;
 
 
+import exceptions.ValuelessAtDateException;
+import exceptions.ValuelessEverException;
+import models.Periode;
 import relationships.CastellDiada;
 import relationships.*;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Vector;
 
 public abstract class Colla {
@@ -53,16 +57,21 @@ public abstract class Colla {
 		return id;
 	}
 
-	public String getNomAt(LocalDate data) {
+	public String getNomAt(LocalDate data) throws ValuelessAtDateException {
 		for (CollaNom nom : noms) {
 			if (nom.isActive(data))
 				return nom.getNom();
 		}
-		// TODO:
-		return null;
+		throw new ValuelessAtDateException("No hi ha cap nom actiu per a la data " + data + ".");
 	}
 
-	public String getCurrentNom() {
+	public String getCurrentNom() throws ValuelessAtDateException{
 		return getNomAt(LocalDate.now());
+	}
+
+	public String getLastName() throws ValuelessEverException {
+		if (noms.isEmpty())
+			throw new ValuelessEverException("La colla mai ha tingut cap nom.");
+		return noms.stream().max(Comparator.comparing(Periode::getFinsA)).get().getNom();
 	}
 }

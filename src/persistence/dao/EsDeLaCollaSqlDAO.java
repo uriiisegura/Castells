@@ -51,4 +51,21 @@ public class EsDeLaCollaSqlDAO {
 			throw new SqlConnectionException();
 		}
 	}
+
+	public void addEsDeLaColla(EsDeLaColla esDeLaColla) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("INSERT INTO %s (casteller, colla, desDe, finsA, malnom) VALUES (?, ?, ?, ?, ?)", tableName)
+			);
+			preparedStatement.setString(1, esDeLaColla.getCasteller().getDni());
+			preparedStatement.setString(2, esDeLaColla.getColla().getId());
+			preparedStatement.setDate(3, Date.valueOf(esDeLaColla.getDesDe()));
+			preparedStatement.setDate(4, esDeLaColla.getFinsA() != null ? Date.valueOf(esDeLaColla.getFinsA()) : null);
+			preparedStatement.setString(5, esDeLaColla.getMalnom());
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
+	}
 }
