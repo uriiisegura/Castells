@@ -1,6 +1,7 @@
 package presentation;
 
 import business.BusinessFacade;
+import exceptions.UserIsNotLoggedInException;
 import exceptions.WrongCredentialsException;
 import presentation.console.ConsoleUiManager;
 
@@ -15,14 +16,23 @@ public class UiController {
 	public void start() {
 		uiManager.start();
 
-		while (!businessFacade.isSessionActive()) {
+		boolean logInAgain = true;
+		while (logInAgain) {
+			while (!businessFacade.isSessionActive()) {
+				try {
+					businessFacade.logIn(uiManager.logIn());
+					logInAgain = false;
+				} catch (WrongCredentialsException e) {
+					uiManager.wrongCredentials(e.getMessage());
+				}
+			}
+
+			businessFacade.loadAll();
 			try {
-				businessFacade.logIn(uiManager.logIn());
-			} catch (WrongCredentialsException e) {
-				uiManager.wrongCredentials(e.getMessage());
+				uiManager.showCastells(businessFacade.getOwnCastells());
+			} catch (UserIsNotLoggedInException e) {
+				logInAgain = true;
 			}
 		}
-
-		businessFacade.loadAll();
 	}
 }

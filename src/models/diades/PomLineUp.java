@@ -16,4 +16,11 @@ public class PomLineUp extends CastellLineUp {
 		this.acotxador = acotxador;
 		this.enxaneta = enxaneta;
 	}
+
+	@Override
+	public boolean hasCasteller(String dni) {
+		if (enxaneta == null)
+			return dosos1.getDni().equals(dni) || dosos2.getDni().equals(dni) || acotxador.getDni().equals(dni);
+		return dosos1.getDni().equals(dni) || dosos2.getDni().equals(dni) || acotxador.getDni().equals(dni) || enxaneta.getDni().equals(dni);
+	}
 }

@@ -7,6 +7,7 @@ import models.colles.Colla;
 import models.diades.CastellLineUp;
 import models.diades.Diada;
 
+import java.time.LocalDate;
 import java.util.Vector;
 
 public class CastellDiada {
@@ -57,5 +58,25 @@ public class CastellDiada {
 
 	public Vector<CastellLineUp> getLineUps() {
 		return lineUps;
+	}
+
+	public boolean hasCasteller(String dni) {
+		for (CastellLineUp lineUp : lineUps) {
+			if (lineUp.hasCasteller(dni))
+				return true;
+		}
+		return false;
+	}
+
+	public String getDiadaNom() {
+		return diada.getNom();
+	}
+
+	public LocalDate getDate() {
+		return diada.getInici().toLocalDate();
+	}
+
+	public String getFullLocation() {
+		return diada.getFullLocation();
 	}
 }

@@ -18,4 +18,8 @@ public abstract class Location {
 	public String getNom() {
 		return nom;
 	}
+
+	public String getFullLocation() {
+		return nom + ", " + ciutat.getNom();
+	}
 }

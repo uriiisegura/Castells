@@ -2,8 +2,10 @@ package models.diades;
 
 import models.castellers.Casteller;
 import models.castells.Rengla;
+import models.colles.Colla;
 import relationships.CastellDiada;
 
+import java.time.LocalDate;
 import java.util.Vector;
 
 public class RenglaLineUp extends CastellLineUp {
@@ -20,7 +22,15 @@ public class RenglaLineUp extends CastellLineUp {
 		return rengla.getNom();
 	}
 
-	public Vector<Casteller> getCastellers() {
-		return castellers;
+	public String[] getMalnomsAt(Colla colla, LocalDate date) {
+		String[] malnoms = new String[castellers.size()];
+		for (int i = 0; i < castellers.size(); i++)
+			malnoms[i] = castellers.get(i).getMalnomInCollaAt(colla, date);
+		return malnoms;
+	}
+
+	@Override
+	public boolean hasCasteller(String dni) {
+		return castellers.stream().anyMatch(c -> c.getDni().equals(dni));
 	}
 }

@@ -1,5 +1,6 @@
 package business;
 
+import exceptions.UserIsNotLoggedInException;
 import exceptions.WrongCredentialsException;
 import persistence.dao.*;
 import persistence.SqlConnection;
@@ -12,6 +13,7 @@ import models.locations.Ciutat;
 import models.locations.Location;
 import relationships.CastellDiada;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,8 +57,17 @@ public class BusinessFacade {
 		loadDiades();
 	}
 
-	public List<Diada> getDiades() {
-		return diades;
+	public List<CastellDiada> getOwnCastells() throws UserIsNotLoggedInException {
+		if (!isSessionActive()) {
+			throw new UserIsNotLoggedInException();
+		}
+
+		List<CastellDiada> ownCastells = new ArrayList<>();
+		for (CastellDiada castellDiada : castellsFets) {
+			if (castellDiada.hasCasteller(session.get("identificador")))
+				ownCastells.add(castellDiada);
+		}
+		return ownCastells;
 	}
 
 	private void loadCiutats() {

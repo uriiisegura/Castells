@@ -56,4 +56,8 @@ public class Diada {
 		}
 		return castellsDictionary;
 	}
+
+	public String getFullLocation() {
+		return location.getFullLocation();
+	}
 }

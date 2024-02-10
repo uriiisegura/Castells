@@ -8,4 +8,6 @@ public abstract class CastellLineUp {
 	public CastellLineUp(CastellDiada castell) {
 		this.castell = castell;
 	}
+
+	public abstract boolean hasCasteller(String dni);
 }
