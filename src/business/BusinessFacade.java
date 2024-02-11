@@ -354,10 +354,6 @@ public class BusinessFacade {
 		return new Periode(inici, fi);
 	}
 
-	private static Periode validatePeriode(String dataInici, String dataFi) throws ValidationException {
-		return validatePeriode(dataInici, dataFi, false);
-	}
-
 	private static boolean periodsOverlap(List<? extends Periode> periods) {
 		for (int i = 0; i < periods.size(); i++) {
 			for (int j = i + 1; j < periods.size(); j++) {
