@@ -8,7 +8,8 @@ import relationships.EsDeLaColla;
 import relationships.TeCarrec;
 
 import java.time.LocalDate;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Casteller extends Periode {
 	private final String dni;
@@ -16,10 +17,10 @@ public class Casteller extends Periode {
 	private String cognom1;
 	private String cognom2;
 	private String sexe;
-	private Vector<EsDeLaColla> colles = new Vector<>();
-	private Vector<TeCarrec> carrecs = new Vector<>();
-	private Vector<Registre> registres = new Vector<>();
-	private Vector<CastellLineUp> castells = new Vector<>();
+	private final List<EsDeLaColla> colles = new ArrayList<>();
+	private final List<TeCarrec> carrecs = new ArrayList<>();
+	private final List<Registre> registres = new ArrayList<>();
+	private final List<CastellLineUp> castells = new ArrayList<>();
 
 	public Casteller(String dni, String nom, String cognom1, String cognom2, String sexe, LocalDate dataNaixement, LocalDate dataDefuncio) {
 		super(dataNaixement, dataDefuncio);
@@ -89,7 +90,7 @@ public class Casteller extends Periode {
 		return null;
 	}
 
-	public Vector<Registre> getRegistres() {
+	public List<Registre> getRegistres() {
 		return registres;
 	}
 }

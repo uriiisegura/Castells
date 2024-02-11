@@ -1,12 +1,13 @@
 package models.castells;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Estructura {
 	private final String notacio;
 	private final String nom;
-	private final Vector<Rengla> rengles = new Vector<>();
-	private final Vector<Castell> castells = new Vector<>();
+	private final List<Rengla> rengles = new ArrayList<>();
+	private final List<Castell> castells = new ArrayList<>();
 
 	public Estructura(String notacio, String nom) {
 		this.notacio = notacio;

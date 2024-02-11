@@ -6,13 +6,13 @@ import models.colles.Colla;
 import relationships.CastellDiada;
 
 import java.time.LocalDate;
-import java.util.Vector;
+import java.util.List;
 
 public class RenglaLineUp extends CastellLineUp {
 	private Rengla rengla;
-	private Vector<Casteller> castellers;
+	private List<Casteller> castellers;
 
-	public RenglaLineUp(CastellDiada castell, Rengla rengla, Vector<Casteller> castellers) {
+	public RenglaLineUp(CastellDiada castell, Rengla rengla, List<Casteller> castellers) {
 		super(castell);
 		this.rengla = rengla;
 		this.castellers = castellers;

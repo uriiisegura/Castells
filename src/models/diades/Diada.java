@@ -1,15 +1,13 @@
 package models.diades;
 
-import models.castellers.Casteller;
 import models.colles.Colla;
 import models.locations.Location;
 import relationships.CastellDiada;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+import java.util.List;
 
 public class Diada {
 	private final String id;
@@ -17,7 +15,7 @@ public class Diada {
 	private ZonedDateTime inici;
 	private ZonedDateTime fi;
 	private Location location;
-	private Vector<CastellDiada> castells = new Vector<>();
+	private final List<CastellDiada> castells = new ArrayList<>();
 
 	public Diada(String id, String nom, ZonedDateTime inici, ZonedDateTime fi, Location location) {
 		this.id = id;
@@ -43,15 +41,15 @@ public class Diada {
 		return inici;
 	}
 
-	public Vector<CastellDiada> getCastells() {
+	public List<CastellDiada> getCastells() {
 		return castells;
 	}
 
-	public HashMap<Colla, Vector<CastellDiada>> getCastellsDictionary() {
-		HashMap<Colla, Vector<CastellDiada>> castellsDictionary = new HashMap<>();
+	public HashMap<Colla, List<CastellDiada>> getCastellsDictionary() {
+		HashMap<Colla, List<CastellDiada>> castellsDictionary = new HashMap<>();
 		for (CastellDiada c : castells) {
 			if (!castellsDictionary.containsKey(c.getColla()))
-				castellsDictionary.put(c.getColla(), new Vector<>());
+				castellsDictionary.put(c.getColla(), new ArrayList<>());
 			castellsDictionary.get(c.getColla()).add(c);
 		}
 		return castellsDictionary;

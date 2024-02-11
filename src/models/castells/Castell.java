@@ -2,7 +2,8 @@ package models.castells;
 
 import relationships.CastellDiada;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Castell {
 	private final String id;
@@ -13,7 +14,7 @@ public abstract class Castell {
 	private final boolean perSota;
 	private final boolean caminant;
 	private final int enxanetes;
-	private Vector<CastellDiada> fets = new Vector<>();
+	private List<CastellDiada> fets = new ArrayList<>();
 
 	public Castell(String id, Estructura estructura, Pisos pisos, Reforcos reforcos, int agulles, boolean perSota, boolean caminant, int enxanetes) {
 		this.id = id;

@@ -8,7 +8,8 @@ import models.diades.CastellLineUp;
 import models.diades.Diada;
 
 import java.time.LocalDate;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CastellDiada {
 	private final long id;
@@ -17,7 +18,7 @@ public class CastellDiada {
 	private ResultatsT resultat;
 	private Colla colla;
 	private int ordre;
-	private Vector<CastellLineUp> lineUps = new Vector<>();
+	private final List<CastellLineUp> lineUps = new ArrayList<>();
 
 	public CastellDiada(long id, Diada diada, Castell castell, ResultatsT resultat, Colla colla, int ordre) {
 		this.id = id;
@@ -56,7 +57,7 @@ public class CastellDiada {
 		return colla;
 	}
 
-	public Vector<CastellLineUp> getLineUps() {
+	public List<CastellLineUp> getLineUps() {
 		return lineUps;
 	}
 

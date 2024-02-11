@@ -1,6 +1,5 @@
 package models.colles;
 
-
 import exceptions.ValuelessAtDateException;
 import exceptions.ValuelessEverException;
 import models.Periode;
@@ -8,18 +7,19 @@ import relationships.CastellDiada;
 import relationships.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Vector;
+import java.util.List;
 
 public abstract class Colla {
 	private final String id;
-	private final Vector<EsDeLaColla> castellers = new Vector<>();
-	private Vector<TeCarrec> carrecs = new Vector<>();
-	private Vector<CollaFundacio> fundacions = new Vector<>();
-	private Vector<CollaNom> noms = new Vector<>();
-	private Vector<CollaColor> colors = new Vector<>();
-	private Vector<CollaAdreca> adreces = new Vector<>();
-	private Vector<CastellDiada> castells = new Vector<>();
+	private final List<EsDeLaColla> castellers = new ArrayList<>();
+	private final List<TeCarrec> carrecs = new ArrayList<>();
+	private final List<CollaFundacio> fundacions = new ArrayList<>();
+	private final List<CollaNom> noms = new ArrayList<>();
+	private final List<CollaColor> colors = new ArrayList<>();
+	private final List<CollaAdreca> adreces = new ArrayList<>();
+	private final List<CastellDiada> castells = new ArrayList<>();
 
 	public Colla(String id) {
 		this.id = id;

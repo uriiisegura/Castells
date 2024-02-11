@@ -11,8 +11,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class CastellLineUpSqlDAO {
 	private final static String pomTableName = "PomLineUp"; // TODO:
@@ -51,7 +51,7 @@ public class CastellLineUpSqlDAO {
 				String subSelectQuery = String.format("SELECT * FROM %s WHERE renglaLineUp = %d ORDER BY pis", renglaLineUpTableName, resultSet.getLong("id"));
 				ResultSet subResultSet = subStatement.executeQuery(subSelectQuery);
 
-				Vector<Casteller> castellersInRengla = new Vector<>();
+				List<Casteller> castellersInRengla = new ArrayList<>();
 				while (subResultSet.next()) {
 					String castellerId = subResultSet.getString("casteller");
 

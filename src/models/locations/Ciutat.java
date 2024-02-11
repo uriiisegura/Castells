@@ -1,11 +1,12 @@
 package models.locations;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ciutat {
 	private final String nom;
 	private final Pais pais;
-	private final Vector<Location> locations = new Vector<>();
+	private final List<Location> locations = new ArrayList<>();
 
 	public Ciutat(String nom, Pais pais) {
 		this.nom = nom;
