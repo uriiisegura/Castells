@@ -5,6 +5,7 @@ import business.dto.EsDeLaCollaDTO;
 import business.dto.LogInDTO;
 import config.DateParser;
 import exceptions.*;
+import models.Periode;
 import persistence.dao.*;
 import persistence.SqlConnection;
 import models.castellers.Casteller;
@@ -101,21 +102,7 @@ public class BusinessFacade {
 			throw new ValidationException("El sexe ha de ser 'home', 'dona' o 'no binari'.");
 		}
 
-		LocalDate dataNaixement;
-		try {
-			dataNaixement = LocalDate.parse(casteller.getDataNaixement());
-		} catch (DateTimeParseException e) {
-			throw new ValidationException("La data de naixement ha de ser en format yyyy-mm-dd.");
-		}
-
-		LocalDate dataDefuncio = null;
-		if (casteller.getDataDefuncio() != null) {
-			try {
-				dataDefuncio = LocalDate.parse(casteller.getDataDefuncio());
-			} catch (DateTimeParseException e) {
-				throw new ValidationException("La data de defunció ha de ser en format yyyy-mm-dd.");
-			}
-		}
+		Periode periode = validatePeriode(casteller.getDataNaixement(), casteller.getDataDefuncio(), true);
 
 		Casteller newCasteller = new Casteller(
 				casteller.getDni(),
@@ -123,8 +110,8 @@ public class BusinessFacade {
 				casteller.getCognom1(),
 				casteller.getCognom2(),
 				casteller.getSexe(),
-				dataNaixement,
-				dataDefuncio
+				periode.getDesDe(),
+				periode.getFinsA()
 		);
 		castellerSqlDAO.addCasteller(newCasteller);
 		castellers.add(newCasteller);
@@ -156,23 +143,9 @@ public class BusinessFacade {
 		if (!session.rol.equals("administrador"))
 			throw new NotAllowedException();
 
-		LocalDate desDe;
-		try {
-			desDe = LocalDate.parse(esDeLaColla.getDesDe());
-		} catch (DateTimeParseException e) {
-			throw new ValidationException("La data d'entrada a la colla ha de ser en format yyyy-mm-dd.");
-		}
+		Periode periode = validatePeriode(esDeLaColla.getDesDe(), esDeLaColla.getFinsA());
 
-		LocalDate finsA = null;
-		if (esDeLaColla.getFinsA() != null) {
-			try {
-				finsA = LocalDate.parse(esDeLaColla.getFinsA());
-			} catch (DateTimeParseException e) {
-				throw new ValidationException("La data de sortida de la colla ha de ser en format yyyy-mm-dd.");
-			}
-		}
-
-		EsDeLaColla newEsDeLaColla = new EsDeLaColla(casteller, colla, desDe, finsA, esDeLaColla.getMalnom());
+		EsDeLaColla newEsDeLaColla = new EsDeLaColla(casteller, colla, periode.getDesDe(), periode.getFinsA(), esDeLaColla.getMalnom());
 		esDeLaCollaSqlDAO.addEsDeLaColla(newEsDeLaColla);
 		colla.addCasteller(newEsDeLaColla);
 		casteller.addColla(newEsDeLaColla);
@@ -221,6 +194,42 @@ public class BusinessFacade {
 		reforcos = reforcosSqlDAO.loadAll();
 		rengles = renglaSqlDAO.loadAll(estructures);
 		castells = castellSqlDAO.loadAll(estructures, pisos, reforcos);
+	}
+
+	private static Periode validatePeriode(String dataInici, String dataFi, boolean canBeEndless) throws ValidationException {
+		LocalDate inici;
+		try {
+			inici = LocalDate.parse(dataInici);
+		} catch (DateTimeParseException e) {
+			throw new ValidationException("Totes les dates ha de ser en format yyyy-mm-dd.");
+		}
+
+		if (inici.isAfter(LocalDate.now())) {
+			throw new ValidationException("La data d'inici no pot ser posterior a la data actual.");
+		}
+
+		LocalDate fi = null;
+		if (!canBeEndless || dataFi != null) {
+			try {
+				fi = LocalDate.parse(dataFi);
+			} catch (DateTimeParseException e) {
+				throw new ValidationException("Totes les dates ha de ser en format yyyy-mm-dd.");
+			}
+
+			if (fi.isBefore(inici)) {
+				throw new ValidationException("La data d'inici no pot ser posterior a la data de finalització.");
+			}
+
+			if (fi.isAfter(LocalDate.now())) {
+				throw new ValidationException("La data de finalització no pot ser posterior a la data actual.");
+			}
+		}
+
+		return new Periode(inici, fi);
+	}
+
+	private static Periode validatePeriode(String dataInici, String dataFi) throws ValidationException {
+		return validatePeriode(dataInici, dataFi, false);
 	}
 
 	private void loadDiades() {
