@@ -1,6 +1,7 @@
 package presentation;
 
 import business.BusinessFacade;
+import exceptions.NotAllowedException;
 import exceptions.UserIsNotLoggedInException;
 import exceptions.ValidationException;
 import exceptions.WrongCredentialsException;
@@ -30,12 +31,14 @@ public class UiController {
 			while (!businessFacade.isSessionActive()) {
 				try {
 					businessFacade.logIn(uiManager.logIn());
+					businessFacade.loadAll();
 					logInAgain = false;
 				} catch (WrongCredentialsException e) {
 					uiManager.showError(e.getMessage());
+				} catch (NotAllowedException e) {
+					// TODO
 				}
 			}
-			businessFacade.loadAll();
 
 			MainMenuOptions mainMenuOption;
 			do {
@@ -52,6 +55,13 @@ public class UiController {
 										validData = true;
 									} catch (ValidationException e) {
 										uiManager.showError(e.getMessage());
+									} catch (UserIsNotLoggedInException e) {
+										uiManager.showError(e.getMessage());
+										logInAgain = true;
+										// TODO:
+									} catch (NotAllowedException e) {
+										uiManager.showError(e.getMessage());
+										// TODO:
 									}
 								} while (!validData);
 
@@ -86,6 +96,13 @@ public class UiController {
 												validData = true;
 											} catch (ValidationException e) {
 												uiManager.showError(e.getMessage());
+											} catch (UserIsNotLoggedInException e) {
+												uiManager.showError(e.getMessage());
+												logInAgain = true;
+												// TODO:
+											} catch (NotAllowedException e) {
+												uiManager.showError(e.getMessage());
+												// TODO:
 											}
 										} while (!validData);
 

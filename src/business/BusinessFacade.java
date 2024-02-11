@@ -4,10 +4,7 @@ import business.dto.CastellerDTO;
 import business.dto.EsDeLaCollaDTO;
 import business.dto.LogInDTO;
 import config.DateParser;
-import exceptions.UserIsNotLoggedInException;
-import exceptions.ValidationException;
-import exceptions.ValuelessEverException;
-import exceptions.WrongCredentialsException;
+import exceptions.*;
 import persistence.dao.*;
 import persistence.SqlConnection;
 import models.castellers.Casteller;
@@ -74,7 +71,12 @@ public class BusinessFacade {
 		return session.activa;
 	}
 
-	public void loadAll() {
+	public void loadAll() throws NotAllowedException {
+		if (!session.rol.equals("administrador")) {
+			// TODO:
+			session.activa = false;
+			throw new NotAllowedException();
+		}
 		loadCiutats();
 		loadCastellers();
 		loadColles();
@@ -83,7 +85,12 @@ public class BusinessFacade {
 		loadDiades();
 	}
 
-	public Casteller validateAndAddCasteller(CastellerDTO casteller) throws ValidationException {
+	public Casteller validateAndAddCasteller(CastellerDTO casteller) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+		if (!isSessionActive())
+			throw new UserIsNotLoggedInException();
+		if (!session.rol.equals("administrador"))
+			throw new NotAllowedException();
+
 		for (Casteller c : castellers) {
 			if (c.getDni().equals(casteller.getDni())) {
 				throw new ValidationException("Ja existeix un casteller amb aquest DNI/NIE.");
@@ -143,7 +150,12 @@ public class BusinessFacade {
 		return collaNames;
 	}
 
-	public void validateAndAddCastellerToColla(Casteller casteller, Colla colla, EsDeLaCollaDTO esDeLaColla) throws ValidationException {
+	public void validateAndAddCastellerToColla(Casteller casteller, Colla colla, EsDeLaCollaDTO esDeLaColla) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+		if (!isSessionActive())
+			throw new UserIsNotLoggedInException();
+		if (!session.rol.equals("administrador"))
+			throw new NotAllowedException();
+
 		LocalDate desDe;
 		try {
 			desDe = LocalDate.parse(esDeLaColla.getDesDe());
