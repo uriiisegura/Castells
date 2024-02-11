@@ -44,4 +44,20 @@ public class CollaFundacioSqlDAO {
 			throw new SqlConnectionException();
 		}
 	}
+
+	public void add(String collaId, CollaFundacio collaFundacio) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("INSERT INTO %s (colla, desDe, finsA) VALUES (?, ?, ?)", tableName)
+			);
+			preparedStatement.setString(1, collaId);
+			preparedStatement.setDate(2, Date.valueOf(collaFundacio.getDesDe()));
+			preparedStatement.setDate(3, collaFundacio.getFinsA() != null ? Date.valueOf(collaFundacio.getFinsA()) : null);
+
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
+	}
 }

@@ -45,4 +45,21 @@ public class CollaNomSqlDAO {
 			throw new SqlConnectionException();
 		}
 	}
+
+	public void add(String collaId, CollaNom collaNom) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("INSERT INTO %s (colla, desDe, finsA, nom) VALUES (?, ?, ?, ?)", tableName)
+			);
+			preparedStatement.setString(1, collaId);
+			preparedStatement.setDate(2, Date.valueOf(collaNom.getDesDe()));
+			preparedStatement.setDate(3, collaNom.getFinsA() != null ? Date.valueOf(collaNom.getFinsA()) : null);
+			preparedStatement.setString(4, collaNom.getNom());
+
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
+	}
 }

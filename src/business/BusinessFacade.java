@@ -1,11 +1,11 @@
 package business;
 
-import business.dto.CastellerDTO;
-import business.dto.EsDeLaCollaDTO;
-import business.dto.LogInDTO;
-import config.DateParser;
+import business.dto.*;
 import exceptions.*;
 import models.Periode;
+import models.colles.CollaConvencional;
+import models.colles.CollaUniversitaria;
+import models.locations.Pais;
 import persistence.dao.*;
 import persistence.SqlConnection;
 import models.castellers.Casteller;
@@ -15,9 +15,9 @@ import models.colles.Colla;
 import models.diades.Diada;
 import models.locations.Ciutat;
 import models.locations.Location;
-import relationships.CastellDiada;
-import relationships.EsDeLaColla;
+import relationships.*;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ public class BusinessFacade {
 	private final SqlConnection connection = new SqlConnection();
 	private final Session session = new Session();
 
+	private final PaisSqlDAO paisSqlDAO = new PaisSqlDAO(connection.connection);
 	private final CiutatSqlDAO ciutatSqlDAO = new CiutatSqlDAO(connection.connection);
 	private final LocationSqlDAO locationSqlDAO = new LocationSqlDAO(connection.connection);
 	private final CastellerSqlDAO castellerSqlDAO = new CastellerSqlDAO(connection.connection);
@@ -49,6 +50,7 @@ public class BusinessFacade {
 	private final CastellDiadaSqlDAO castellDiadaSqlDAO = new CastellDiadaSqlDAO(connection.connection);
 	private final CastellLineUpSqlDAO castellLineUpSqlDAO = new CastellLineUpSqlDAO(connection.connection);
 
+	private List<Pais> paissos;
 	private List<Ciutat> ciutats;
 	private List<Location> locations;
 	private List<Casteller> castellers;
@@ -78,7 +80,7 @@ public class BusinessFacade {
 			session.activa = false;
 			throw new NotAllowedException();
 		}
-		loadCiutats();
+		loadLocations();
 		loadCastellers();
 		loadColles();
 		loadCarrecs();
@@ -113,7 +115,7 @@ public class BusinessFacade {
 				periode.getDesDe(),
 				periode.getFinsA()
 		);
-		castellerSqlDAO.addCasteller(newCasteller);
+		castellerSqlDAO.add(newCasteller);
 		castellers.add(newCasteller);
 
 		return newCasteller;
@@ -143,10 +145,10 @@ public class BusinessFacade {
 		if (!session.rol.equals("administrador"))
 			throw new NotAllowedException();
 
-		Periode periode = validatePeriode(esDeLaColla.getDesDe(), esDeLaColla.getFinsA());
+		Periode periode = validatePeriode(esDeLaColla.getDesDe(), esDeLaColla.getFinsA(), true);
 
 		EsDeLaColla newEsDeLaColla = new EsDeLaColla(casteller, colla, periode.getDesDe(), periode.getFinsA(), esDeLaColla.getMalnom());
-		esDeLaCollaSqlDAO.addEsDeLaColla(newEsDeLaColla);
+		esDeLaCollaSqlDAO.add(newEsDeLaColla);
 		colla.addCasteller(newEsDeLaColla);
 		casteller.addColla(newEsDeLaColla);
 	}
@@ -164,8 +166,110 @@ public class BusinessFacade {
 		return ownCastells;
 	}
 
-	private void loadCiutats() {
-		ciutats = ciutatSqlDAO.loadAll();
+	public Colla validateAndAddColla(CollaDTO colla) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+		if (!isSessionActive())
+			throw new UserIsNotLoggedInException();
+		if (!session.rol.equals("administrador"))
+			throw new NotAllowedException();
+
+		for (Colla c : colles)
+			if (c.getId().equals(colla.getId()))
+				throw new ValidationException("Ja existeix una colla amb aquest id.");
+
+		Colla newColla = colla.esUniversitaria() ? new CollaUniversitaria(colla.getId()) : new CollaConvencional(colla.getId());
+		collaSqlDAO.add(newColla);
+		colles.add(newColla);
+
+		return newColla;
+	}
+
+	public void validateAndAddCollaNom(Colla colla, CollaNomDTO collaNom) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+		if (!isSessionActive())
+			throw new UserIsNotLoggedInException();
+		if (!session.rol.equals("administrador"))
+			throw new NotAllowedException();
+
+		Periode periode = validatePeriode(collaNom.getDesDe(), collaNom.getFinsA(), true);
+
+		CollaNom newCollaNom = new CollaNom(collaNom.getNom(), periode.getDesDe(), periode.getFinsA());
+		collaNomSqlDAO.add(colla.getId(), newCollaNom);
+		colla.addNom(newCollaNom);
+	}
+
+	public void validateAndAddCollaFundacio(Colla colla, PeriodeDTO periode) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+		if (!isSessionActive())
+			throw new UserIsNotLoggedInException();
+		if (!session.rol.equals("administrador"))
+			throw new NotAllowedException();
+
+		Periode newPeriode = validatePeriode(periode.getDesDe(), periode.getFinsA(), true);
+
+		CollaFundacio newCollaFundacio = new CollaFundacio(newPeriode.getDesDe(), newPeriode.getFinsA());
+		collaFundacioSqlDAO.add(colla.getId(), newCollaFundacio);
+		colla.addFundacio(newCollaFundacio);
+	}
+
+	public void validateAndAddCollaColor(Colla colla, CollaColorDTO collaColor) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+		if (!isSessionActive())
+			throw new UserIsNotLoggedInException();
+		if (!session.rol.equals("administrador"))
+			throw new NotAllowedException();
+
+		Periode newPeriode = validatePeriode(collaColor.getDesDe(), collaColor.getFinsA(), true);
+
+		Color color;
+		try {
+			color = Color.decode(collaColor.getColor());
+		} catch (NumberFormatException e) {
+			throw new ValidationException("El color ha de ser en format hexadecimal (#rrggbb).");
+		}
+
+		CollaColor newCollaColor = new CollaColor(color, newPeriode.getDesDe(), newPeriode.getFinsA());
+		collaColorSqlDAO.add(colla.getId(), newCollaColor);
+		colla.addColor(newCollaColor);
+	}
+
+	public HashMap<String, Pais> getPaissos() {
+		HashMap<String, Pais> paissos = new HashMap<>();
+		for (Pais pais : this.paissos) {
+			paissos.put(pais.getNom(), pais);
+		}
+		return paissos;
+	}
+
+	public void validateAndAddCollaAdreca(Colla colla, Ciutat ciutat, CollaAdrecaDTO collaAdreca) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+		if (!isSessionActive())
+			throw new UserIsNotLoggedInException();
+		if (!session.rol.equals("administrador"))
+			throw new NotAllowedException();
+
+		Periode periode = validatePeriode(collaAdreca.getDesDe(), collaAdreca.getFinsA(), true);
+
+		CollaAdreca newCollaAdreca = new CollaAdreca(collaAdreca.getAdreca(), ciutat, periode.getDesDe(), periode.getFinsA());
+		collaAdrecaSqlDAO.add(colla.getId(), newCollaAdreca);
+		colla.addAdreca(newCollaAdreca);
+	}
+
+	public Ciutat validateAndAddCiutat(Pais pais, CiutatDTO ciutat) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+		if (!isSessionActive())
+			throw new UserIsNotLoggedInException();
+		if (!session.rol.equals("administrador"))
+			throw new NotAllowedException();
+
+		for (Ciutat c : ciutats)
+			if (c.getNom().equals(ciutat.getNom()) && c.getPais() == pais)
+				throw new ValidationException("Ja existeix la ciutat.");
+
+		Ciutat newCiutat = new Ciutat(ciutat.getNom(), pais);
+		ciutatSqlDAO.add(newCiutat);
+		ciutats.add(newCiutat);
+
+		return newCiutat;
+	}
+
+	private void loadLocations() {
+		paissos = paisSqlDAO.loadAll();
+		ciutats = ciutatSqlDAO.loadAll(paissos);
 		locations = locationSqlDAO.loadAll(ciutats);
 	}
 

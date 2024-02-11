@@ -29,9 +29,10 @@ public class LocationSqlDAO {
 
 			while (resultSet.next()) {
 				String type = resultSet.getString("type");
-				String ciutatId = resultSet.getString("ciutat");
+				String ciutatNom = resultSet.getString("ciutat");
+				String paisNom = resultSet.getString("pais");
 
-				Ciutat ciutat = ciutats.stream().filter(c -> c.getId().equals(ciutatId)).findFirst().orElse(null);
+				Ciutat ciutat = ciutats.stream().filter(c -> c.getNom().equals(ciutatNom) && c.getPais().getNom().equals(paisNom)).findFirst().orElse(null);
 
 				if (ciutat == null) {
 					// TODO:

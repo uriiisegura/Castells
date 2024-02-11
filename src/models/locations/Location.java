@@ -20,6 +20,6 @@ public abstract class Location {
 	}
 
 	public String getFullLocation() {
-		return nom + ", " + ciutat.getNom();
+		return nom + ", " + ciutat.getNom() + ", " + ciutat.getPais().getNom();
 	}
 }

@@ -42,6 +42,7 @@ DROP TABLE IF EXISTS `SiGAC`.`Diada`;
 DROP TABLE IF EXISTS `SiGAC`.`Location`;
 DROP TABLE IF EXISTS `SiGAC`.`CollaAdreca`;
 DROP TABLE IF EXISTS `SiGAC`.`Ciutat`;
+DROP TABLE IF EXISTS `SiGAC`.`Pais`;
 DROP TABLE IF EXISTS `SiGAC`.`Castell`;
 DROP TABLE IF EXISTS `SiGAC`.`Rengla`;
 DROP TABLE IF EXISTS `SiGAC`.`Estructura`;
@@ -194,30 +195,38 @@ CREATE TABLE `SiGAC`.`Castell` (
 	FOREIGN KEY (`reforcos`) REFERENCES `SiGAC`.`Reforcos`(`notacio`)
 );
 
+CREATE TABLE `SiGAC`.`Pais` (
+	`nom` VARCHAR(128) NOT NULL,
+	PRIMARY KEY (`nom`)
+);
+
 CREATE TABLE `SiGAC`.`Ciutat` (
-	`id` VARCHAR(16) NOT NULL,
-	`nom` VARCHAR(256) NOT NULL,
-	PRIMARY KEY (`id`)
+	`nom` VARCHAR(128) NOT NULL,
+	`pais` VARCHAR(128) NOT NULL,
+	PRIMARY KEY (`nom`, `pais`),
+	FOREIGN KEY (`pais`) REFERENCES `SiGAC`.`Pais`(`nom`)
 );
 
 CREATE TABLE `SiGAC`.`CollaAdreca` (
 	`colla` VARCHAR(16) NOT NULL,
-	`ciutat` VARCHAR(16) NOT NULL,
 	`adreca` VARCHAR(256) NOT NULL,
+	`ciutat` VARCHAR(128) NOT NULL,
+	`pais` VARCHAR(128) NOT NULL,
 	`desDe` DATE NOT NULL,
 	`finsA` DATE,
-	PRIMARY KEY (`colla`, `ciutat`, `adreca`, `desDe`),
+	PRIMARY KEY (`colla`, `adreca`, `ciutat`, `pais`, `desDe`),
 	FOREIGN KEY (`colla`) REFERENCES `SiGAC`.`Colla`(`id`),
-	FOREIGN KEY (`ciutat`) REFERENCES `SiGAC`.`Ciutat`(`id`)
+	FOREIGN KEY (`ciutat`, `pais`) REFERENCES `SiGAC`.`Ciutat`(`nom`, `pais`)
 );
 
 CREATE TABLE `SiGAC`.`Location` (
 	`id` VARCHAR(16) NOT NULL,
 	`nom` VARCHAR(256) NOT NULL,
-	`ciutat` VARCHAR(16) NOT NULL,
+	`ciutat` VARCHAR(128) NOT NULL,
+	`pais` VARCHAR(128) NOT NULL,
 	`type` VARCHAR(32) NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`ciutat`) REFERENCES `SiGAC`.`Ciutat`(`id`)
+	FOREIGN KEY (`ciutat`, `pais`) REFERENCES `SiGAC`.`Ciutat`(`nom`, `pais`)
 );
 
 CREATE TABLE `SiGAC`.`Diada` (
@@ -292,6 +301,7 @@ CREATE TABLE `SiGAC`.`RenglaLineUpCastellers` (
     export('Estructura')
     export('Rengla')
     export('Castell')
+    export('Pais')
     export('Ciutat')
     export('CollaAdreca')
     export('Location')

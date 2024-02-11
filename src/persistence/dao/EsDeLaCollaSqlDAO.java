@@ -52,7 +52,7 @@ public class EsDeLaCollaSqlDAO {
 		}
 	}
 
-	public void addEsDeLaColla(EsDeLaColla esDeLaColla) {
+	public void add(EsDeLaColla esDeLaColla) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 					String.format("INSERT INTO %s (casteller, colla, desDe, finsA, malnom) VALUES (?, ?, ?, ?, ?)", tableName)

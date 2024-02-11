@@ -2,6 +2,7 @@ package relationships;
 
 import models.locations.Ciutat;
 import models.Periode;
+import models.locations.Pais;
 
 import java.time.LocalDate;
 
@@ -17,5 +18,17 @@ public class CollaAdreca extends Periode {
 
 	public String getAdreca() {
 		return String.format("%s, %s", adreca, ciutat.getNom());
+	}
+
+	public String getAdrecaCompleta() {
+		return String.format("%s, %s, %s", adreca, ciutat.getNom(), ciutat.getPais().getNom());
+	}
+
+	public String getCiutatNom() {
+		return ciutat.getNom();
+	}
+
+	public String getPaisNom() {
+		return ciutat.getPais().getNom();
 	}
 }

@@ -46,7 +46,7 @@ public class CastellerSqlDAO {
 		return castellers;
 	}
 
-	public void addCasteller(Casteller casteller) {
+	public void add(Casteller casteller) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 					String.format("INSERT INTO %s (dni, nom, cognom1, cognom2, sexe, dataNaixement, dataDefuncio) VALUES (?, ?, ?, ?, ?, ?, ?)", tableName)

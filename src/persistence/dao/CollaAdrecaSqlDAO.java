@@ -26,10 +26,11 @@ public class CollaAdrecaSqlDAO {
 
 			while (resultSet.next()) {
 				String collaId = resultSet.getString("colla");
-				String ciutatId = resultSet.getString("ciutat");
+				String ciutatNom = resultSet.getString("ciutat");
+				String paisNom = resultSet.getString("pais");
 
 				Colla colla = colles.stream().filter(c -> c.getId().equals(collaId)).findFirst().orElse(null);
-				Ciutat ciutat = ciutats.stream().filter(c -> c.getId().equals(ciutatId)).findFirst().orElse(null);
+				Ciutat ciutat = ciutats.stream().filter(c -> c.getNom().equals(ciutatNom) && c.getPais().getNom().equals(paisNom)).findFirst().orElse(null);
 
 				if (colla == null) {
 					// TODO:
@@ -50,6 +51,25 @@ public class CollaAdrecaSqlDAO {
 
 			resultSet.close();
 			statement.close();
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
+	}
+
+	public void add(String collaId, CollaAdreca collaAdreca) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("INSERT INTO %s (colla, adreca, ciutat, pais, desDe, finsA) VALUES (?, ?, ?, ?, ?, ?)", tableName)
+			);
+			preparedStatement.setString(1, collaId);
+			preparedStatement.setString(2, collaAdreca.getAdreca());
+			preparedStatement.setString(3, collaAdreca.getCiutatNom());
+			preparedStatement.setString(4, collaAdreca.getPaisNom());
+			preparedStatement.setDate(5, Date.valueOf(collaAdreca.getDesDe()));
+			preparedStatement.setDate(6, collaAdreca.getFinsA() != null ? Date.valueOf(collaAdreca.getFinsA()) : null);
+
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}

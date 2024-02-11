@@ -1,22 +1,19 @@
 package business.dto;
 
-public class CastellerDTO {
+public class CastellerDTO extends PeriodeDTO {
 	private final String dni;
 	private final String nom;
 	private final String cognom1;
 	private final String cognom2;
 	private final String sexe;
-	private final String dataNaixement;
-	private final String dataDefuncio;
 
 	public CastellerDTO(String dni, String nom, String cognom1, String cognom2, String sexe, String dataNaixement, String dataDefuncio) {
+		super(dataNaixement, dataDefuncio);
 		this.dni = dni;
 		this.nom = nom;
 		this.cognom1 = cognom1;
 		this.cognom2 = cognom2;
 		this.sexe = sexe;
-		this.dataNaixement = dataNaixement;
-		this.dataDefuncio = dataDefuncio;
 	}
 
 	public String getDni() {
@@ -41,11 +38,10 @@ public class CastellerDTO {
 	}
 
 	public String getDataNaixement() {
-		return dataNaixement;
+		return super.getDesDe();
 	}
 
 	public String getDataDefuncio() {
-		if (dataDefuncio.isEmpty()) return null;
-		return dataDefuncio;
+		return super.getFinsA();
 	}
 }

@@ -1,8 +1,6 @@
 package presentation.console;
 
-import business.dto.CastellerDTO;
-import business.dto.EsDeLaCollaDTO;
-import business.dto.LogInDTO;
+import business.dto.*;
 import models.diades.CastellLineUp;
 import models.diades.RenglaLineUp;
 import presentation.UiManager;
@@ -96,6 +94,60 @@ public class ConsoleUiManager implements UiManager {
 		String finsA = scanner.nextLine();
 		String malnom = askString("\tMalnom: ");
 		return new EsDeLaCollaDTO(desDe, finsA, malnom);
+	}
+
+	@Override
+	public CollaDTO askNewColla() {
+		System.out.println("\nAFEGEIX UNA NOVA COLLA A LA BASE DE DADES");
+		String id = askString("\tId: ");
+		boolean universitaria = askBoolean("\tÉs universitària? (s/n): ");
+		return new CollaDTO(id, universitaria);
+	}
+
+	@Override
+	public CollaNomDTO askCollaNom() {
+		System.out.println("\nAFEGEIX UN NOM A LA COLLA");
+		String nom = askString("\tNom: ");
+		String desDe = askString("\tDes de (yyyy-mm-dd): ");
+		System.out.print("\tFins a (yyyy-mm-dd) (deixar en blanc si és el nom actual): ");
+		String finsA = scanner.nextLine();
+		return new CollaNomDTO(nom, desDe, finsA);
+	}
+
+	@Override
+	public PeriodeDTO askCollaFundacio() {
+		System.out.println("\nAFEGEIX UNA FUNDACIÓ DE LA COLLA");
+		String desDe = askString("\tDes de (yyyy-mm-dd): ");
+		System.out.print("\tFins a (yyyy-mm-dd) (deixar en blanc si la colla no s'ha dissolt): ");
+		String finsA = scanner.nextLine();
+		return new PeriodeDTO(desDe, finsA);
+	}
+
+	@Override
+	public CollaColorDTO askCollaColor() {
+		System.out.println("\nAFEGEIX UN COLOR A LA COLLA");
+		String color = askString("\tColor: ");
+		String desDe = askString("\tDes de (yyyy-mm-dd): ");
+		System.out.print("\tFins a (yyyy-mm-dd) (deixar en blanc si és el color actual): ");
+		String finsA = scanner.nextLine();
+		return new CollaColorDTO(desDe, finsA, color);
+	}
+
+	@Override
+	public CollaAdrecaDTO askCollaAdreca() {
+		System.out.println("\nAFEGEIX UNA ADREÇA A LA COLLA");
+		String adreca = askString("\tAdreça: ");
+		String desDe = askString("\tDes de (yyyy-mm-dd): ");
+		System.out.print("\tFins a (yyyy-mm-dd) (deixar en blanc si és l'adreça actual): ");
+		String finsA = scanner.nextLine();
+		return new CollaAdrecaDTO(adreca, desDe, finsA);
+	}
+
+	@Override
+	public CiutatDTO askNewCiutat() {
+		System.out.println("\nAFEGEIX UNA NOVA CIUTAT A LA BASE DE DADES");
+		String nom = askString("\tNom: ");
+		return new CiutatDTO(nom);
 	}
 
 	private String askString(String message) {

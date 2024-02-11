@@ -2,11 +2,9 @@ package persistence.dao;
 
 import exceptions.SqlConnectionException;
 import models.locations.Ciutat;
+import models.locations.Pais;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class CiutatSqlDAO {
 		this.connection = connection;
 	}
 
-	public List<Ciutat> loadAll() {
+	public List<Ciutat> loadAll(List<Pais> paissos) {
 		List<Ciutat> ciutats = new ArrayList<>();
 
 		try {
@@ -28,7 +26,17 @@ public class CiutatSqlDAO {
 			ResultSet resultSet = statement.executeQuery(selectQuery);
 
 			while (resultSet.next()) {
-				ciutats.add(new Ciutat(resultSet.getString("id"), resultSet.getString("nom")));
+				String paisNom = resultSet.getString("pais");
+				Pais pais = paissos.stream().filter(p -> p.getNom().equals(paisNom)).findFirst().orElse(null);
+
+				if (pais == null) {
+					// TODO:
+					throw new SQLException("No existeix el país.");
+				}
+
+				Ciutat ciutat = new Ciutat(resultSet.getString("nom"), pais);
+				ciutats.add(ciutat);
+				pais.addCiutat(ciutat);
 			}
 
 			resultSet.close();
@@ -38,5 +46,19 @@ public class CiutatSqlDAO {
 		}
 
 		return ciutats;
+	}
+
+	public void add(Ciutat ciutat) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("INSERT INTO %s (nom, pais) VALUES (?, ?)", tableName)
+			);
+			preparedStatement.setString(1, ciutat.getNom());
+			preparedStatement.setString(2, ciutat.getPais().getNom());
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
 	}
 }

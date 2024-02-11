@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS `SiGAC`.`Diada`;
 DROP TABLE IF EXISTS `SiGAC`.`Location`;
 DROP TABLE IF EXISTS `SiGAC`.`CollaAdreca`;
 DROP TABLE IF EXISTS `SiGAC`.`Ciutat`;
+DROP TABLE IF EXISTS `SiGAC`.`Pais`;
 DROP TABLE IF EXISTS `SiGAC`.`Castell`;
 DROP TABLE IF EXISTS `SiGAC`.`Rengla`;
 DROP TABLE IF EXISTS `SiGAC`.`Estructura`;
@@ -162,30 +163,38 @@ CREATE TABLE `SiGAC`.`Castell` (
 	FOREIGN KEY (`reforcos`) REFERENCES `SiGAC`.`Reforcos`(`notacio`)
 );
 
+CREATE TABLE `SiGAC`.`Pais` (
+	`nom` VARCHAR(128) NOT NULL,
+	PRIMARY KEY (`nom`)
+);
+
 CREATE TABLE `SiGAC`.`Ciutat` (
-	`id` VARCHAR(16) NOT NULL,
-	`nom` VARCHAR(256) NOT NULL,
-	PRIMARY KEY (`id`)
+	`nom` VARCHAR(128) NOT NULL,
+	`pais` VARCHAR(128) NOT NULL,
+	PRIMARY KEY (`nom`, `pais`),
+	FOREIGN KEY (`pais`) REFERENCES `SiGAC`.`Pais`(`nom`)
 );
 
 CREATE TABLE `SiGAC`.`CollaAdreca` (
 	`colla` VARCHAR(16) NOT NULL,
-	`ciutat` VARCHAR(16) NOT NULL,
 	`adreca` VARCHAR(256) NOT NULL,
+	`ciutat` VARCHAR(128) NOT NULL,
+	`pais` VARCHAR(128) NOT NULL,
 	`desDe` DATE NOT NULL,
 	`finsA` DATE,
-	PRIMARY KEY (`colla`, `ciutat`, `adreca`, `desDe`),
+	PRIMARY KEY (`colla`, `adreca`, `ciutat`, `pais`, `desDe`),
 	FOREIGN KEY (`colla`) REFERENCES `SiGAC`.`Colla`(`id`),
-	FOREIGN KEY (`ciutat`) REFERENCES `SiGAC`.`Ciutat`(`id`)
+	FOREIGN KEY (`ciutat`, `pais`) REFERENCES `SiGAC`.`Ciutat`(`nom`, `pais`)
 );
 
 CREATE TABLE `SiGAC`.`Location` (
 	`id` VARCHAR(16) NOT NULL,
 	`nom` VARCHAR(256) NOT NULL,
-	`ciutat` VARCHAR(16) NOT NULL,
+	`ciutat` VARCHAR(128) NOT NULL,
+	`pais` VARCHAR(128) NOT NULL,
 	`type` VARCHAR(32) NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`ciutat`) REFERENCES `SiGAC`.`Ciutat`(`id`)
+	FOREIGN KEY (`ciutat`, `pais`) REFERENCES `SiGAC`.`Ciutat`(`nom`, `pais`)
 );
 
 CREATE TABLE `SiGAC`.`Diada` (
@@ -266,6 +275,7 @@ INSERT INTO `SiGAC`.`Colla` (`id`, `universitaria`) VALUES ("ARREPLEGATS", "1");
 INSERT INTO `SiGAC`.`Colla` (`id`, `universitaria`) VALUES ("ENGRESCATS", "1");
 INSERT INTO `SiGAC`.`Colla` (`id`, `universitaria`) VALUES ("GAVA", "0");
 INSERT INTO `SiGAC`.`Colla` (`id`, `universitaria`) VALUES ("JOVESITGES", "0");
+INSERT INTO `SiGAC`.`Colla` (`id`, `universitaria`) VALUES ("SANTCUGAT", "0");
 INSERT INTO `SiGAC`.`Colla` (`id`, `universitaria`) VALUES ("SANTS", "0");
 
 INSERT INTO `SiGAC`.`EsDeLaColla` (`casteller`, `colla`, `desDe`, `finsA`, `malnom`) VALUES ("25633040T", "SANTS", "2009-01-01", NULL, "Lola");
@@ -295,6 +305,7 @@ INSERT INTO `SiGAC`.`CollaFundacio` (`colla`, `desDe`, `finsA`) VALUES ("ENGRESC
 INSERT INTO `SiGAC`.`CollaFundacio` (`colla`, `desDe`, `finsA`) VALUES ("GAVA", "1994-01-01", "2004-12-31");
 INSERT INTO `SiGAC`.`CollaFundacio` (`colla`, `desDe`, `finsA`) VALUES ("GAVA", "2012-01-01", NULL);
 INSERT INTO `SiGAC`.`CollaFundacio` (`colla`, `desDe`, `finsA`) VALUES ("JOVESITGES", "1993-01-01", NULL);
+INSERT INTO `SiGAC`.`CollaFundacio` (`colla`, `desDe`, `finsA`) VALUES ("SANTCUGAT", "1996-01-01", NULL);
 INSERT INTO `SiGAC`.`CollaFundacio` (`colla`, `desDe`, `finsA`) VALUES ("SANTS", "1993-05-09", NULL);
 
 INSERT INTO `SiGAC`.`CollaNom` (`colla`, `desDe`, `finsA`, `nom`) VALUES ("ARREPLEGATS", "1995-04-04", NULL, "Arreplegats de la Zona Universitària");
@@ -302,6 +313,7 @@ INSERT INTO `SiGAC`.`CollaNom` (`colla`, `desDe`, `finsA`, `nom`) VALUES ("ENGRE
 INSERT INTO `SiGAC`.`CollaNom` (`colla`, `desDe`, `finsA`, `nom`) VALUES ("GAVA", "1994-01-01", "2004-12-31", "Colla Castellera de Gavà");
 INSERT INTO `SiGAC`.`CollaNom` (`colla`, `desDe`, `finsA`, `nom`) VALUES ("GAVA", "2012-01-01", NULL, "Colla Castellera de Gavà");
 INSERT INTO `SiGAC`.`CollaNom` (`colla`, `desDe`, `finsA`, `nom`) VALUES ("JOVESITGES", "1993-01-01", NULL, "Colla Jove de Castellers de Sitges");
+INSERT INTO `SiGAC`.`CollaNom` (`colla`, `desDe`, `finsA`, `nom`) VALUES ("SANTCUGAT", "1996-01-01", NULL, "Castellers de Sant Cugat");
 INSERT INTO `SiGAC`.`CollaNom` (`colla`, `desDe`, `finsA`, `nom`) VALUES ("SANTS", "1993-05-09", NULL, "Castellers de Sants");
 
 INSERT INTO `SiGAC`.`CollaColor` (`colla`, `desDe`, `finsA`, `color`) VALUES ("ARREPLEGATS", "1995-04-04", NULL, "#15A884");
@@ -309,6 +321,7 @@ INSERT INTO `SiGAC`.`CollaColor` (`colla`, `desDe`, `finsA`, `color`) VALUES ("E
 INSERT INTO `SiGAC`.`CollaColor` (`colla`, `desDe`, `finsA`, `color`) VALUES ("GAVA", "1994-01-01", "2004-12-31", "#00489C");
 INSERT INTO `SiGAC`.`CollaColor` (`colla`, `desDe`, `finsA`, `color`) VALUES ("GAVA", "2012-01-01", NULL, "#00489C");
 INSERT INTO `SiGAC`.`CollaColor` (`colla`, `desDe`, `finsA`, `color`) VALUES ("JOVESITGES", "1993-01-01", NULL, "#5A1B33");
+INSERT INTO `SiGAC`.`CollaColor` (`colla`, `desDe`, `finsA`, `color`) VALUES ("SANTCUGAT", "1996-01-01", NULL, "#005e3f");
 INSERT INTO `SiGAC`.`CollaColor` (`colla`, `desDe`, `finsA`, `color`) VALUES ("SANTS", "1993-05-09", NULL, "#808080");
 
 INSERT INTO `SiGAC`.`Reforcos` (`notacio`, `nom`) VALUES ("", "");
@@ -406,11 +419,14 @@ INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("uTd5", "T", "5", "", "0", "0", "0", "1", "1");
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("uTd7f", "T", "7", "f", "0", "0", "0", "1", "1");
 
-INSERT INTO `SiGAC`.`Ciutat` (`id`, `nom`) VALUES ("BARCELONA", "Barcelona");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Espanya");
 
-INSERT INTO `SiGAC`.`CollaAdreca` (`colla`, `ciutat`, `adreca`, `desDe`, `finsA`) VALUES ("ARREPLEGATS", "BARCELONA", "Avinguda Diagonal, 647", "1995-04-04", NULL);
+INSERT INTO `SiGAC`.`Ciutat` (`nom`, `pais`) VALUES ("Barcelona", "Espanya");
+INSERT INTO `SiGAC`.`Ciutat` (`nom`, `pais`) VALUES ("Sant Cugat del Vallès", "Espanya");
 
-INSERT INTO `SiGAC`.`Location` (`id`, `nom`, `ciutat`, `type`) VALUES ("PLÇOSCA", "Plaça d'Osca", "BARCELONA", "plaça");
+INSERT INTO `SiGAC`.`CollaAdreca` (`colla`, `adreca`, `ciutat`, `pais`, `desDe`, `finsA`) VALUES ("ARREPLEGATS", "Avinguda Diagonal, 647", "Barcelona", "Espanya", "1995-04-04", NULL);
+
+INSERT INTO `SiGAC`.`Location` (`id`, `nom`, `ciutat`, `pais`, `type`) VALUES ("PLÇOSCA", "Plaça d'Osca", "Barcelona", "Espanya", "plaça");
 
 INSERT INTO `SiGAC`.`Diada` (`id`, `nom`, `inici`, `fi`, `location`) VALUES ("VIG-26A-SANTS", "Vigílies del 26è Aniversari dels Castellers de Sants", "2019-05-11 18:00:00", "2019-05-11 20:24:16", "PLÇOSCA");
 

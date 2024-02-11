@@ -1,8 +1,6 @@
 package presentation;
 
-import business.dto.CastellerDTO;
-import business.dto.EsDeLaCollaDTO;
-import business.dto.LogInDTO;
+import business.dto.*;
 import presentation.options.MenuOption;
 import relationships.CastellDiada;
 
@@ -18,6 +16,12 @@ public interface UiManager {
 	boolean askBoolean(String message);
 	int askOptionFromList(String title, List<String> options, String message);
 	EsDeLaCollaDTO askEsDeLaColla();
+	CollaDTO askNewColla();
+	CollaNomDTO askCollaNom();
+	PeriodeDTO askCollaFundacio();
+	CollaColorDTO askCollaColor();
+	CollaAdrecaDTO askCollaAdreca();
+	CiutatDTO askNewCiutat();
 
 	void showCastells(List<CastellDiada> castells);
 }

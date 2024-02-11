@@ -46,4 +46,21 @@ public class CollaColorSqlDAO {
 			throw new SqlConnectionException();
 		}
 	}
+
+	public void add(String collaId, CollaColor collaColor) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("INSERT INTO %s (colla, desDe, finsA, color) VALUES (?, ?, ?, ?)", tableName)
+			);
+			preparedStatement.setString(1, collaId);
+			preparedStatement.setDate(2, Date.valueOf(collaColor.getDesDe()));
+			preparedStatement.setDate(3, collaColor.getFinsA() != null ? Date.valueOf(collaColor.getFinsA()) : null);
+			preparedStatement.setString(4, collaColor.getHexColor());
+
+			preparedStatement.executeUpdate();
+			preparedStatement.close();
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
+	}
 }
