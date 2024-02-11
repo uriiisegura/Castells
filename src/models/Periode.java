@@ -24,4 +24,15 @@ public class Periode {
 			return date.isAfter(desDe);
 		return date.isAfter(desDe) && date.isBefore(finsA);
 	}
+
+	public boolean overlaps(Periode periode) {
+		if (periode.getFinsA() == null) {
+			if (finsA == null)
+				return true;
+			return finsA.isAfter(periode.getDesDe());
+		}
+		if (finsA == null)
+			return desDe.isBefore(periode.getFinsA()) && desDe.isAfter(periode.getDesDe());
+		return (desDe.isBefore(periode.getFinsA()) && desDe.isAfter(periode.getDesDe())) || (finsA.isBefore(periode.getFinsA()) && finsA.isAfter(periode.getDesDe()));
+	}
 }

@@ -69,13 +69,6 @@ public class UiController {
 					case EDIT_DATA:
 						break;
 					case VIEW_DATA:
-						// TODO:
-						try {
-							uiManager.showCastells(businessFacade.getOwnCastells());
-						} catch (UserIsNotLoggedInException e) {
-							uiManager.showError(e.getMessage());
-							logInAgain = true;
-						}
 						break;
 					case EXIT:
 						break;

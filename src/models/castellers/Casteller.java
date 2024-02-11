@@ -1,6 +1,8 @@
 package models.castellers;
 
 
+import exceptions.ValuelessAtDateException;
+import exceptions.ValuelessEverException;
 import models.Periode;
 import models.colles.Colla;
 import models.diades.CastellLineUp;
@@ -81,16 +83,22 @@ public class Casteller extends Periode {
 		return String.format("%s %s", nom, cognom1);
 	}
 
-	public String getMalnomInCollaAt(Colla colla, LocalDate date) {
+	public String getMalnomInCollaAt(Colla colla, LocalDate date) throws ValuelessAtDateException {
 		for (EsDeLaColla e : colles) {
 			if (e.getColla().equals(colla) && e.isActive(date))
 				return e.getMalnom();
 		}
-		// TODO:
-		return null;
+		throw new ValuelessAtDateException("El casteller no té malnom a la colla " + colla.getNomAt(date) + " a la data " + date + ".");
 	}
 
-	public List<Registre> getRegistres() {
-		return registres;
+	public List<EsDeLaColla> getPeriodsInColla(Colla colla) throws ValuelessEverException {
+		List<EsDeLaColla> periods = new ArrayList<>();
+		for (EsDeLaColla e : colles) {
+			if (e.getColla().equals(colla))
+				periods.add(e);
+		}
+		if (periods.isEmpty())
+			throw new ValuelessEverException("El casteller mai ha estat a aquesta colla.");
+		return periods;
 	}
 }

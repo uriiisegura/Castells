@@ -1,11 +1,8 @@
 package presentation.console;
 
 import business.dto.*;
-import models.diades.CastellLineUp;
-import models.diades.RenglaLineUp;
 import presentation.UiManager;
 import presentation.options.MenuOption;
-import relationships.CastellDiada;
 
 import java.util.*;
 
@@ -26,18 +23,6 @@ public class ConsoleUiManager implements UiManager {
 	@Override
 	public void showError(String message) {
 		System.out.printf("\nError! %s\n\n", message);
-	}
-
-	@Override
-	public void showCastells(List<CastellDiada> castells) {
-		System.out.println("\nCastells:");
-		for (CastellDiada cd : castells) {
-			System.out.printf("- %s %s (%s) - %s (%s)\n", cd.getNotacio(), cd.getResultat().text(), cd.getDate(), cd.getDiadaNom(), cd.getFullLocation());
-			for (CastellLineUp lu : cd.getLineUps()) {
-				if (lu instanceof RenglaLineUp rlu)
-					System.out.printf("\t- %s: %s\n", rlu.getRenglaNom(), String.join(", ", rlu.getMalnomsAt(cd.getColla(), cd.getDate())));
-			}
-		}
 	}
 
 	@Override

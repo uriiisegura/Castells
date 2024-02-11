@@ -146,24 +146,18 @@ public class BusinessFacade {
 			throw new NotAllowedException();
 
 		Periode periode = validatePeriode(esDeLaColla.getDesDe(), esDeLaColla.getFinsA(), true);
-
 		EsDeLaColla newEsDeLaColla = new EsDeLaColla(casteller, colla, periode.getDesDe(), periode.getFinsA(), esDeLaColla.getMalnom());
+
+		try {
+			List<EsDeLaColla> periods = casteller.getPeriodsInColla(colla);
+			periods.add(newEsDeLaColla);
+			if (periodsOverlap(periods))
+				throw new ValidationException("Els períodes d'un casteller a una mateix colla no es poden solapar.");
+		} catch (ValuelessEverException ignored) {}
+
 		esDeLaCollaSqlDAO.add(newEsDeLaColla);
 		colla.addCasteller(newEsDeLaColla);
 		casteller.addColla(newEsDeLaColla);
-	}
-
-	public List<CastellDiada> getOwnCastells() throws UserIsNotLoggedInException {
-		if (!isSessionActive()) {
-			throw new UserIsNotLoggedInException();
-		}
-
-		List<CastellDiada> ownCastells = new ArrayList<>();
-		for (CastellDiada castellDiada : castellsFets) {
-			if (castellDiada.hasCasteller(session.identificador))
-				ownCastells.add(castellDiada);
-		}
-		return ownCastells;
 	}
 
 	public Colla validateAndAddColla(CollaDTO colla) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
@@ -190,8 +184,15 @@ public class BusinessFacade {
 			throw new NotAllowedException();
 
 		Periode periode = validatePeriode(collaNom.getDesDe(), collaNom.getFinsA(), true);
-
 		CollaNom newCollaNom = new CollaNom(collaNom.getNom(), periode.getDesDe(), periode.getFinsA());
+
+		try {
+			List<CollaNom> periods = colla.getNoms();
+			periods.add(newCollaNom);
+			if (periodsOverlap(periods))
+				throw new ValidationException("Una colla no pot tenir dos noms al mateix temps.");
+		} catch (ValuelessEverException ignored) {}
+
 		collaNomSqlDAO.add(colla.getId(), newCollaNom);
 		colla.addNom(newCollaNom);
 	}
@@ -203,8 +204,15 @@ public class BusinessFacade {
 			throw new NotAllowedException();
 
 		Periode newPeriode = validatePeriode(periode.getDesDe(), periode.getFinsA(), true);
-
 		CollaFundacio newCollaFundacio = new CollaFundacio(newPeriode.getDesDe(), newPeriode.getFinsA());
+
+		try {
+			List<CollaFundacio> periods = colla.getFundacions();
+			periods.add(newCollaFundacio);
+			if (periodsOverlap(periods))
+				throw new ValidationException("Una colla no pot tenir dues fundacions al mateix temps.");
+		} catch (ValuelessEverException ignored) {}
+
 		collaFundacioSqlDAO.add(colla.getId(), newCollaFundacio);
 		colla.addFundacio(newCollaFundacio);
 	}
@@ -225,6 +233,14 @@ public class BusinessFacade {
 		}
 
 		CollaColor newCollaColor = new CollaColor(color, newPeriode.getDesDe(), newPeriode.getFinsA());
+
+		try {
+			List<CollaColor> periods = colla.getColors();
+			periods.add(newCollaColor);
+			if (periodsOverlap(periods))
+				throw new ValidationException("Una colla no pot tenir dos colors al mateix temps.");
+		} catch (ValuelessEverException ignored) {}
+
 		collaColorSqlDAO.add(colla.getId(), newCollaColor);
 		colla.addColor(newCollaColor);
 	}
@@ -244,8 +260,15 @@ public class BusinessFacade {
 			throw new NotAllowedException();
 
 		Periode periode = validatePeriode(collaAdreca.getDesDe(), collaAdreca.getFinsA(), true);
-
 		CollaAdreca newCollaAdreca = new CollaAdreca(collaAdreca.getAdreca(), ciutat, periode.getDesDe(), periode.getFinsA());
+
+		try {
+			List<CollaAdreca> periods = colla.getAdreces();
+			periods.add(newCollaAdreca);
+			if (periodsOverlap(periods))
+				throw new ValidationException("Una colla no pot tenir dues adreces al mateix temps.");
+		} catch (ValuelessEverException ignored) {}
+
 		collaAdrecaSqlDAO.add(colla.getId(), newCollaAdreca);
 		colla.addAdreca(newCollaAdreca);
 	}
@@ -334,6 +357,16 @@ public class BusinessFacade {
 
 	private static Periode validatePeriode(String dataInici, String dataFi) throws ValidationException {
 		return validatePeriode(dataInici, dataFi, false);
+	}
+
+	private static boolean periodsOverlap(List<? extends Periode> periods) {
+		for (int i = 0; i < periods.size(); i++) {
+			for (int j = i + 1; j < periods.size(); j++) {
+				if (periods.get(i).overlaps(periods.get(j)))
+					return true;
+			}
+		}
+		return false;
 	}
 
 	private void loadDiades() {

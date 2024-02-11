@@ -1,5 +1,6 @@
 package models.diades;
 
+import exceptions.ValuelessAtDateException;
 import models.castellers.Casteller;
 import models.castells.Rengla;
 import models.colles.Colla;
@@ -22,7 +23,7 @@ public class RenglaLineUp extends CastellLineUp {
 		return rengla.getNom();
 	}
 
-	public String[] getMalnomsAt(Colla colla, LocalDate date) {
+	public String[] getMalnomsAt(Colla colla, LocalDate date) throws ValuelessAtDateException {
 		String[] malnoms = new String[castellers.size()];
 		for (int i = 0; i < castellers.size(); i++)
 			malnoms[i] = castellers.get(i).getMalnomInCollaAt(colla, date);

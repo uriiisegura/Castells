@@ -2,7 +2,6 @@ package presentation;
 
 import business.dto.*;
 import presentation.options.MenuOption;
-import relationships.CastellDiada;
 
 import java.util.List;
 
@@ -22,6 +21,4 @@ public interface UiManager {
 	CollaColorDTO askCollaColor();
 	CollaAdrecaDTO askCollaAdreca();
 	CiutatDTO askNewCiutat();
-
-	void showCastells(List<CastellDiada> castells);
 }

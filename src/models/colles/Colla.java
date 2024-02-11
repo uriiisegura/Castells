@@ -57,6 +57,18 @@ public abstract class Colla {
 		return id;
 	}
 
+	public List<CollaFundacio> getFundacions() throws ValuelessEverException {
+		if (fundacions.isEmpty())
+			throw new ValuelessEverException("La colla mai ha tingut cap fundació.");
+		return fundacions;
+	}
+
+	public List<CollaNom> getNoms() throws ValuelessEverException {
+		if (noms.isEmpty())
+			throw new ValuelessEverException("La colla mai ha tingut cap nom.");
+		return noms;
+	}
+
 	public String getNomAt(LocalDate data) throws ValuelessAtDateException {
 		for (CollaNom nom : noms) {
 			if (nom.isActive(data))
@@ -73,5 +85,17 @@ public abstract class Colla {
 		if (noms.isEmpty())
 			throw new ValuelessEverException("La colla mai ha tingut cap nom.");
 		return noms.stream().max(Comparator.comparing(Periode::getFinsA)).get().getNom();
+	}
+
+	public List<CollaColor> getColors() throws ValuelessEverException {
+		if (colors.isEmpty())
+			throw new ValuelessEverException("La colla mai ha tingut cap color.");
+		return colors;
+	}
+
+	public List<CollaAdreca> getAdreces() throws ValuelessEverException {
+		if (adreces.isEmpty())
+			throw new ValuelessEverException("La colla mai ha tingut cap adreça.");
+		return adreces;
 	}
 }
