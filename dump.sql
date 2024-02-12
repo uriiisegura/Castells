@@ -419,7 +419,32 @@ INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("uTd5", "T", "5", "", "0", "0", "0", "1", "1");
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("uTd7f", "T", "7", "f", "0", "0", "0", "1", "1");
 
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Afganistan");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Albània");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Alemanya");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Algèria");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Andorra");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Angola");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Antigua i Barbuda");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Aràbia Saudita");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Argentina");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Armènia");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Austràlia");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Àustria");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Azerbaidjan");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Bahames");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Bahrain");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Bangladesh");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Barbados");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Bèlgica");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Belize");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Benín");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Bielorússia");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Bolívia");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Bòsnia i Hercegovina");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Botswana");
 INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Espanya");
+INSERT INTO `SiGAC`.`Pais` (`nom`) VALUES ("Myanmar");
 
 INSERT INTO `SiGAC`.`Ciutat` (`nom`, `pais`) VALUES ("Barcelona", "Espanya");
 INSERT INTO `SiGAC`.`Ciutat` (`nom`, `pais`) VALUES ("Sant Cugat del Vallès", "Espanya");
