@@ -10,7 +10,7 @@ import models.colles.Colla;
 import models.locations.Ciutat;
 import models.locations.Pais;
 import presentation.console.ConsoleUiManager;
-import presentation.options.AddDataMenuOptions;
+import presentation.options.CreateDataMenuOptions;
 import presentation.options.MainMenuOptions;
 
 import java.util.ArrayList;
@@ -46,9 +46,9 @@ public class UiController {
 			do {
 				mainMenuOption = (MainMenuOptions) uiManager.askMenuOption(MainMenuOptions.values());
 				switch (mainMenuOption) {
-					case ADD_DATA:
-						switch ((AddDataMenuOptions) uiManager.askMenuOption(AddDataMenuOptions.values())) {
-							case ADD_CASTELLER:
+					case CREATE_DATA:
+						switch ((CreateDataMenuOptions) uiManager.askMenuOption(CreateDataMenuOptions.values())) {
+							case CREATE_CASTELLER:
 								try {
 									createCasteller();
 								} catch (UserIsNotLoggedInException | NotAllowedException e) {
@@ -80,6 +80,7 @@ public class UiController {
 	private Casteller createCasteller() throws UserIsNotLoggedInException, NotAllowedException {
 		boolean validData = false;
 		Casteller newCasteller = null;
+
 		do {
 			try {
 				newCasteller = businessFacade.validateAndAddCasteller(uiManager.askNewCasteller());
@@ -91,46 +92,48 @@ public class UiController {
 
 		uiManager.showMessage("Casteller afegit correctament.");
 
-		if (uiManager.askBoolean("Vols afegir aquest casteller a alguna colla? (s/n): ")) {
-			boolean continueAdding;
-			do {
-				boolean createColla = false;
-				Colla colla = null;
-				HashMap<String, Colla> colles = businessFacade.getCurrentCollaNames();
-				if (colles.isEmpty()) {
-					createColla = uiManager.askBoolean("No hi ha cap colla. Vols crear-ne una? (s/n): ");
-				} else {
-					List<String> collaNames = new ArrayList<>(colles.keySet());
-					collaNames.add("Crear una nova colla");
-					int collaOption = uiManager.askOptionFromList("A quina colla vols afegir el casteller?", collaNames, "Colla: ");
-					if (collaOption == collaNames.size() - 1)
-						createColla = true;
-					else
-						colla = colles.get(collaNames.get(collaOption));
-				}
-				if (createColla)
-					colla = createColla();
-
-				validData = false;
-				do {
-					try {
-						businessFacade.validateAndAddCastellerToColla(newCasteller, colla, uiManager.askEsDeLaColla());
-						validData = true;
-					} catch (ValidationException e) {
-						uiManager.showError(e.getMessage());
-					}
-				} while (!validData);
-
-				continueAdding = uiManager.askBoolean("Vols afegir aquest casteller a una altra colla? (s/n): ");
-			} while (continueAdding);
-		}
+		if (uiManager.askBoolean("Vols afegir aquest casteller a alguna colla? (s/n): "))
+			addCastellerToColla(newCasteller);
 
 		return newCasteller;
 	}
 
+	private void addCastellerToColla(Casteller casteller) throws UserIsNotLoggedInException, NotAllowedException {
+		boolean addMore;
+		do {
+			boolean createColla = false;
+			Colla colla = null;
+			HashMap<String, Colla> colles = businessFacade.getCurrentCollaNames();
+			if (colles.isEmpty()) {
+				createColla = uiManager.askBoolean("No hi ha cap colla. Vols crear-ne una? (s/n): ");
+			} else {
+				List<String> collaNames = new ArrayList<>(colles.keySet());
+				collaNames.add("Crear una nova colla");
+				int collaOption = uiManager.askOptionFromList("A quina colla vols afegir el casteller?", collaNames, "Colla: ");
+				if (collaOption == collaNames.size() - 1)
+					createColla = true;
+				else
+					colla = colles.get(collaNames.get(collaOption));
+			}
+			if (createColla)
+				colla = createColla();
+
+			boolean validData = false;
+			do {
+				try {
+					businessFacade.validateAndAddCastellerToColla(casteller, colla, uiManager.askEsDeLaColla());
+					validData = true;
+				} catch (ValidationException e) {
+					uiManager.showError(e.getMessage());
+				}
+			} while (!validData);
+
+			addMore = uiManager.askBoolean("Vols afegir aquest casteller a una altra colla? (s/n): ");
+		} while (addMore);
+	}
+
 	private Colla createColla() throws UserIsNotLoggedInException, NotAllowedException {
 		boolean validData = false;
-		boolean addMore;
 		Colla newColla = null;
 
 		do {
@@ -144,11 +147,25 @@ public class UiController {
 
 		uiManager.showMessage("Colla creada correctament.");
 
-		validData = false;
+		addCollaFundation(newColla);
+		addCollaName(newColla);
+
+		if (uiManager.askBoolean("Vols definir un color per a la colla? (s/n): "))
+			addCollaColor(newColla);
+
+		if (uiManager.askBoolean("Vols afegir una adreça per a la colla? (s/n): "))
+			addCollaAdreca(newColla);
+
+		return newColla;
+	}
+
+	private void addCollaFundation(Colla colla) throws UserIsNotLoggedInException, NotAllowedException {
+		boolean addMore;
 		do {
+			boolean validData = false;
 			do {
 				try {
-					businessFacade.validateAndAddCollaFundacio(newColla, uiManager.askCollaFundacio());
+					businessFacade.validateAndAddCollaFundacio(colla, uiManager.askCollaFundacio());
 					validData = true;
 				} catch (ValidationException e) {
 					uiManager.showError(e.getMessage());
@@ -156,12 +173,15 @@ public class UiController {
 			} while (!validData);
 			addMore = uiManager.askBoolean("Vols afegir una altra fundació per a la colla? (s/n): ");
 		} while (addMore);
+	}
 
-		validData = false;
+	private void addCollaName(Colla colla) throws UserIsNotLoggedInException, NotAllowedException {
+		boolean addMore;
 		do {
+			boolean validData = false;
 			do {
 				try {
-					businessFacade.validateAndAddCollaNom(newColla, uiManager.askCollaNom());
+					businessFacade.validateAndAddCollaNom(colla, uiManager.askCollaNom());
 					validData = true;
 				} catch (ValidationException e) {
 					uiManager.showError(e.getMessage());
@@ -169,28 +189,32 @@ public class UiController {
 			} while (!validData);
 			addMore = uiManager.askBoolean("Vols afegir un altre nom per a la colla? (s/n): ");
 		} while (addMore);
+	}
 
-		addMore = uiManager.askBoolean("Vols definir un color per a la colla? (s/n): ");
-		while (addMore) {
-			validData = false;
+	private void addCollaColor(Colla colla) throws UserIsNotLoggedInException, NotAllowedException {
+		boolean addMore;
+		do {
+			boolean validData = false;
 			do {
 				try {
-					businessFacade.validateAndAddCollaColor(newColla, uiManager.askCollaColor());
+					businessFacade.validateAndAddCollaColor(colla, uiManager.askCollaColor());
 					validData = true;
 				} catch (ValidationException e) {
 					uiManager.showError(e.getMessage());
 				}
 			} while (!validData);
 			addMore = uiManager.askBoolean("Vols definir un altre color per a la colla? (s/n): ");
-		}
+		} while (addMore);
+	}
 
-		addMore = uiManager.askBoolean("Vols afegir una adreça per a la colla? (s/n): ");
-		while (addMore) {
+	private void addCollaAdreca(Colla colla) throws UserIsNotLoggedInException, NotAllowedException {
+		boolean addMore;
+		do {
 			HashMap<String, Pais> paissos = businessFacade.getPaissos();
 			List<String> paissosNames = new ArrayList<>(paissos.keySet());
 			int paisOption = uiManager.askOptionFromList("A quin país pertany la ciutat?", paissosNames, "País: ");
 			Pais pais = paissos.get(paissosNames.get(paisOption));
-			validData = false;
+			boolean validData = false;
 			do {
 				List<String> ciutatsNames = new ArrayList<>(pais.getCiutats().keySet());
 				ciutatsNames.add("Crear una nova ciutat");
@@ -202,16 +226,14 @@ public class UiController {
 					ciutat = pais.getCiutats().get(ciutatsNames.get(ciutatOption));
 
 				try {
-					businessFacade.validateAndAddCollaAdreca(newColla, ciutat, uiManager.askCollaAdreca());
+					businessFacade.validateAndAddCollaAdreca(colla, ciutat, uiManager.askCollaAdreca());
 					validData = true;
 				} catch (ValidationException e) {
 					uiManager.showError(e.getMessage());
 				}
 			} while (!validData);
 			addMore = uiManager.askBoolean("Vols afegir una altra adreça per a la colla? (s/n): ");
-		}
-
-		return newColla;
+		} while (addMore);
 	}
 
 	private Ciutat createCiutat(Pais pais) throws UserIsNotLoggedInException, NotAllowedException {

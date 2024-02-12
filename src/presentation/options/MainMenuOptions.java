@@ -1,7 +1,7 @@
 package presentation.options;
 
 public enum MainMenuOptions implements MenuOption {
-	ADD_DATA("Afegir dades"),
+	CREATE_DATA("Afegir-hi noves dades"),
 	EDIT_DATA("Editar dades"),
 	VIEW_DATA("Consultar dades"),
 	EXIT("Sortir");
