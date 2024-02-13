@@ -1,6 +1,6 @@
 package models.diades;
 
-import relationships.CastellDiada;
+import models.relationships.CastellDiada;
 
 public abstract class CastellLineUp {
 	private CastellDiada castell;

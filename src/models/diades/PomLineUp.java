@@ -1,7 +1,7 @@
 package models.diades;
 
 import models.castellers.Casteller;
-import relationships.CastellDiada;
+import models.relationships.CastellDiada;
 
 public class PomLineUp extends CastellLineUp {
 	private Casteller dosos1;

@@ -4,7 +4,7 @@ import config.DateParser;
 import exceptions.SqlConnectionException;
 import models.locations.Ciutat;
 import models.colles.Colla;
-import relationships.CollaAdreca;
+import models.relationships.CollaAdreca;
 
 import java.sql.*;
 import java.util.List;
@@ -44,7 +44,7 @@ public class CollaAdrecaSqlDAO {
 				colla.addAdreca(new CollaAdreca(
 						resultSet.getString("adreca"),
 						ciutat,
-						resultSet.getDate("desDe").toLocalDate(),
+						DateParser.parseLocalDate(resultSet.getDate("desDe")),
 						DateParser.parseLocalDate(resultSet.getDate("finsA"))
 				));
 			}

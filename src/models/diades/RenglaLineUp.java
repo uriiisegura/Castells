@@ -4,7 +4,7 @@ import exceptions.ValuelessAtDateException;
 import models.castellers.Casteller;
 import models.castells.Rengla;
 import models.colles.Colla;
-import relationships.CastellDiada;
+import models.relationships.CastellDiada;
 
 import java.time.LocalDate;
 import java.util.List;

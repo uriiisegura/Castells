@@ -5,7 +5,7 @@ import models.castellers.Casteller;
 import models.castells.Rengla;
 import models.diades.CastellLineUp;
 import models.diades.RenglaLineUp;
-import relationships.CastellDiada;
+import models.relationships.CastellDiada;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

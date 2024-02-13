@@ -4,7 +4,7 @@ import config.DateParser;
 import exceptions.SqlConnectionException;
 import models.castellers.Casteller;
 import models.colles.Colla;
-import relationships.EsDeLaColla;
+import models.relationships.EsDeLaColla;
 
 import java.sql.*;
 import java.util.List;
@@ -40,7 +40,13 @@ public class EsDeLaCollaSqlDAO {
 					throw new SQLException("Colla not found");
 				}
 
-				EsDeLaColla pertany = new EsDeLaColla(casteller, colla, resultSet.getDate("desDe").toLocalDate(), DateParser.parseLocalDate(resultSet.getDate("finsA")), resultSet.getString("malnom"));
+				EsDeLaColla pertany = new EsDeLaColla(
+						casteller,
+						colla,
+						DateParser.parseLocalDate(resultSet.getDate("desDe")),
+						DateParser.parseLocalDate(resultSet.getDate("finsA")),
+						resultSet.getString("malnom")
+				);
 				colla.addCasteller(pertany);
 				casteller.addColla(pertany);
 			}

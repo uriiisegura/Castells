@@ -2,7 +2,7 @@ package models.diades;
 
 import models.colles.Colla;
 import models.locations.Location;
-import relationships.CastellDiada;
+import models.relationships.CastellDiada;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;

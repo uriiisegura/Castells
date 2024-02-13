@@ -32,7 +32,7 @@ public class CastellerSqlDAO {
 						resultSet.getString("cognom1"),
 						resultSet.getString("cognom2"),
 						resultSet.getString("sexe"),
-						resultSet.getDate("dataNaixement").toLocalDate(),
+						DateParser.parseLocalDate(resultSet.getDate("dataNaixement")),
 						DateParser.parseLocalDate(resultSet.getDate("dataDefuncio"))
 				));
 			}

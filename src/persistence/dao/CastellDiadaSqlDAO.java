@@ -4,7 +4,7 @@ import enums.ResultatsT;
 import exceptions.SqlConnectionException;
 import models.castells.Castell;
 import models.colles.Colla;
-import relationships.CastellDiada;
+import models.relationships.CastellDiada;
 import models.diades.Diada;
 
 import java.sql.Connection;

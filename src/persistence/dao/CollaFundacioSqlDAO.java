@@ -3,7 +3,7 @@ package persistence.dao;
 import config.DateParser;
 import exceptions.SqlConnectionException;
 import models.colles.Colla;
-import relationships.CollaFundacio;
+import models.relationships.CollaFundacio;
 
 import java.sql.*;
 import java.util.List;
@@ -33,7 +33,7 @@ public class CollaFundacioSqlDAO {
 				}
 
 				colla.addFundacio(new CollaFundacio(
-						resultSet.getDate("desDe").toLocalDate(),
+						DateParser.parseLocalDate(resultSet.getDate("desDe")),
 						DateParser.parseLocalDate(resultSet.getDate("finsA"))
 				));
 			}

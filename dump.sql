@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS `SiGAC`.`Location`;
 DROP TABLE IF EXISTS `SiGAC`.`CollaAdreca`;
 DROP TABLE IF EXISTS `SiGAC`.`Ciutat`;
 DROP TABLE IF EXISTS `SiGAC`.`Pais`;
+DROP TABLE IF EXISTS `SiGAC`.`EstaPuntuat`;
 DROP TABLE IF EXISTS `SiGAC`.`Castell`;
 DROP TABLE IF EXISTS `SiGAC`.`Rengla`;
 DROP TABLE IF EXISTS `SiGAC`.`Estructura`;
@@ -161,6 +162,18 @@ CREATE TABLE `SiGAC`.`Castell` (
 	FOREIGN KEY (`estructura`) REFERENCES `SiGAC`.`Estructura`(`notacio`),
 	FOREIGN KEY (`pisos`) REFERENCES `SiGAC`.`Pisos`(`notacio`),
 	FOREIGN KEY (`reforcos`) REFERENCES `SiGAC`.`Reforcos`(`notacio`)
+);
+
+CREATE TABLE `SiGAC`.`EstaPuntuat` (
+	`castell` VARCHAR(64) NOT NULL,
+	`desDe` DATE NOT NULL,
+	`finsA` DATE,
+	`carregat` INT NOT NULL,
+	`descarregat` INT NOT NULL,
+	`grup` INT NOT NULL,
+	`subgrup` INT NOT NULL,
+	PRIMARY KEY (`castell`, `desDe`),
+	FOREIGN KEY (`castell`) REFERENCES `SiGAC`.`Castell`(`id`)
 );
 
 CREATE TABLE `SiGAC`.`Pais` (

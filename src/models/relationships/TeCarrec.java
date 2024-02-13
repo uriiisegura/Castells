@@ -1,4 +1,4 @@
-package relationships;
+package models.relationships;
 
 import models.colles.Carrec;
 import models.castellers.Casteller;

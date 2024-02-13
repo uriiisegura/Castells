@@ -5,7 +5,7 @@ import exceptions.SqlConnectionException;
 import models.castellers.Casteller;
 import models.colles.Carrec;
 import models.colles.Colla;
-import relationships.TeCarrec;
+import models.relationships.TeCarrec;
 
 import java.sql.*;
 import java.util.List;
@@ -47,7 +47,13 @@ public class TeCarrecSqlDAO {
 					throw new SQLException("Carrec not found");
 				}
 
-				TeCarrec teCarrec = new TeCarrec(casteller, colla, carrec, resultSet.getDate("desDe").toLocalDate(), DateParser.parseLocalDate(resultSet.getDate("finsA")));
+				TeCarrec teCarrec = new TeCarrec(
+						casteller,
+						colla,
+						carrec,
+						DateParser.parseLocalDate(resultSet.getDate("desDe")),
+						DateParser.parseLocalDate(resultSet.getDate("finsA"))
+				);
 				casteller.addCarrec(teCarrec);
 				colla.addCarrec(teCarrec);
 			}

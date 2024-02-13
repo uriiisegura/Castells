@@ -1,6 +1,7 @@
 package models.castells;
 
-import relationships.CastellDiada;
+import models.relationships.CastellDiada;
+import models.relationships.EstaPuntuat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public abstract class Castell {
 	private final boolean caminant;
 	private final int enxanetes;
 	private List<CastellDiada> fets = new ArrayList<>();
+	private List<EstaPuntuat> puntuacions = new ArrayList<>();
 
 	public Castell(String id, Estructura estructura, Pisos pisos, Reforcos reforcos, int agulles, boolean perSota, boolean caminant, int enxanetes) {
 		this.id = id;
@@ -29,6 +31,10 @@ public abstract class Castell {
 
 	public void addFet(CastellDiada castell) {
 		fets.add(castell);
+	}
+
+	public void addPuntuacio(EstaPuntuat puntuacio) {
+		puntuacions.add(puntuacio);
 	}
 
 	public String getId() {

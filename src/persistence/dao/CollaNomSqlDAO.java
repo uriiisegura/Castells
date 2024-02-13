@@ -3,7 +3,7 @@ package persistence.dao;
 import config.DateParser;
 import exceptions.SqlConnectionException;
 import models.colles.Colla;
-import relationships.CollaNom;
+import models.relationships.CollaNom;
 
 import java.sql.*;
 import java.util.List;
@@ -34,7 +34,7 @@ public class CollaNomSqlDAO {
 
 				colla.addNom(new CollaNom(
 						resultSet.getString("nom"),
-						resultSet.getDate("desDe").toLocalDate(),
+						DateParser.parseLocalDate(resultSet.getDate("desDe")),
 						DateParser.parseLocalDate(resultSet.getDate("finsA"))
 				));
 			}

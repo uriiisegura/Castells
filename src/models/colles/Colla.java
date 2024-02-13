@@ -3,8 +3,8 @@ package models.colles;
 import exceptions.ValuelessAtDateException;
 import exceptions.ValuelessEverException;
 import models.Periode;
-import relationships.CastellDiada;
-import relationships.*;
+import models.relationships.CastellDiada;
+import models.relationships.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

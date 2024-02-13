@@ -1,4 +1,4 @@
-package relationships;
+package models.relationships;
 
 import enums.ResultatsT;
 import models.castells.Castell;

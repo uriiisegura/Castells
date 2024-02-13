@@ -3,7 +3,7 @@ package persistence.dao;
 import config.DateParser;
 import exceptions.SqlConnectionException;
 import models.colles.Colla;
-import relationships.CollaColor;
+import models.relationships.CollaColor;
 
 import java.awt.*;
 import java.sql.*;
@@ -35,7 +35,7 @@ public class CollaColorSqlDAO {
 
 				colla.addColor(new CollaColor(
 						Color.decode(resultSet.getString("color")),
-						resultSet.getDate("desDe").toLocalDate(),
+						DateParser.parseLocalDate(resultSet.getDate("desDe")),
 						DateParser.parseLocalDate(resultSet.getDate("finsA"))
 				));
 			}

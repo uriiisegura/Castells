@@ -6,8 +6,8 @@ import exceptions.ValuelessEverException;
 import models.Periode;
 import models.colles.Colla;
 import models.diades.CastellLineUp;
-import relationships.EsDeLaColla;
-import relationships.TeCarrec;
+import models.relationships.EsDeLaColla;
+import models.relationships.TeCarrec;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,8 +1,7 @@
-package relationships;
+package models.relationships;
 
 import models.locations.Ciutat;
 import models.Periode;
-import models.locations.Pais;
 
 import java.time.LocalDate;
 
