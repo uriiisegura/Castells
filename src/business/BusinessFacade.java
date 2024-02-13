@@ -15,7 +15,7 @@ import models.colles.Colla;
 import models.diades.Diada;
 import models.locations.Ciutat;
 import models.locations.Location;
-import relationships.*;
+import models.relationships.*;
 
 import java.awt.*;
 import java.time.LocalDate;
@@ -45,6 +45,7 @@ public class BusinessFacade {
 	private final ReforcosSqlDAO reforcosSqlDAO = new ReforcosSqlDAO(connection.connection);
 	private final RenglaSqlDAO renglaSqlDAO = new RenglaSqlDAO(connection.connection);
 	private final CastellSqlDAO castellSqlDAO = new CastellSqlDAO(connection.connection);
+	private final EstaPuntuatSqlDAO estaPuntuatSqlDAO = new EstaPuntuatSqlDAO(connection.connection);
 	private final DiadaSqlDAO diadaSqlDAO = new DiadaSqlDAO(connection.connection);
 	private final CastellDiadaSqlDAO castellDiadaSqlDAO = new CastellDiadaSqlDAO(connection.connection);
 	private final CastellLineUpSqlDAO castellLineUpSqlDAO = new CastellLineUpSqlDAO(connection.connection);
@@ -60,6 +61,7 @@ public class BusinessFacade {
 	private List<Reforcos> reforcos;
 	private List<Rengla> rengles;
 	private List<Castell> castells;
+	private List<EstaPuntuat> puntuacions;
 	private List<Diada> diades;
 	private List<CastellDiada> castellsFets;
 
@@ -320,6 +322,7 @@ public class BusinessFacade {
 		reforcos = reforcosSqlDAO.loadAll();
 		rengles = renglaSqlDAO.loadAll(estructures);
 		castells = castellSqlDAO.loadAll(estructures, pisos, reforcos);
+		puntuacions = estaPuntuatSqlDAO.loadAll(castells);
 	}
 
 	private static Periode validatePeriode(String dataInici, String dataFi, boolean canBeEndless) throws ValidationException {
