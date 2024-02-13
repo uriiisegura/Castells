@@ -1,4 +1,4 @@
-package presentation;
+package presentation.console;
 
 import business.BusinessFacade;
 import exceptions.NotAllowedException;
@@ -9,7 +9,7 @@ import models.castellers.Casteller;
 import models.colles.Colla;
 import models.locations.Ciutat;
 import models.locations.Pais;
-import presentation.console.ConsoleUiManager;
+import presentation.Controller;
 import presentation.options.CreateDataMenuOptions;
 import presentation.options.MainMenuOptions;
 
@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class UiController {
+public class ConsoleController implements Controller {
 	private final BusinessFacade businessFacade;
-	private final UiManager uiManager = new ConsoleUiManager();
+	private final ConsoleUiManager uiManager = new ConsoleUiManager();
 
-	public UiController(BusinessFacade businessFacade) {
+	public ConsoleController(BusinessFacade businessFacade) {
 		this.businessFacade = businessFacade;
 	}
 
@@ -67,8 +67,10 @@ public class UiController {
 						}
 						break;
 					case EDIT_DATA:
+						// TODO:
 						break;
 					case VIEW_DATA:
+						// TODO:
 						break;
 					case EXIT:
 						break;

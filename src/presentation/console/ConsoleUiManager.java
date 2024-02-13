@@ -1,18 +1,15 @@
 package presentation.console;
 
 import business.dto.*;
-import presentation.UiManager;
 import presentation.options.MenuOption;
 
 import java.util.*;
 
-public class ConsoleUiManager implements UiManager {
+public class ConsoleUiManager {
 	private final Scanner scanner = new Scanner(System.in);
 
-	@Override
 	public void start() {}
 
-	@Override
 	public LogInDTO logIn() {
 		System.out.println("INICI DE SESSIÓ");
 		String identifier = askString("Identificador: ");
@@ -20,12 +17,10 @@ public class ConsoleUiManager implements UiManager {
 		return new LogInDTO(identifier, password);
 	}
 
-	@Override
 	public void showError(String message) {
 		System.out.printf("\nError! %s\n\n", message);
 	}
 
-	@Override
 	public MenuOption askMenuOption(MenuOption[] options) {
 		System.out.println("\nOpcions:");
 		for (int i = 0; i < options.length; i++)
@@ -33,7 +28,6 @@ public class ConsoleUiManager implements UiManager {
 		return options[askIntInRange("Opció: ", 1, options.length) - 1];
 	}
 
-	@Override
 	public CastellerDTO askNewCasteller() {
 		System.out.println("\nAFEGEIX UN NOU CASTELLER A LA BASE DE DADES");
 		String dni = askString("\tDNI / NIE: ");
@@ -48,12 +42,10 @@ public class ConsoleUiManager implements UiManager {
 		return new CastellerDTO(dni, nom, cognom1, cognom2, sexe, dataNaixement, dataDefuncio);
 	}
 
-	@Override
 	public void showMessage(String message) {
 		System.out.printf("\n%s\n", message);
 	}
 
-	@Override
 	public boolean askBoolean(String message) {
 		String input;
 		do {
@@ -63,7 +55,6 @@ public class ConsoleUiManager implements UiManager {
 		return input.equals("s");
 	}
 
-	@Override
 	public int askOptionFromList(String title, List<String> options, String message) {
 		System.out.println(title);
 		for (int i = 0; i < options.size(); i++)
@@ -71,7 +62,6 @@ public class ConsoleUiManager implements UiManager {
 		return askIntInRange(message, 1, options.size()) - 1;
 	}
 
-	@Override
 	public EsDeLaCollaDTO askEsDeLaColla() {
 		System.out.println("\nAFEGEIX UN CASTELLER A UNA COLLA");
 		String desDe = askString("\tData d'entrada a la colla (yyyy-mm-dd): ");
@@ -81,7 +71,6 @@ public class ConsoleUiManager implements UiManager {
 		return new EsDeLaCollaDTO(desDe, finsA, malnom);
 	}
 
-	@Override
 	public CollaDTO askNewColla() {
 		System.out.println("\nAFEGEIX UNA NOVA COLLA A LA BASE DE DADES");
 		String id = askString("\tId: ");
@@ -89,7 +78,6 @@ public class ConsoleUiManager implements UiManager {
 		return new CollaDTO(id, universitaria);
 	}
 
-	@Override
 	public CollaNomDTO askCollaNom() {
 		System.out.println("\nAFEGEIX UN NOM A LA COLLA");
 		String nom = askString("\tNom: ");
@@ -99,7 +87,6 @@ public class ConsoleUiManager implements UiManager {
 		return new CollaNomDTO(nom, desDe, finsA);
 	}
 
-	@Override
 	public PeriodeDTO askCollaFundacio() {
 		System.out.println("\nAFEGEIX UNA FUNDACIÓ DE LA COLLA");
 		String desDe = askString("\tDes de (yyyy-mm-dd): ");
@@ -108,7 +95,6 @@ public class ConsoleUiManager implements UiManager {
 		return new PeriodeDTO(desDe, finsA);
 	}
 
-	@Override
 	public CollaColorDTO askCollaColor() {
 		System.out.println("\nAFEGEIX UN COLOR A LA COLLA");
 		String color = askString("\tColor: ");
@@ -118,7 +104,6 @@ public class ConsoleUiManager implements UiManager {
 		return new CollaColorDTO(desDe, finsA, color);
 	}
 
-	@Override
 	public CollaAdrecaDTO askCollaAdreca() {
 		System.out.println("\nAFEGEIX UNA ADREÇA A LA COLLA");
 		String adreca = askString("\tAdreça: ");
@@ -128,7 +113,6 @@ public class ConsoleUiManager implements UiManager {
 		return new CollaAdrecaDTO(adreca, desDe, finsA);
 	}
 
-	@Override
 	public CiutatDTO askNewCiutat() {
 		System.out.println("\nAFEGEIX UNA NOVA CIUTAT A LA BASE DE DADES");
 		String nom = askString("\tNom: ");
