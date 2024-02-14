@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class SqlConnection {
 	private final String path = "config.json";
-	public Connection connection;
+	private Connection connection;
 
 	public SqlConnection() {
 		Credentials credentials;
@@ -39,6 +39,10 @@ public class SqlConnection {
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}
+	}
+
+	public Connection getConnection() {
+		return connection;
 	}
 
 	public String logIn(String identifier, String password) throws WrongCredentialsException {
