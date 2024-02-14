@@ -8,8 +8,6 @@ import java.util.*;
 public class ConsoleUiManager {
 	private final Scanner scanner = new Scanner(System.in);
 
-	public void start() {}
-
 	public LogInDTO logIn() {
 		System.out.println("INICI DE SESSIÓ");
 		String identifier = askString("Identificador: ");

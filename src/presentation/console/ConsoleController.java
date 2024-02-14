@@ -26,8 +26,6 @@ public class ConsoleController implements Controller {
 	}
 
 	public void start() {
-		uiManager.start();
-
 		boolean logInAgain = true;
 		while (logInAgain) {
 			while (!businessFacade.isSessionActive()) {
