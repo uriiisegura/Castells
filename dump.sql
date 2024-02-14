@@ -426,9 +426,15 @@ INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u3d6", "3", "6", "", "0", "0", "0", "1", "1");
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u3d6a", "3", "6", "", "1", "0", "0", "1", "1");
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u3d7", "3", "7", "", "0", "0", "0", "1", "1");
+INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u3d8f", "3", "8", "f", "0", "0", "0", "1", "1");
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u4d6a", "4", "6", "", "1", "0", "0", "1", "1");
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u4d7", "4", "7", "", "0", "0", "0", "1", "1");
+INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u4d7a", "4", "7", "", "1", "0", "0", "1", "1");
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u5d6", "5", "6", "", "0", "0", "0", "1", "1");
+INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u5d7", "5", "7", "", "0", "0", "0", "1", "1");
+INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("u7d7", "7", "7", "", "0", "0", "0", "1", "1");
+INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("uPd6f", "P", "6", "f", "0", "0", "0", "1", "1");
+INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("uPd7fm", "P", "7", "fm", "0", "0", "0", "1", "1");
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("uTd5", "T", "5", "", "0", "0", "0", "1", "1");
 INSERT INTO `SiGAC`.`Castell` (`id`, `estructura`, `pisos`, `reforcos`, `agulles`, `perSota`, `caminant`, `enxanetes`, `universitari`) VALUES ("uTd7f", "T", "7", "f", "0", "0", "0", "1", "1");
 
@@ -459,9 +465,17 @@ INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `des
 INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u3d6", "2022-09-01", NULL, "150", "195", "1", "2");
 INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u3d6a", "2022-09-01", NULL, "200", "250", "1", "3");
 INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u3d7", "2022-09-01", NULL, "615", "785", "3", "3");
+INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u3d8f", "2022-09-01", NULL, "1785", "2300", "5", "1");
 INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u4d6a", "2022-09-01", NULL, "215", "265", "1", "3");
 INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u4d7", "2022-09-01", NULL, "540", "690", "3", "2");
+INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u4d7a", "2022-09-01", "2023-08-31", "800", "1075", "4", "2");
+INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u4d7a", "2023-09-01", NULL, "1025", "1200", "4", "2");
 INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u5d6", "2022-09-01", NULL, "270", "340", "2", "1");
+INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u5d7", "2022-09-01", NULL, "1565", "2010", "4", "4");
+INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u7d7", "2022-09-01", "2023-08-31", "1115", "1300", "4", "2");
+INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("u7d7", "2023-09-01", NULL, "730", "920", "4", "2");
+INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("uPd6f", "2022-09-01", NULL, "1370", "1750", "4", "3");
+INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("uPd7fm", "2022-09-01", NULL, "2500", "3250", "6", "3");
 INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("uTd5", "2022-09-01", NULL, "25", "30", "0", "1");
 INSERT INTO `SiGAC`.`EstaPuntuat` (`castell`, `desDe`, `finsA`, `carregat`, `descarregat`, `grup`, `subgrup`) VALUES ("uTd7f", "2022-09-01", NULL, "1270", "1650", "4", "3");
 
