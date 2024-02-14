@@ -10,8 +10,8 @@ import models.colles.Colla;
 import models.locations.Ciutat;
 import models.locations.Pais;
 import presentation.Controller;
-import presentation.options.CreateDataMenuOptions;
-import presentation.options.MainMenuOptions;
+import presentation.menus.CreateDataMenuOptions;
+import presentation.menus.MainMenuOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,8 @@ public class ConsoleController implements Controller {
 	public void start() {
 		boolean logInAgain = true;
 		while (logInAgain) {
-			while (!businessFacade.isSessionActive()) {
+			businessFacade.logOut();
+			do {
 				try {
 					businessFacade.logIn(uiManager.logIn());
 					businessFacade.loadAll();
@@ -38,7 +39,7 @@ public class ConsoleController implements Controller {
 				} catch (NotAllowedException e) {
 					// TODO
 				}
-			}
+			} while (!businessFacade.isSessionActive());
 
 			MainMenuOptions mainMenuOption;
 			do {

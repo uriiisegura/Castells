@@ -1,4 +1,4 @@
-package presentation.options;
+package presentation.menus;
 
 public enum CreateDataMenuOptions implements MenuOption {
 	CREATE_CASTELLER("Crear un nou casteller"),

@@ -18,10 +18,14 @@ import models.locations.Location;
 import models.relationships.*;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 public class BusinessFacade {
 	private final SqlConnection connection = new SqlConnection();
@@ -65,10 +69,44 @@ public class BusinessFacade {
 	private List<Diada> diades;
 	private List<CastellDiada> castellsFets;
 
+	public LogInDTO getLogInInfo() {
+		Properties properties = new Properties();
+		try (FileInputStream fis = new FileInputStream("credentials.properties")) {
+			properties.load(fis);
+			String dni = properties.getProperty("dni");
+			String password = properties.getProperty("password");
+			if (password == null || dni == null || dni.isEmpty() || password.isEmpty())
+				return null;
+			return new LogInDTO(properties.getProperty("dni"), properties.getProperty("password"));
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
 	public void logIn(LogInDTO credentials) throws WrongCredentialsException {
 		session.identificador = credentials.getIdentifier();
 		session.rol = connection.logIn(credentials.getIdentifier(), credentials.getPassword());
 		session.activa = true;
+	}
+
+	public void saveLogInInfo(LogInDTO credentials) {
+		Properties properties = new Properties();
+		properties.setProperty("dni", credentials.getIdentifier());
+		properties.setProperty("password", credentials.getPassword());
+
+		try (FileOutputStream fos = new FileOutputStream("credentials.properties")) {
+			properties.store(fos, "Login Credentials");
+		} catch (IOException ignored) {}
+	}
+
+	public void clearLogInInfo() {
+		saveLogInInfo(new LogInDTO("", ""));
+	}
+
+	public void logOut() {
+		session.identificador = null;
+		session.rol = null;
+		session.activa = false;
 	}
 
 	public boolean isSessionActive() {
@@ -94,6 +132,15 @@ public class BusinessFacade {
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
 			throw new NotAllowedException();
+
+		if (casteller.getDni().isEmpty())
+			throw new ValidationException("El DNI/NIE no pot estar buit.");
+
+		if (casteller.getNom().isEmpty())
+			throw new ValidationException("El nom no pot estar buit.");
+
+		if (casteller.getCognom1().isEmpty())
+			throw new ValidationException("El primer cognom no pot estar buit.");
 
 		for (Casteller c : castellers) {
 			if (c.getDni().equals(casteller.getDni())) {
@@ -326,6 +373,9 @@ public class BusinessFacade {
 	}
 
 	private static Periode validatePeriode(String dataInici, String dataFi, boolean canBeEndless) throws ValidationException {
+		if (dataInici == null)
+			throw new ValidationException("La data d'inici no pot ser buida.");
+
 		LocalDate inici;
 		try {
 			inici = LocalDate.parse(dataInici);

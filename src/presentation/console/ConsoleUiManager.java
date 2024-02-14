@@ -1,8 +1,9 @@
 package presentation.console;
 
 import business.dto.*;
-import presentation.options.MenuOption;
+import presentation.menus.MenuOption;
 
+import java.io.Console;
 import java.util.*;
 
 public class ConsoleUiManager {
@@ -11,7 +12,7 @@ public class ConsoleUiManager {
 	public LogInDTO logIn() {
 		System.out.println("INICI DE SESSIÓ");
 		String identifier = askString("Identificador: ");
-		String password = askString("Contrasenya: ");
+		String password = askPassword("Contrasenya: ");
 		return new LogInDTO(identifier, password);
 	}
 
@@ -124,6 +125,13 @@ public class ConsoleUiManager {
 			input = scanner.nextLine();
 		} while (input.isEmpty());
 		return input;
+	}
+
+	private String askPassword(String message) {
+		Console console = System.console();
+		if (console == null)
+			return askString(message);
+		return new String(console.readPassword(message));
 	}
 
 	private int askInt(String message) {

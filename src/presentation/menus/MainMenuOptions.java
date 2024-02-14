@@ -1,4 +1,4 @@
-package presentation.options;
+package presentation.menus;
 
 public enum MainMenuOptions implements MenuOption {
 	CREATE_DATA("Afegir-hi noves dades"),
