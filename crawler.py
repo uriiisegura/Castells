@@ -67,6 +67,7 @@ CREATE TABLE `SiGAC`.`Casteller` (
 	`cognom1` VARCHAR(256) NOT NULL,
 	`cognom2` VARCHAR(256),
 	`sexe` ENUM("home", "dona", "no binari") NOT NULL,
+	`email` VARCHAR(256) NOT NULL UNIQUE,
 	`dataNaixement` DATE NOT NULL,
 	`dataDefuncio` DATE,
 	PRIMARY KEY (`dni`)

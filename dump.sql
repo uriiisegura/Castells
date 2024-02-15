@@ -35,6 +35,7 @@ CREATE TABLE `SiGAC`.`Casteller` (
 	`cognom1` VARCHAR(256) NOT NULL,
 	`cognom2` VARCHAR(256),
 	`sexe` ENUM("home", "dona", "no binari") NOT NULL,
+	`email` VARCHAR(256) NOT NULL UNIQUE,
 	`dataNaixement` DATE NOT NULL,
 	`dataDefuncio` DATE,
 	PRIMARY KEY (`dni`)
@@ -267,18 +268,18 @@ CREATE TABLE `SiGAC`.`RenglaLineUpCastellers` (
 );
 
 -- TABLES POPULATION
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("25633040T", "Lola", "Valor", "Velilla", "dona", "2003-02-14", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("38455056E", "David", "Pérez", "Oset", "home", "1971-08-14", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("39932266B", "David", "Coronado", "Gutiérrez", "home", "1991-09-12", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("43561345N", "Pau", "Granell", "Rodríguez", "home", "1985-06-01", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("46482922Z", "Oriol", "Segura", "Niño", "home", "2001-06-13", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("46763944E", "Arnau", "Villoro", "Bort", "home", "1989-04-29", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("46974185C", "Roderic", "Picó", "Maya", "home", "1990-10-24", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("47599426Y", "Paula", "Torramilans", "Quintana", "dona", "1996-05-11", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:ALEIXDNI", "Aleix", "Paluzié", "Vázquez", "home", "2010-09-21", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:AMELIADNI", "Amèlia", "Botella", "Vázquez", "dona", "2008-01-18", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:ARLETDNI", "Arlet", "Vergara", "Agramunt", "dona", "2013-09-19", NULL);
-INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:CINTIADNI", "Cíntia", "Vila", "Gabarró", "dona", "2005-10-05", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("25633040T", "Lola", "Valor", "Velilla", "dona", "lolavalor03@gmail.com", "2003-02-14", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("38455056E", "David", "Pérez", "Oset", "home", "TODO:VIDEMAIL", "1971-08-14", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("39932266B", "David", "Coronado", "Gutiérrez", "home", "davidcg91@gmail.com", "1991-09-12", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("43561345N", "Pau", "Granell", "Rodríguez", "home", "pau@santandreu.net", "1985-06-01", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("46482922Z", "Oriol", "Segura", "Niño", "home", "oriol.segura.nino@gmail.com", "2001-06-13", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("46763944E", "Arnau", "Villoro", "Bort", "home", "villoro7@gmail.com", "1989-04-29", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("46974185C", "Roderic", "Picó", "Maya", "home", "rpicomaya@gmail.com", "1990-10-24", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("47599426Y", "Paula", "Torramilans", "Quintana", "dona", "paula.torramilans@gmail.com", "1996-05-11", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:ALEIXDNI", "Aleix", "Paluzié", "Vázquez", "home", "TODO:ALEIXEMAIL", "2010-09-21", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:AMELIADNI", "Amèlia", "Botella", "Vázquez", "dona", "TODO:AMELIAEMAIL", "2008-01-18", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:ARLETDNI", "Arlet", "Vergara", "Agramunt", "dona", "TODO:ARLETEMAIL", "2013-09-19", NULL);
+INSERT INTO `SiGAC`.`Casteller` (`dni`, `nom`, `cognom1`, `cognom2`, `sexe`, `email`, `dataNaixement`, `dataDefuncio`) VALUES ("TODO:CINTIADNI", "Cíntia", "Vila", "Gabarró", "dona", "TODO:CINTIAEMAIL", "2005-10-05", NULL);
 
 INSERT INTO `SiGAC`.`Usuari` (`casteller`, `password`, `rol`) VALUES ("46482922Z", "e72cb8d06a267c26ea3434c573ade27c426d39e25d3c61f0b7fe94ebcd78475c", "administrador");
 

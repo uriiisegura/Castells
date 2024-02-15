@@ -9,12 +9,13 @@ public class CastellerDTO extends PeriodeDTO {
 	private final String cognom1;
 	private final String cognom2;
 	private final String sexe;
+	private final String email;
 
 	public CastellerDTO(Casteller casteller) {
-		this(casteller.getDni(), casteller.getNom(), casteller.getCognom1(), casteller.getCognom2(), casteller.getSexe(), DateParser.parseLocalDate(casteller.getDataNaixement()), DateParser.parseLocalDate(casteller.getDataDefuncio()));
+		this(casteller.getDni(), casteller.getNom(), casteller.getCognom1(), casteller.getCognom2(), casteller.getSexe(), casteller.getEmail(), DateParser.parseLocalDate(casteller.getDataNaixement()), DateParser.parseLocalDate(casteller.getDataDefuncio()));
 	}
 
-	public CastellerDTO(String dni, String nom, String cognom1, String cognom2, String sexe, String dataNaixement, String dataDefuncio) {
+	public CastellerDTO(String dni, String nom, String cognom1, String cognom2, String sexe, String email, String dataNaixement, String dataDefuncio) {
 		super(dataNaixement, dataDefuncio);
 		this.dni = dni;
 		this.nom = nom;
@@ -22,6 +23,7 @@ public class CastellerDTO extends PeriodeDTO {
 		if (cognom2 == null) cognom2 = "";
 		this.cognom2 = cognom2;
 		this.sexe = sexe;
+		this.email = email.trim().toLowerCase();
 	}
 
 	public String getDni() {
@@ -43,6 +45,10 @@ public class CastellerDTO extends PeriodeDTO {
 
 	public String getSexe() {
 		return sexe;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public String getDataNaixement() {

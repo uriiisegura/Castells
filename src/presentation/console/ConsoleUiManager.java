@@ -35,10 +35,11 @@ public class ConsoleUiManager {
 		System.out.print("\tSegon cognom (deixar en blanc si no en té): ");
 		String cognom2 = scanner.nextLine();
 		String sexe = askString("\tSexe (home / dona / no binari): ");
+		String email = askString("\tCorreu electrònic: ");
 		String dataNaixement = askString("\tData de naixement (yyyy-mm-dd): ");
 		System.out.print("\tData de defunció (yyyy-mm-dd) (deixar en blanc si és viu): ");
 		String dataDefuncio = scanner.nextLine();
-		return new CastellerDTO(dni, nom, cognom1, cognom2, sexe, dataNaixement, dataDefuncio);
+		return new CastellerDTO(dni, nom, cognom1, cognom2, sexe, email, dataNaixement, dataDefuncio);
 	}
 
 	public void showMessage(String message) {

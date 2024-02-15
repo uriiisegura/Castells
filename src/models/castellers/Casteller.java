@@ -19,18 +19,20 @@ public class Casteller extends Periode {
 	private String cognom1;
 	private String cognom2;
 	private String sexe;
+	private String email;
 	private final List<EsDeLaColla> colles = new ArrayList<>();
 	private final List<TeCarrec> carrecs = new ArrayList<>();
 	private final List<Registre> registres = new ArrayList<>();
 	private final List<CastellLineUp> castells = new ArrayList<>();
 
-	public Casteller(String dni, String nom, String cognom1, String cognom2, String sexe, LocalDate dataNaixement, LocalDate dataDefuncio) {
+	public Casteller(String dni, String nom, String cognom1, String cognom2, String sexe, String email, LocalDate dataNaixement, LocalDate dataDefuncio) {
 		super(dataNaixement, dataDefuncio);
 		this.dni = dni;
 		this.nom = nom;
 		this.cognom1 = cognom1;
 		this.cognom2 = cognom2;
 		this.sexe = sexe;
+		this.email = email;
 	}
 
 	public void addColla(EsDeLaColla colla) {
@@ -67,6 +69,10 @@ public class Casteller extends Periode {
 
 	public String getSexe() {
 		return sexe;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public LocalDate getDataNaixement() {

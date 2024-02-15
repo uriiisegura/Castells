@@ -144,9 +144,10 @@ public class BusinessFacade {
 			throw new ValidationException("El primer cognom no pot estar buit.");
 
 		for (Casteller c : castellers) {
-			if (c.getDni().equals(casteller.getDni())) {
+			if (c.getDni().equals(casteller.getDni()))
 				throw new ValidationException("Ja existeix un casteller amb aquest DNI/NIE.");
-			}
+			if (c.getEmail().equals(casteller.getEmail()))
+				throw new ValidationException("Ja existeix un casteller amb aquest correu electrònic.");
 		}
 
 		if (!casteller.getSexe().matches("^(home|dona|no binari)$")) {
@@ -161,6 +162,7 @@ public class BusinessFacade {
 				casteller.getCognom1(),
 				casteller.getCognom2(),
 				casteller.getSexe(),
+				casteller.getEmail(),
 				periode.getDesDe(),
 				periode.getFinsA()
 		);

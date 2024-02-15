@@ -9,6 +9,7 @@ public class JCastellerForms extends JForms {
 	private final JTextFieldWithPlaceholder cognom1Field = new JTextFieldWithPlaceholder("Primer cognom");
 	private final JTextFieldWithPlaceholder cognom2Field = new JTextFieldWithPlaceholder("Segon cognom");
 	private final JSexPicker sexPicker = new JSexPicker();
+	private final JTextFieldWithPlaceholder emailField = new JTextFieldWithPlaceholder("Correu electrònic");
 	private final JDatePicker dataNaixementPicker = new JDatePicker();
 	private final JDatePicker dataDefuncioPicker = new JDatePicker();
 
@@ -23,6 +24,7 @@ public class JCastellerForms extends JForms {
 		cognom1Field.clear();
 		cognom2Field.clear();
 		sexPicker.clear();
+		emailField.clear();
 		dataNaixementPicker.clear();
 		dataDefuncioPicker.clear();
 	}
@@ -35,6 +37,7 @@ public class JCastellerForms extends JForms {
 				cognom1Field.getInput(),
 				cognom2Field.getInput(),
 				sexPicker.getSelected(),
+				emailField.getInput(),
 				DateParser.parseLocalDate(dataNaixementPicker.getDate()),
 				DateParser.parseLocalDate(dataDefuncioPicker.getDate())
 		);
@@ -46,6 +49,7 @@ public class JCastellerForms extends JForms {
 		addField("Primer cognom", cognom1Field);
 		addField("Segon cognom", cognom2Field);
 		addField("Sexe", sexPicker);
+		addField("Correu electrònic", emailField);
 		addField("Data de naixement", dataNaixementPicker);
 		addField("Data de defunció", dataDefuncioPicker);
 	}
