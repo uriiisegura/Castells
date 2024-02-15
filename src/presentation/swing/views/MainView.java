@@ -104,7 +104,7 @@ public class MainView extends JFrame implements CustomView {
 			}
 		});
 
-		setView(createCastellerView);
+		setView(homeView);
 	}
 
 	private void logOut() {
