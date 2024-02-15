@@ -69,7 +69,10 @@ public class ConsoleController implements Controller {
 						// TODO
 						break;
 					case VIEW_DATA:
-						// TODO:
+						// TODO
+						break;
+					case DELETE_DATA:
+						// TODO
 						break;
 					case EXIT:
 						break;
