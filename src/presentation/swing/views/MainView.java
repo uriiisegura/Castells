@@ -75,79 +75,19 @@ public class MainView extends JFrame implements CustomView {
 		menuBar.add(surt);
 		setJMenuBar(menuBar);
 
-		home.addMouseListener(new MouseInputListener() {
+		home.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setView(homeView);
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseDragged(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseMoved(MouseEvent e) {
-
 			}
 		});
 		menuController.addMenuItem(home, homeView);
 		menuController.addMenuItem(createCasteller, createCastellerView);
 		menuController.addMenuItem(createColla, createCollaView);
-		surt.addMouseListener(new MouseInputListener() {
+		surt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				logOut();
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseDragged(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseMoved(MouseEvent e) {
-
 			}
 		});
 
