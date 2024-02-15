@@ -17,18 +17,18 @@ public class CreateCastellerView extends ClearableJPanel {
 		configureLayout();
 	}
 
-	public void createCasteller() {
-		mainView.createCasteller(createCastellerForm.get());
-	}
-
 	@Override
 	public void clear() {
 		createCastellerForm.clear();
 	}
 
+	public void createCasteller() {
+		mainView.createCasteller(createCastellerForm.get());
+	}
+
 	private void configureLayout() {
 		setLayout(new BorderLayout());
-		add(new JTitle("Create Casteller"), BorderLayout.NORTH);
+		add(new JTitle("Crea un casteller"), BorderLayout.NORTH);
 		add(createCastellerForm, BorderLayout.CENTER);
 		add(submitButton, BorderLayout.SOUTH);
 		submitButton.addActionListener(new CreateCastellerController(this));

@@ -2,17 +2,23 @@ package presentation.swing;
 
 import business.BusinessFacade;
 import business.dto.CastellerDTO;
+import business.dto.EsDeLaCollaDTO;
 import business.dto.LogInDTO;
+import business.dto.PeriodeDTO;
 import exceptions.NotAllowedException;
 import exceptions.UserIsNotLoggedInException;
 import exceptions.ValidationException;
 import exceptions.WrongCredentialsException;
+import models.Periode;
 import models.castellers.Casteller;
+import models.colles.Colla;
 import presentation.Controller;
 import presentation.swing.views.LogInView;
 import presentation.swing.views.MainView;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.List;
 
 public class SwingController implements Controller {
 	private final BusinessFacade businessFacade;
@@ -68,11 +74,41 @@ public class SwingController implements Controller {
 		}
 
 		mainView.showMessage("Casteller afegit correctament.");
+
+		if (mainView.askBoolean("Vols afegir el casteller a una colla?"))
+			addCastellerToColla(newCasteller);
+	}
+
+	public void addCastellerToColla(EsDeLaCollaDTO esDeLaColla, String castellerDni, String collaId) {
+		Casteller casteller = null;
+		try {
+			casteller = businessFacade.validateAndAddCastellerToColla(esDeLaColla, castellerDni, collaId);
+		} catch (ValidationException e) {
+			mainView.showError(e.getMessage());
+			return;
+		} catch (UserIsNotLoggedInException | NotAllowedException e) {
+			logOut();
+		}
+
+		mainView.showMessage("Casteller afegit a la colla correctament.");
+
+		if (mainView.askBoolean("Vols afegir el casteller a una altra colla?"))
+			addCastellerToColla(casteller);
 	}
 
 	public void logOut() {
 		businessFacade.logOut();
 		mainView.dispose();
 		start();
+	}
+
+	private void addCastellerToColla(Casteller casteller) {
+		CastellerDTO castellerDTO = new CastellerDTO(casteller);
+		try {
+			HashMap<String, String> colles = businessFacade.getCollaNamesAt(
+					new PeriodeDTO(castellerDTO.getDesDe(), castellerDTO.getFinsA())
+			);
+			mainView.addCastellerToColla(castellerDTO, colles);
+		} catch (ValidationException ignored) {}
 	}
 }

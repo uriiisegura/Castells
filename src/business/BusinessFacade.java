@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -169,8 +170,8 @@ public class BusinessFacade {
 		return newCasteller;
 	}
 
-	public HashMap<String, Colla> getCurrentCollaNames() {
-		HashMap<String, Colla> collaNames = new HashMap<>();
+	public HashMap<String, String> getCurrentCollaNames() {
+		HashMap<String, String> collaNames = new HashMap<>();
 		for (Colla colla : colles) {
 			String nom;
 			try {
@@ -182,19 +183,47 @@ public class BusinessFacade {
 					continue;
 				}
 			}
-			collaNames.put(nom, colla);
+			collaNames.put(colla.getId(), nom);
 		}
 		return collaNames;
 	}
 
-	public void validateAndAddCastellerToColla(Casteller casteller, Colla colla, EsDeLaCollaDTO esDeLaColla) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+	public HashMap<String, String> getCollaNamesAt(PeriodeDTO periodeDTO) throws ValidationException {
+		Periode periode = validatePeriode(periodeDTO.getDesDe(), periodeDTO.getFinsA(), true);
+
+		HashMap<String, String> collaNames = new HashMap<>();
+		for (Colla colla : colles) {
+			try {
+				String nom = colla.getNomAt(periode);
+				collaNames.put(colla.getId(), nom);
+			} catch (ValuelessAtDateException ignored) {}
+		}
+
+		return collaNames;
+	}
+
+	public Casteller validateAndAddCastellerToColla(EsDeLaCollaDTO esDeLaColla, String castellerDni, String collaId) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
 		if (!isSessionActive())
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
 			throw new NotAllowedException();
 
+		Casteller casteller = castellers.stream().filter(c -> c.getDni().equals(castellerDni)).findFirst().orElse(null);
+		if (casteller == null) {
+			throw new ValidationException("No existeix cap casteller amb aquest DNI/NIE.");
+		}
+		Colla colla = colles.stream().filter(c -> c.getId().equals(collaId)).findFirst().orElse(null);
+		if (colla == null) {
+			throw new ValidationException("No existeix cap colla amb aquest id.");
+		}
+
 		Periode periode = validatePeriode(esDeLaColla.getDesDe(), esDeLaColla.getFinsA(), true);
 		EsDeLaColla newEsDeLaColla = new EsDeLaColla(casteller, colla, periode.getDesDe(), periode.getFinsA(), esDeLaColla.getMalnom());
+
+		if (periode.getDesDe().isBefore(casteller.getDataNaixement()))
+			throw new ValidationException("El casteller no pot estar a cap colla abans de néixer.");
+		if (periode.getFinsA() != null && periode.getFinsA().isAfter(casteller.getDataDefuncio()))
+			throw new ValidationException("El casteller no pot seguir a cap colla després de morir.");
 
 		try {
 			List<EsDeLaColla> periods = casteller.getPeriodsInColla(colla);
@@ -206,6 +235,8 @@ public class BusinessFacade {
 		esDeLaCollaSqlDAO.add(newEsDeLaColla);
 		colla.addCasteller(newEsDeLaColla);
 		casteller.addColla(newEsDeLaColla);
+
+		return casteller;
 	}
 
 	public Colla validateAndAddColla(CollaDTO colla) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {

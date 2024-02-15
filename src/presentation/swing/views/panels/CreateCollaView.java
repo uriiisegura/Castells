@@ -16,6 +16,6 @@ public class CreateCollaView extends ClearableJPanel {
 
 	private void configureLayout() {
 		setLayout(new BorderLayout());
-		add(new JTitle("Create Colla"), BorderLayout.NORTH);
+		add(new JTitle("Crea una colla"), BorderLayout.NORTH);
 	}
 }

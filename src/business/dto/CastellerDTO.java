@@ -1,5 +1,8 @@
 package business.dto;
 
+import config.DateParser;
+import models.castellers.Casteller;
+
 public class CastellerDTO extends PeriodeDTO {
 	private final String dni;
 	private final String nom;
@@ -7,11 +10,16 @@ public class CastellerDTO extends PeriodeDTO {
 	private final String cognom2;
 	private final String sexe;
 
+	public CastellerDTO(Casteller casteller) {
+		this(casteller.getDni(), casteller.getNom(), casteller.getCognom1(), casteller.getCognom2(), casteller.getSexe(), DateParser.parseLocalDate(casteller.getDataNaixement()), DateParser.parseLocalDate(casteller.getDataDefuncio()));
+	}
+
 	public CastellerDTO(String dni, String nom, String cognom1, String cognom2, String sexe, String dataNaixement, String dataDefuncio) {
 		super(dataNaixement, dataDefuncio);
 		this.dni = dni;
 		this.nom = nom;
 		this.cognom1 = cognom1;
+		if (cognom2 == null) cognom2 = "";
 		this.cognom2 = cognom2;
 		this.sexe = sexe;
 	}
@@ -43,5 +51,10 @@ public class CastellerDTO extends PeriodeDTO {
 
 	public String getDataDefuncio() {
 		return super.getFinsA();
+	}
+
+	public String getFullName() {
+		if (getCognom2() == null) return String.format("%s %s", nom, cognom1);
+		return String.format("%s %s i %s", nom, cognom1, cognom2);
 	}
 }

@@ -77,6 +77,14 @@ public abstract class Colla {
 		throw new ValuelessAtDateException("No hi ha cap nom actiu per a la data " + data + ".");
 	}
 
+	public String getNomAt(Periode periode) throws ValuelessAtDateException {
+		for (CollaNom nom : noms) {
+			if (nom.overlaps(periode))
+				return nom.getNom();
+		}
+		throw new ValuelessAtDateException("No hi ha cap nom actiu en el període proporcionat.");
+	}
+
 	public String getCurrentNom() throws ValuelessAtDateException{
 		return getNomAt(LocalDate.now());
 	}

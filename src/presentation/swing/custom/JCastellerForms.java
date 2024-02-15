@@ -3,8 +3,6 @@ package presentation.swing.custom;
 import business.dto.CastellerDTO;
 import config.DateParser;
 
-import javax.swing.*;
-
 public class JCastellerForms extends JForms {
 	private final JTextFieldWithPlaceholder dniField = new JTextFieldWithPlaceholder("DNI / NIE");
 	private final JTextFieldWithPlaceholder nomField = new JTextFieldWithPlaceholder("Nom");
@@ -18,16 +16,7 @@ public class JCastellerForms extends JForms {
 		configureLayout();
 	}
 
-	private void configureLayout() {
-		addField("DNI / NIE", dniField);
-		addField("Nom", nomField);
-		addField("Primer cognom", cognom1Field);
-		addField("Segon cognom", cognom2Field);
-		addField("Sexe", sexPicker);
-		addField("Data de naixement", dataNaixementPicker);
-		addField("Data de defunció", dataDefuncioPicker);
-	}
-
+	@Override
 	public void clear() {
 		dniField.clear();
 		nomField.clear();
@@ -38,15 +27,26 @@ public class JCastellerForms extends JForms {
 		dataDefuncioPicker.clear();
 	}
 
+	@Override
 	public CastellerDTO get() {
 		return new CastellerDTO(
-				dniField.getText(),
-				nomField.getText(),
-				cognom1Field.getText(),
-				cognom2Field.getText(),
+				dniField.getInput(),
+				nomField.getInput(),
+				cognom1Field.getInput(),
+				cognom2Field.getInput(),
 				sexPicker.getSelected(),
 				DateParser.parseLocalDate(dataNaixementPicker.getDate()),
 				DateParser.parseLocalDate(dataDefuncioPicker.getDate())
 		);
+	}
+
+	private void configureLayout() {
+		addField("DNI / NIE", dniField);
+		addField("Nom", nomField);
+		addField("Primer cognom", cognom1Field);
+		addField("Segon cognom", cognom2Field);
+		addField("Sexe", sexPicker);
+		addField("Data de naixement", dataNaixementPicker);
+		addField("Data de defunció", dataDefuncioPicker);
 	}
 }

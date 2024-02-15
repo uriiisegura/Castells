@@ -18,8 +18,7 @@ public class JTextFieldWithPlaceholder extends JTextField {
 		if (defaultValue != null) {
 			setDefaultValue(defaultValue);
 		} else {
-			setForeground(Color.GRAY);
-			setText(placeholder);
+			clearDefaultValue();
 		}
 		addFocusListener(new PlaceholderListener());
 	}
@@ -36,11 +35,8 @@ public class JTextFieldWithPlaceholder extends JTextField {
 		setForeground(Color.GRAY);
 	}
 
-	@Override
-	public String getText() {
-		if (wroteSomething)
-			return super.getText();
-		return "";
+	public String getInput() {
+		return wroteSomething ? getText() : "";
 	}
 
 	public void clear() {

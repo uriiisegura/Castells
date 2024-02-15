@@ -106,26 +106,26 @@ public class ConsoleController implements Controller {
 		boolean addMore;
 		do {
 			boolean createColla = false;
-			Colla colla = null;
-			HashMap<String, Colla> colles = businessFacade.getCurrentCollaNames();
+			String collaId = null;
+			HashMap<String, String> colles = businessFacade.getCurrentCollaNames();
 			if (colles.isEmpty()) {
 				createColla = uiManager.askBoolean("No hi ha cap colla. Vols crear-ne una? (s/n): ");
 			} else {
-				List<String> collaNames = new ArrayList<>(colles.keySet());
+				List<String> collaNames = new ArrayList<>(colles.values());
 				collaNames.add("Crear una nova colla");
 				int collaOption = uiManager.askOptionFromList("A quina colla vols afegir el casteller?", collaNames, "Colla: ");
 				if (collaOption == collaNames.size() - 1)
 					createColla = true;
 				else
-					colla = colles.get(collaNames.get(collaOption));
+					collaId = colles.get(collaNames.get(collaOption));
 			}
 			if (createColla)
-				colla = createColla();
+				collaId = createColla().getId();
 
 			boolean validData = false;
 			do {
 				try {
-					businessFacade.validateAndAddCastellerToColla(casteller, colla, uiManager.askEsDeLaColla());
+					businessFacade.validateAndAddCastellerToColla(uiManager.askEsDeLaColla(), casteller.getDni(), collaId);
 					validData = true;
 				} catch (ValidationException e) {
 					uiManager.showError(e.getMessage());

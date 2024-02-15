@@ -5,6 +5,7 @@ public class PeriodeDTO {
 	private final String finsA;
 
 	public PeriodeDTO(String desDe, String finsA) {
+		if (finsA == null) finsA = "";
 		this.desDe = desDe;
 		this.finsA = finsA;
 	}

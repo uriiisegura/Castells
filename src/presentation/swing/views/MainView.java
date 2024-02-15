@@ -1,19 +1,19 @@
 package presentation.swing.views;
 
 import business.dto.CastellerDTO;
+import business.dto.EsDeLaCollaDTO;
 import presentation.menus.CreateDataMenuOptions;
 import presentation.menus.EditDataMenuOptions;
 import presentation.menus.MenuController;
 import presentation.swing.CustomView;
 import presentation.swing.SwingController;
-import presentation.swing.views.panels.ClearableJPanel;
-import presentation.swing.views.panels.CreateCastellerView;
-import presentation.swing.views.panels.CreateCollaView;
-import presentation.swing.views.panels.HomeView;
+import presentation.swing.views.panels.*;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.List;
 
 public class MainView extends JFrame implements CustomView {
 	private final SwingController controller;
@@ -33,6 +33,7 @@ public class MainView extends JFrame implements CustomView {
 	private final HomeView homeView = new HomeView();
 	private final CreateCastellerView createCastellerView = new CreateCastellerView(this);
 	private final CreateCollaView createCollaView = new CreateCollaView();
+	private final AddCastellerToCollaView addCastellerToCollaView = new AddCastellerToCollaView(this);
 
 	public MainView(SwingController controller) {
 		this.controller = controller;
@@ -66,6 +67,20 @@ public class MainView extends JFrame implements CustomView {
 		controller.createCasteller(castellerDTO);
 	}
 
+	public boolean askBoolean(String message) {
+		return JOptionPane.showConfirmDialog(this, message, "Confirmació", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+	}
+
+	public void addCastellerToColla(CastellerDTO castellerDTO, HashMap<String, String> colles) {
+		setView(addCastellerToCollaView);
+		addCastellerToCollaView.setCasteller(castellerDTO);
+		addCastellerToCollaView.setColles(colles);
+	}
+
+	public void addCastellerToColla(EsDeLaCollaDTO esDeLaColla, String casteller, String colla) {
+		controller.addCastellerToColla(esDeLaColla, casteller, colla);
+	}
+
 	private void configureWindow() {
 		setTitle("SiGAC - Sistema de Gestió d'Arxius Castellers");
 		setSize(800, 600);
@@ -97,6 +112,7 @@ public class MainView extends JFrame implements CustomView {
 		menuController.addMenuItem(home, homeView);
 		menuController.addMenuItem(createCasteller, createCastellerView);
 		menuController.addMenuItem(createColla, createCollaView);
+		menuController.addMenuItem(addCastellerToColla, addCastellerToCollaView);
 		surt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

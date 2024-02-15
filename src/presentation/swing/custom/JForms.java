@@ -31,4 +31,10 @@ public abstract class JForms extends JPanel {
 		constraints.weightx = 1;
 		add(component, constraints);
 	}
+
+	public void clear() {}
+
+	public Object get() {
+		return null;
+	}
 }

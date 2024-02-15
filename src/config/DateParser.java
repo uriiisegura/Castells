@@ -7,9 +7,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class DateParser {
-	private final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private final static DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+	private final static DateTimeFormatter localDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	public static LocalDate parseLocalDate(Date date) {
 		if (date == null)
@@ -27,6 +29,12 @@ public class DateParser {
 	public static String parseLocalDate(java.util.Date date) {
 		if (date == null)
 			return "";
-		return dateFormat.format(date);
+		return dateFormatter.format(date);
+	}
+
+	public static String parseLocalDate(LocalDate date) {
+		if (date == null)
+			return "";
+		return localDateFormatter.format(date);
 	}
 }
