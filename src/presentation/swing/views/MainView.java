@@ -63,6 +63,10 @@ public class MainView extends JFrame implements CustomView {
 		repaint();
 	}
 
+	public void goHome() {
+		setView(homeView);
+	}
+
 	public void createCasteller(CastellerDTO castellerDTO) {
 		controller.createCasteller(castellerDTO);
 	}
@@ -106,7 +110,7 @@ public class MainView extends JFrame implements CustomView {
 		home.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setView(homeView);
+				goHome();
 			}
 		});
 		menuController.addMenuItem(home, homeView);
@@ -120,7 +124,7 @@ public class MainView extends JFrame implements CustomView {
 			}
 		});
 
-		setView(homeView);
+		goHome();
 	}
 
 	private void logOut() {

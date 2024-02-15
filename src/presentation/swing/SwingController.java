@@ -77,6 +77,8 @@ public class SwingController implements Controller {
 
 		if (mainView.askBoolean("Vols afegir el casteller a una colla?"))
 			addCastellerToColla(newCasteller);
+		else
+			mainView.goHome();
 	}
 
 	public void addCastellerToColla(EsDeLaCollaDTO esDeLaColla, String castellerDni, String collaId) {
@@ -94,6 +96,8 @@ public class SwingController implements Controller {
 
 		if (mainView.askBoolean("Vols afegir el casteller a una altra colla?"))
 			addCastellerToColla(casteller);
+		else
+			mainView.goHome();
 	}
 
 	public void logOut() {
