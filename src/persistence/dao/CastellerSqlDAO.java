@@ -47,7 +47,7 @@ public class CastellerSqlDAO {
 		return castellers;
 	}
 
-	public void add(Casteller casteller) {
+	public boolean add(Casteller casteller) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 					String.format("INSERT INTO %s (dni, nom, cognom1, cognom2, sexe, email, dataNaixement, dataDefuncio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tableName)
@@ -60,8 +60,7 @@ public class CastellerSqlDAO {
 			preparedStatement.setString(6, casteller.getEmail());
 			preparedStatement.setDate(7, Date.valueOf(casteller.getDataNaixement()));
 			preparedStatement.setDate(8, casteller.getDataDefuncio() != null ? Date.valueOf(casteller.getDataDefuncio()) : null);
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			return preparedStatement.executeUpdate() > 0;
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}

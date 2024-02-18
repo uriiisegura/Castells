@@ -5,10 +5,7 @@ import business.dto.CastellerDTO;
 import business.dto.EsDeLaCollaDTO;
 import business.dto.LogInDTO;
 import business.dto.PeriodeDTO;
-import exceptions.NotAllowedException;
-import exceptions.UserIsNotLoggedInException;
-import exceptions.ValidationException;
-import exceptions.WrongCredentialsException;
+import exceptions.*;
 import models.Periode;
 import models.castellers.Casteller;
 import models.colles.Colla;
@@ -66,7 +63,7 @@ public class SwingController implements Controller {
 
 		try {
 			newCasteller = businessFacade.validateAndAddCasteller(casteller);
-		} catch (ValidationException  e) {
+		} catch (ValidationException | CannotInsertException e) {
 			mainView.showError(e.getMessage());
 			return;
 		} catch (UserIsNotLoggedInException | NotAllowedException e) {
@@ -85,7 +82,7 @@ public class SwingController implements Controller {
 		Casteller casteller = null;
 		try {
 			casteller = businessFacade.validateAndAddCastellerToColla(esDeLaColla, castellerDni, collaId);
-		} catch (ValidationException e) {
+		} catch (ValidationException | CannotInsertException e) {
 			mainView.showError(e.getMessage());
 			return;
 		} catch (UserIsNotLoggedInException | NotAllowedException e) {

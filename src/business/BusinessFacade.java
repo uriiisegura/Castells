@@ -128,7 +128,7 @@ public class BusinessFacade {
 		loadDiades();
 	}
 
-	public Casteller validateAndAddCasteller(CastellerDTO casteller) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+	public Casteller validateAndAddCasteller(CastellerDTO casteller) throws UserIsNotLoggedInException, NotAllowedException, ValidationException, CannotInsertException {
 		if (!isSessionActive())
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
@@ -166,7 +166,8 @@ public class BusinessFacade {
 				periode.getDesDe(),
 				periode.getFinsA()
 		);
-		castellerSqlDAO.add(newCasteller);
+		if (!castellerSqlDAO.add(newCasteller))
+			throw new CannotInsertException("No s'ha pogut afegir el casteller.");
 		castellers.add(newCasteller);
 
 		return newCasteller;
@@ -204,7 +205,7 @@ public class BusinessFacade {
 		return collaNames;
 	}
 
-	public Casteller validateAndAddCastellerToColla(EsDeLaCollaDTO esDeLaColla, String castellerDni, String collaId) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+	public Casteller validateAndAddCastellerToColla(EsDeLaCollaDTO esDeLaColla, String castellerDni, String collaId) throws UserIsNotLoggedInException, NotAllowedException, ValidationException, CannotInsertException {
 		if (!isSessionActive())
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
@@ -234,14 +235,15 @@ public class BusinessFacade {
 				throw new ValidationException("Els períodes d'un casteller a una mateix colla no es poden solapar.");
 		} catch (ValuelessEverException ignored) {}
 
-		esDeLaCollaSqlDAO.add(newEsDeLaColla);
+		if (!esDeLaCollaSqlDAO.add(newEsDeLaColla))
+			throw new CannotInsertException("No s'ha pogut afegir el casteller a la colla.");
 		colla.addCasteller(newEsDeLaColla);
 		casteller.addColla(newEsDeLaColla);
 
 		return casteller;
 	}
 
-	public Colla validateAndAddColla(CollaDTO colla) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+	public Colla validateAndAddColla(CollaDTO colla) throws UserIsNotLoggedInException, NotAllowedException, ValidationException, CannotInsertException {
 		if (!isSessionActive())
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
@@ -252,13 +254,14 @@ public class BusinessFacade {
 				throw new ValidationException("Ja existeix una colla amb aquest id.");
 
 		Colla newColla = colla.esUniversitaria() ? new CollaUniversitaria(colla.getId()) : new CollaConvencional(colla.getId());
-		collaSqlDAO.add(newColla);
+		if (!collaSqlDAO.add(newColla))
+			throw new CannotInsertException("No s'ha pogut afegir la colla.");
 		colles.add(newColla);
 
 		return newColla;
 	}
 
-	public void validateAndAddCollaNom(Colla colla, CollaNomDTO collaNom) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+	public void validateAndAddCollaNom(Colla colla, CollaNomDTO collaNom) throws UserIsNotLoggedInException, NotAllowedException, ValidationException, CannotInsertException {
 		if (!isSessionActive())
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
@@ -274,11 +277,12 @@ public class BusinessFacade {
 				throw new ValidationException("Una colla no pot tenir dos noms al mateix temps.");
 		} catch (ValuelessEverException ignored) {}
 
-		collaNomSqlDAO.add(colla.getId(), newCollaNom);
+		if (!collaNomSqlDAO.add(colla.getId(), newCollaNom))
+			throw new CannotInsertException("No s'ha pogut afegir el nom a la colla.");
 		colla.addNom(newCollaNom);
 	}
 
-	public void validateAndAddCollaFundacio(Colla colla, PeriodeDTO periode) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+	public void validateAndAddCollaFundacio(Colla colla, PeriodeDTO periode) throws UserIsNotLoggedInException, NotAllowedException, ValidationException, CannotInsertException {
 		if (!isSessionActive())
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
@@ -294,11 +298,12 @@ public class BusinessFacade {
 				throw new ValidationException("Una colla no pot tenir dues fundacions al mateix temps.");
 		} catch (ValuelessEverException ignored) {}
 
-		collaFundacioSqlDAO.add(colla.getId(), newCollaFundacio);
+		if (!collaFundacioSqlDAO.add(colla.getId(), newCollaFundacio))
+			throw new CannotInsertException("No s'ha pogut afegir la fundació a la colla.");
 		colla.addFundacio(newCollaFundacio);
 	}
 
-	public void validateAndAddCollaColor(Colla colla, CollaColorDTO collaColor) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+	public void validateAndAddCollaColor(Colla colla, CollaColorDTO collaColor) throws UserIsNotLoggedInException, NotAllowedException, ValidationException, CannotInsertException {
 		if (!isSessionActive())
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
@@ -322,7 +327,8 @@ public class BusinessFacade {
 				throw new ValidationException("Una colla no pot tenir dos colors al mateix temps.");
 		} catch (ValuelessEverException ignored) {}
 
-		collaColorSqlDAO.add(colla.getId(), newCollaColor);
+		if (!collaColorSqlDAO.add(colla.getId(), newCollaColor))
+			throw new CannotInsertException("No s'ha pogut afegir el color a la colla.");
 		colla.addColor(newCollaColor);
 	}
 
@@ -334,7 +340,7 @@ public class BusinessFacade {
 		return paissos;
 	}
 
-	public void validateAndAddCollaAdreca(Colla colla, Ciutat ciutat, CollaAdrecaDTO collaAdreca) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+	public void validateAndAddCollaAdreca(Colla colla, Ciutat ciutat, CollaAdrecaDTO collaAdreca) throws UserIsNotLoggedInException, NotAllowedException, ValidationException, CannotInsertException {
 		if (!isSessionActive())
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
@@ -350,11 +356,12 @@ public class BusinessFacade {
 				throw new ValidationException("Una colla no pot tenir dues adreces al mateix temps.");
 		} catch (ValuelessEverException ignored) {}
 
-		collaAdrecaSqlDAO.add(colla.getId(), newCollaAdreca);
+		if (!collaAdrecaSqlDAO.add(colla.getId(), newCollaAdreca))
+			throw new CannotInsertException("No s'ha pogut afegir l'adreça a la colla.");
 		colla.addAdreca(newCollaAdreca);
 	}
 
-	public Ciutat validateAndAddCiutat(Pais pais, CiutatDTO ciutat) throws UserIsNotLoggedInException, NotAllowedException, ValidationException {
+	public Ciutat validateAndAddCiutat(Pais pais, CiutatDTO ciutat) throws UserIsNotLoggedInException, NotAllowedException, ValidationException, CannotInsertException {
 		if (!isSessionActive())
 			throw new UserIsNotLoggedInException();
 		if (!session.rol.equals("administrador"))
@@ -365,7 +372,8 @@ public class BusinessFacade {
 				throw new ValidationException("Ja existeix la ciutat.");
 
 		Ciutat newCiutat = new Ciutat(ciutat.getNom(), pais);
-		ciutatSqlDAO.add(newCiutat);
+		if (!ciutatSqlDAO.add(newCiutat))
+			throw new CannotInsertException("No s'ha pogut afegir la ciutat.");
 		ciutats.add(newCiutat);
 
 		return newCiutat;

@@ -45,7 +45,7 @@ public class CollaFundacioSqlDAO {
 		}
 	}
 
-	public void add(String collaId, CollaFundacio collaFundacio) {
+	public boolean add(String collaId, CollaFundacio collaFundacio) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 					String.format("INSERT INTO %s (colla, desDe, finsA) VALUES (?, ?, ?)", tableName)
@@ -53,9 +53,7 @@ public class CollaFundacioSqlDAO {
 			preparedStatement.setString(1, collaId);
 			preparedStatement.setDate(2, Date.valueOf(collaFundacio.getDesDe()));
 			preparedStatement.setDate(3, collaFundacio.getFinsA() != null ? Date.valueOf(collaFundacio.getFinsA()) : null);
-
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			return preparedStatement.executeUpdate() > 0;
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}

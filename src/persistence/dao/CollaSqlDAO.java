@@ -42,13 +42,12 @@ public class CollaSqlDAO {
 		return colles;
 	}
 
-	public void add(Colla colla) {
+	public boolean add(Colla colla) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(String.format("INSERT INTO %s (id, universitaria) VALUES (?, ?)", tableName));
 			preparedStatement.setString(1, colla.getId());
 			preparedStatement.setBoolean(2, colla instanceof CollaUniversitaria);
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			return preparedStatement.executeUpdate() > 0;
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}

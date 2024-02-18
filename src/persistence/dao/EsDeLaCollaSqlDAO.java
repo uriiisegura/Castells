@@ -58,7 +58,7 @@ public class EsDeLaCollaSqlDAO {
 		}
 	}
 
-	public void add(EsDeLaColla esDeLaColla) {
+	public boolean add(EsDeLaColla esDeLaColla) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 					String.format("INSERT INTO %s (casteller, colla, desDe, finsA, malnom) VALUES (?, ?, ?, ?, ?)", tableName)
@@ -68,8 +68,7 @@ public class EsDeLaCollaSqlDAO {
 			preparedStatement.setDate(3, Date.valueOf(esDeLaColla.getDesDe()));
 			preparedStatement.setDate(4, esDeLaColla.getFinsA() != null ? Date.valueOf(esDeLaColla.getFinsA()) : null);
 			preparedStatement.setString(5, esDeLaColla.getMalnom());
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			return preparedStatement.executeUpdate() > 1;
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}

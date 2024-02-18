@@ -48,15 +48,14 @@ public class CiutatSqlDAO {
 		return ciutats;
 	}
 
-	public void add(Ciutat ciutat) {
+	public boolean add(Ciutat ciutat) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 					String.format("INSERT INTO %s (nom, pais) VALUES (?, ?)", tableName)
 			);
 			preparedStatement.setString(1, ciutat.getNom());
 			preparedStatement.setString(2, ciutat.getPais().getNom());
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			return preparedStatement.executeUpdate() > 0;
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}

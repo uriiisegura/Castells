@@ -1,10 +1,7 @@
 package presentation.console;
 
 import business.BusinessFacade;
-import exceptions.NotAllowedException;
-import exceptions.UserIsNotLoggedInException;
-import exceptions.ValidationException;
-import exceptions.WrongCredentialsException;
+import exceptions.*;
 import models.castellers.Casteller;
 import models.colles.Colla;
 import models.locations.Ciutat;
@@ -89,7 +86,7 @@ public class ConsoleController implements Controller {
 			try {
 				newCasteller = businessFacade.validateAndAddCasteller(uiManager.askNewCasteller());
 				validData = true;
-			} catch (ValidationException e) {
+			} catch (ValidationException | CannotInsertException e) {
 				uiManager.showError(e.getMessage());
 			}
 		} while (!validData);
@@ -127,7 +124,7 @@ public class ConsoleController implements Controller {
 				try {
 					businessFacade.validateAndAddCastellerToColla(uiManager.askEsDeLaColla(), casteller.getDni(), collaId);
 					validData = true;
-				} catch (ValidationException e) {
+				} catch (ValidationException | CannotInsertException e) {
 					uiManager.showError(e.getMessage());
 				}
 			} while (!validData);
@@ -144,7 +141,7 @@ public class ConsoleController implements Controller {
 			try {
 				newColla = businessFacade.validateAndAddColla(uiManager.askNewColla());
 				validData = true;
-			} catch (ValidationException e) {
+			} catch (ValidationException | CannotInsertException e) {
 				uiManager.showError(e.getMessage());
 			}
 		} while (!validData);
@@ -171,7 +168,7 @@ public class ConsoleController implements Controller {
 				try {
 					businessFacade.validateAndAddCollaFundacio(colla, uiManager.askCollaFundacio());
 					validData = true;
-				} catch (ValidationException e) {
+				} catch (ValidationException | CannotInsertException e) {
 					uiManager.showError(e.getMessage());
 				}
 			} while (!validData);
@@ -187,7 +184,7 @@ public class ConsoleController implements Controller {
 				try {
 					businessFacade.validateAndAddCollaNom(colla, uiManager.askCollaNom());
 					validData = true;
-				} catch (ValidationException e) {
+				} catch (ValidationException | CannotInsertException e) {
 					uiManager.showError(e.getMessage());
 				}
 			} while (!validData);
@@ -203,7 +200,7 @@ public class ConsoleController implements Controller {
 				try {
 					businessFacade.validateAndAddCollaColor(colla, uiManager.askCollaColor());
 					validData = true;
-				} catch (ValidationException e) {
+				} catch (ValidationException | CannotInsertException e) {
 					uiManager.showError(e.getMessage());
 				}
 			} while (!validData);
@@ -232,7 +229,7 @@ public class ConsoleController implements Controller {
 				try {
 					businessFacade.validateAndAddCollaAdreca(colla, ciutat, uiManager.askCollaAdreca());
 					validData = true;
-				} catch (ValidationException e) {
+				} catch (ValidationException | CannotInsertException e) {
 					uiManager.showError(e.getMessage());
 				}
 			} while (!validData);
@@ -247,7 +244,7 @@ public class ConsoleController implements Controller {
 			try {
 				newCiutat = businessFacade.validateAndAddCiutat(pais, uiManager.askNewCiutat());
 				validData = true;
-			} catch (ValidationException e) {
+			} catch (ValidationException | CannotInsertException e) {
 				uiManager.showError(e.getMessage());
 			}
 		} while (!validData);

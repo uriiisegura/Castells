@@ -47,7 +47,7 @@ public class CollaColorSqlDAO {
 		}
 	}
 
-	public void add(String collaId, CollaColor collaColor) {
+	public boolean add(String collaId, CollaColor collaColor) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
 					String.format("INSERT INTO %s (colla, desDe, finsA, color) VALUES (?, ?, ?, ?)", tableName)
@@ -56,9 +56,7 @@ public class CollaColorSqlDAO {
 			preparedStatement.setDate(2, Date.valueOf(collaColor.getDesDe()));
 			preparedStatement.setDate(3, collaColor.getFinsA() != null ? Date.valueOf(collaColor.getFinsA()) : null);
 			preparedStatement.setString(4, collaColor.getHexColor());
-
-			preparedStatement.executeUpdate();
-			preparedStatement.close();
+			return preparedStatement.executeUpdate() > 0;
 		} catch (SQLException e) {
 			throw new SqlConnectionException();
 		}
