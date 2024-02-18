@@ -6,16 +6,13 @@ import business.dto.EsDeLaCollaDTO;
 import business.dto.LogInDTO;
 import business.dto.PeriodeDTO;
 import exceptions.*;
-import models.Periode;
 import models.castellers.Casteller;
-import models.colles.Colla;
 import presentation.Controller;
 import presentation.swing.views.LogInView;
 import presentation.swing.views.MainView;
 
 import javax.swing.*;
 import java.util.HashMap;
-import java.util.List;
 
 public class SwingController implements Controller {
 	private final BusinessFacade businessFacade;

@@ -11,6 +11,6 @@ public class HomeView extends ClearableJPanel {
 
 	private void configureLayout() {
 		setLayout(new BorderLayout());
-		add(new JTitle("SiGAC - CCCC"), BorderLayout.NORTH);
+		add(new JTitle("Benvingut al SiGAC!"), BorderLayout.NORTH);
 	}
 }
