@@ -42,9 +42,30 @@ public class CollaSqlDAO {
 		return colles;
 	}
 
+	public Colla getById(String id) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("SELECT * FROM %s WHERE id = ?", tableName)
+			);
+			preparedStatement.setString(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				if (resultSet.getBoolean("universitaria"))
+					return new CollaUniversitaria(resultSet.getString("id"));
+				else
+					return new CollaConvencional(resultSet.getString("id"));
+			}
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
+		return null;
+	}
+
 	public boolean add(Colla colla) {
 		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(String.format("INSERT INTO %s (id, universitaria) VALUES (?, ?)", tableName));
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("INSERT INTO %s (id, universitaria) VALUES (?, ?)", tableName)
+			);
 			preparedStatement.setString(1, colla.getId());
 			preparedStatement.setBoolean(2, colla instanceof CollaUniversitaria);
 			return preparedStatement.executeUpdate() > 0;

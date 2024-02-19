@@ -142,16 +142,14 @@ public class BusinessFacade {
 		if (casteller.getCognom1().isEmpty())
 			throw new ValidationException("El primer cognom no pot estar buit.");
 
-		for (Casteller c : castellers) {
-			if (c.getDni().equals(casteller.getDni()))
-				throw new ValidationException("Ja existeix un casteller amb aquest DNI/NIE.");
-			if (c.getEmail().equals(casteller.getEmail()))
-				throw new ValidationException("Ja existeix un casteller amb aquest correu electrònic.");
-		}
+		if (castellerSqlDAO.getByDni(casteller.getDni()) != null)
+			throw new ValidationException("Ja existeix un casteller amb aquest DNI/NIE.");
 
-		if (!casteller.getSexe().matches("^(home|dona|no binari)$")) {
+		if (castellerSqlDAO.getByEmail(casteller.getEmail()) != null)
+			throw new ValidationException("Ja existeix un casteller amb aquest email.");
+
+		if (!casteller.getSexe().matches("^(home|dona|no binari)$"))
 			throw new ValidationException("El sexe ha de ser 'home', 'dona' o 'no binari'.");
-		}
 
 		Periode periode = validatePeriode(casteller.getDataNaixement(), casteller.getDataDefuncio(), true);
 
@@ -210,14 +208,13 @@ public class BusinessFacade {
 		if (!session.rol.equals("administrador"))
 			throw new NotAllowedException();
 
-		Casteller casteller = castellers.stream().filter(c -> c.getDni().equals(castellerDni)).findFirst().orElse(null);
-		if (casteller == null) {
+		Casteller casteller = castellerSqlDAO.getByDni(castellerDni);
+		if (casteller == null)
 			throw new ValidationException("No existeix cap casteller amb aquest DNI/NIE.");
-		}
-		Colla colla = colles.stream().filter(c -> c.getId().equals(collaId)).findFirst().orElse(null);
-		if (colla == null) {
+
+		Colla colla = collaSqlDAO.getById(collaId);
+		if (colla == null)
 			throw new ValidationException("No existeix cap colla amb aquest id.");
-		}
 
 		Periode periode = validatePeriode(esDeLaColla.getDesDe(), esDeLaColla.getFinsA(), true);
 		EsDeLaColla newEsDeLaColla = new EsDeLaColla(casteller, colla, periode.getDesDe(), periode.getFinsA(), esDeLaColla.getMalnom());
@@ -248,9 +245,8 @@ public class BusinessFacade {
 		if (!session.rol.equals("administrador"))
 			throw new NotAllowedException();
 
-		for (Colla c : colles)
-			if (c.getId().equals(colla.getId()))
-				throw new ValidationException("Ja existeix una colla amb aquest id.");
+		if (collaSqlDAO.getById(colla.getId()) != null)
+			throw new ValidationException("Ja existeix una colla amb aquest id.");
 
 		Colla newColla = colla.esUniversitaria() ? new CollaUniversitaria(colla.getId()) : new CollaConvencional(colla.getId());
 		if (!collaSqlDAO.add(newColla))
@@ -331,6 +327,7 @@ public class BusinessFacade {
 		colla.addColor(newCollaColor);
 	}
 
+	// FIXME
 	public HashMap<String, Pais> getPaissos() {
 		HashMap<String, Pais> paissos = new HashMap<>();
 		for (Pais pais : this.paissos) {

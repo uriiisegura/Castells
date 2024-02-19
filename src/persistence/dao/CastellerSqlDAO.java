@@ -47,6 +47,56 @@ public class CastellerSqlDAO {
 		return castellers;
 	}
 
+	public Casteller getByDni(String dni) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("SELECT * FROM %s WHERE dni = ?", tableName)
+			);
+			preparedStatement.setString(1, dni);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				return new Casteller(
+						resultSet.getString("dni"),
+						resultSet.getString("nom"),
+						resultSet.getString("cognom1"),
+						resultSet.getString("cognom2"),
+						resultSet.getString("sexe"),
+						resultSet.getString("email"),
+						DateParser.parseLocalDate(resultSet.getDate("dataNaixement")),
+						DateParser.parseLocalDate(resultSet.getDate("dataDefuncio"))
+				);
+			}
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
+		return null;
+	}
+
+	public Casteller getByEmail(String email) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					String.format("SELECT * FROM %s WHERE email = ?", tableName)
+			);
+			preparedStatement.setString(1, email);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				return new Casteller(
+						resultSet.getString("dni"),
+						resultSet.getString("nom"),
+						resultSet.getString("cognom1"),
+						resultSet.getString("cognom2"),
+						resultSet.getString("sexe"),
+						resultSet.getString("email"),
+						DateParser.parseLocalDate(resultSet.getDate("dataNaixement")),
+						DateParser.parseLocalDate(resultSet.getDate("dataDefuncio"))
+				);
+			}
+		} catch (SQLException e) {
+			throw new SqlConnectionException();
+		}
+		return null;
+	}
+
 	public boolean add(Casteller casteller) {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(
